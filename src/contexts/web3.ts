@@ -85,7 +85,7 @@ export function useWeb3Context() {
                 }
             }).catch(console.error)
         }
-    }, [])
+    }, [initWeb3])
 
     useEffect(() => {
         window.ethereum.on('accountsChanged', (accounts: string[]) => {
@@ -123,7 +123,7 @@ export function useWeb3Context() {
                 setIsConnecting(false)
             }
         }
-    }, [refreshAccountInfo, router])
+    }, [refreshAccountInfo, router, initWeb3])
 
     return { 
         hasMetamask, 

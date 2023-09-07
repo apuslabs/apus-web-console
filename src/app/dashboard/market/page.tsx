@@ -15,6 +15,10 @@ import { toast } from "sonner"
 import IconDocker from '@/assets/icons/file-type-docker.svg'
 import Image from 'next/image'
 
+const dockerStartScriptStr = `env | grep >> /etc/environment; touch ~/.no_auto_tmux; sleep 5;
+sed -i '/rsync -au --remove-source-files \/venv\/ \/workspace\/venv\//a source \/workspace\/venv\/bin\/activate\n pip install jupyter_core' /start.sh;
+/start.sh`
+
 export default function MarketPage() {
     const [diskSize, setDiskSize] = useState(200)
     const { data: instanceList, mutate: refreshMarketList } = useSWR<CommonResponse<InstanceResponse>>(['/apus_network/server/market/list', { offset: 0, limit: 9999 }], getFetcher)
@@ -118,14 +122,7 @@ export default function MarketPage() {
                             <div className="flex-1 text-primary font-semibold text-left">runpod/stable-diffusion:web-ui-10.2.1</div>
                             <div>ssh/jupyter</div>
                         </div>
-                        <div className="rounded-lg border border-solid border-slate-200 p-2">
-                            env | grep _ &gt;&gt; /etc/environment; touch ~/.no_auto_tmux; sleep 5;
-
-                            sed -i '/rsync -au --remove-source-files \/venv\/ \/workspace\/venv\//a source \/workspace\/venv\/bin\/activate\n pip install jupyter_core' /start.sh;
-
-                            /start.sh
-
-                        </div>
+                        <div className="rounded-lg border border-solid border-slate-200 p-2">{dockerStartScriptStr}</div>
                     </div>
                 </Button>
                 <Button variant="outlined" color="primary" disabled>

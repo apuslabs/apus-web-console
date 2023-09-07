@@ -131,7 +131,7 @@ function Transaction({ amount, instance_id, provider_address, recipient_address,
                     <div className="flex flex-row text-base">
                         {
                             v.map(({ label, value }, index) => {
-                                return <div className={cns("flex gap-1 text-left", index === 2 ? 'w-auto' : 'w-1/5')}>
+                                return <div key={label} className={cns("flex gap-1 text-left", index === 2 ? 'w-auto' : 'w-1/5')}>
                                     <span className="text-secondary">{label}</span>
                                     <span className="text-main">{value}</span>
                                 </div>
