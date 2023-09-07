@@ -3,25 +3,39 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --joy-palette-primary-mainChannel: 0 151 255;
+  /* --joy-palette-primary-solidColor: #0097ff; */
+  --joy-palette-primary-solidBg: #0097ff;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
   }
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-color: #ffffff;
+}
+
+a {
+  text-decoration: none;
+}
+
+.btn-sign {
+  @apply px-8 h-10 rounded-3xl cursor-pointer text-inverse text-base font-semibold;
+  line-height: 2.5rem;
+  background: linear-gradient(90deg, #0DC4FF -3.82%, #5363E4 45.97%, #A012DD 111.83%);
+}
+
+.btn-primary {
+  @apply bg-primary text-inverse text-center cursor-pointer;
+}
+
+.btn-primary-middle {
+  @apply w-36 btn-primary h-10 leading-10 rounded-5;
+}
+
+.divider-verticle {
+  @apply bg-subtle-inverse h-4;
+  width: 1px;
 }
