@@ -1,4 +1,16 @@
-export type InstanceResponse = InstanceInfo[]
+export type InstanceResponse = InstanceInfoResponse[]
+
+export interface InstanceInfoResponse {
+    apiVersion: string,
+    host: string
+    machine_id:string
+    market_id: number
+    owner: string
+    port: string
+    price: Price
+    server_info: InstanceInfo
+    status: string
+}
 
 export interface InstanceInfo {
     market_id: number;

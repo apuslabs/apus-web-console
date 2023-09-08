@@ -4,7 +4,7 @@ import IconLogo from '@/assets/icons/logo.svg'
 import { Button, Typography } from '@mui/joy'
 import AccountCard from './AccountCard'
 import { useState } from 'react'
-import { InstanceInfo } from '@/constant/api'
+import { InstanceInfo, InstanceInfoResponse } from '@/constant/api'
 import { CommonDialog } from './CommonDialog'
 import { Modal, Popconfirm } from 'antd'
 import Web3 from 'web3'
@@ -12,13 +12,14 @@ import { TenantInstancesResponse } from '@/app/dashboard/instances/page'
 import dayjs from 'dayjs'
 import { MachinesResponse } from '@/app/dashboard/machines/page'
 
-export function MarketInstance(props: InstanceInfo & {
-    onRent: (instance: InstanceInfo) => void
+export function MarketInstance(props: InstanceInfoResponse & {
+    onRent: (instance: InstanceInfoResponse) => void
 }) {
     return <><InstanceProto
-        {...props}
+        {...props.server_info}
         operation={<>
-            <div>{Web3.utils.fromWei(props?.price?.server_price || 0, 'ether')}/hr</div>
+            <div className="text-secondary text-sm font-normal">from: {props.owner}</div>
+            <div>{Web3.utils.fromWei((props?.price?.server_price || 0) * 3600, 'ether')}/hr</div>
             <Button className="btn-primary-middle" onClick={() => {
                 props.onRent(props)
             }}>RENT</Button>
@@ -84,10 +85,10 @@ export function TenantInstance(props: TenantInstancesResponse & {
     const [terminating, setTerminating] = useState(false)
 
     return <><InstanceProto
-        {...props.info}
+        {...props.info.server_info}
         operation={
             <>
-                <div>{Web3.utils.fromWei(props?.info.price.server_price || 0, 'ether')}/hr</div>
+                <div>{Web3.utils.fromWei((props?.info.price.server_price || 0) * 3600, 'ether')}/hr</div>
                 <Popconfirm title="Delete the task"
                     description="Are you sure to delete this task?"
                     onConfirm={() => {

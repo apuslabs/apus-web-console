@@ -1,7 +1,7 @@
 'use client'
 
 import { TenantInstance } from "@/components/Instance"
-import { InstanceInfo } from "@/constant/api"
+import { InstanceInfo, InstanceInfoResponse } from "@/constant/api"
 import { useRenewal, useTerminateLease } from "@/constant/contract"
 import { web3Context } from "@/contexts/web3"
 import { CommonResponse, CommonResponse2, getFetcher } from "@/utils/fetcher"
@@ -13,8 +13,9 @@ import { toast } from "sonner"
 import useSWR from 'swr'
 export interface TenantInstancesResponse {
     connection: Connection;
-    info: InstanceInfo;
+    info: InstanceInfoResponse;
     status: Status;
+    instance_id: string;
 }
 
 export interface Connection {
@@ -182,8 +183,12 @@ export default function InstancePage() {
                 key={index}
                 {...v}
                 onTerminate={async props => {
-                    await terminateLease(account, props.info.market_id)
-                    return refreshInstanceList()
+                    try {
+                        await terminateLease(account, props.instance_id)
+                        return refreshInstanceList()
+                    } catch {
+                        toast.error('Terminate failed')
+                    }
                 }}
                 onRenew={props => {
                     setCurrentInstance(props)
@@ -195,7 +200,7 @@ export default function InstancePage() {
             const { endDate } = await form.validateFields()
             try {
                 if (currentInstance) {
-                    await renewal(account, currentInstance.info.market_id, endDate)
+                    await renewal(account, currentInstance.instance_id, endDate)
                     setRenewDialogOpen(false)
                     refreshInstanceList()
                     toast.success('Renew success')

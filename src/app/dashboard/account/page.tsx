@@ -37,14 +37,14 @@ export default function AccountPage() {
         },
         {
             label: 'Tenant Stake Funds',
-            value: accountInfo.recipient_blocked_fund
+            value: accountInfo.recipient_blocked_funds
         },
     ]
     if (isProvider) {
         balanceList.push(
             {
                 label: 'Provider Stake Funds',
-                value: accountInfo.provider_blocked_fund
+                value: accountInfo.provider_blocked_funds
             },)
     }
 

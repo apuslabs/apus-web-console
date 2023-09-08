@@ -11,6 +11,7 @@ import { InputNumber, Form, DatePicker, Modal } from 'antd'
 import dayjs from 'dayjs'
 import { InstanceInfo } from "@/constant/api"
 import { useOnline, useUnList } from "@/constant/contract"
+import { toast } from "sonner"
 
 export interface MachinesResponse {
     contract_server_info: string;
@@ -30,7 +31,7 @@ export default function InstancePage() {
     const [currentMachine, setCurrentMachine] = useState<MachinesResponse | null>(null)
     const [listDialogOpen, setListDialogOpen] = useState(false)
 
-    const { data: instansListRes } = useSWR<CommonResponse<MachinesResponse[]>>(account ? ['/apus_network/server/provider/list', { address: account }] : null, getFetcher)
+    const { data: instansListRes, mutate: refreshMachines } = useSWR<CommonResponse<MachinesResponse[]>>(account ? ['/apus_network/server/provider/list', { address: account }] : null, getFetcher)
 
     const [priceForm] = Form.useForm()
     const [durationForm] = Form.useForm()
@@ -46,10 +47,18 @@ export default function InstancePage() {
     } = useOnline(helperContract)
 
     const listMachine = async () => {
-        if (currentMachine !== null) {
-            const price = await priceForm.validateFields()
-            const { endDate } = await durationForm.validateFields()
-            online(account, currentMachine.machine_id, currentMachine.contract_server_info, price, endDate)
+        try {
+            if (currentMachine !== null) {
+                const price = await priceForm.validateFields()
+                const { endDate } = await durationForm.validateFields()
+                await online(account, currentMachine.machine_id, currentMachine.contract_server_info, price, endDate)
+                await refreshMachines()
+                toast.success('List success')
+            }
+        } catch {
+            toast.error('List failed')
+        } finally {
+            setListDialogOpen(false)
         }
     }
 
@@ -57,8 +66,10 @@ export default function InstancePage() {
         {instansListRes?.data?.map((v, index) => <MachineInstance key={index} {...v} onList={(machine: MachinesResponse) => {
             setCurrentMachine(machine)
             setListDialogOpen(true)
-        }} onUnList={(props) => {
-            unList(account, props.market_id)
+        }} onUnList={async (props) => {
+            await unList(account, props.market_id)
+            await refreshMachines()
+            toast.success('Unlist success')
         }} isLoading={isUnListing} />)}
         <Modal title="List Instance" width="59rem" confirmLoading={isOnlining} open={listDialogOpen} setOpen={setListDialogOpen} onOk={listMachine} onCancel={() => {
             setListDialogOpen(false)
@@ -91,10 +102,10 @@ export default function InstancePage() {
                 </div>
                 <div className="my-4 border-0 border-l-4 border-solid border-primary pl-4 font-bold text-xl text-main">Price</div>
                 <Form layout="vertical" rootClassName="grid grid-cols-2 gap-2" form={priceForm}>
-                    <Form.Item label="Server Price (eth/hr)" name="server_price" required>
+                    <Form.Item label="Server Price (eth/s)" name="server_price" required>
                         <InputNumber min="0" max="10" step="0.00000000000001" rootClassName="w-full" />
                     </Form.Item>
-                    <Form.Item label="Storage Price (eth/G*hr)" name="storage_price" required>
+                    <Form.Item label="Storage Price (eth/G*s)" name="storage_price" required>
                         <InputNumber min="0" max="10" step="0.00000000000001" rootClassName="w-full" />
                     </Form.Item>
                     <Form.Item label="Up Bandwidth Price (eth/MB)" name="upband_width" required>

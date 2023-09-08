@@ -1,4 +1,4 @@
-import Web3 from "web3"
+import Web3, { ContractOnceRequiresCallbackError } from "web3"
 import {configRes} from './apus_network.config'
 import { useState } from "react"
 import { AccountContract, HelperContract } from "@/contexts/web3"
@@ -83,6 +83,7 @@ export function useRent(contract?: HelperContract) {
 			}
 			setIsRenting(true)
 			try {
+				console.log(server_id, endDate.unix(), address)
 				contract?.methods.rentServer(server_id, endDate.unix()).send({
 					from: address,
 				}).on('error', (error: any) => {
@@ -107,13 +108,16 @@ export function useRent(contract?: HelperContract) {
 export function useRenewal(contract?: HelperContract) {
 	const [isRenewaling, setIsRenewaling] = useState(false)
 	return {
-		renewal: (address: string, server_id: number, endDate: dayjs.Dayjs) => new Promise((resolve, reject) => {
+		renewal: (address: string, server_id: string, endDate: dayjs.Dayjs) => new Promise((resolve, reject) => {
 			if (!contract) {
 				reject("contract is null")
 			}
 			setIsRenewaling(true)
 			try {
-				contract?.methods.RenewalLeaseServer(server_id, endDate.unix()).send({
+				console.log(server_id, endDate.unix(), address)
+				const endDateUnix = endDate.unix()
+				console.log(server_id, endDateUnix, address)
+				contract?.methods.RenewalLeaseServer(server_id, endDateUnix).send({
 					from: address,
 				}).on('error', (error: any) => {
 					reject(error)
@@ -137,13 +141,15 @@ export function useRenewal(contract?: HelperContract) {
 export function useTerminateLease(contract?: HelperContract) {
 	const [isTerminating, setIsTerminating] = useState(false)
 	return {
-		terminateLease: (address: string, server_id: number) => new Promise((resolve, reject) => {
+		terminateLease: (address: string, server_id: string) => {
+			new Promise((resolve, reject) => {
 			if (!contract) {
 				reject("contract is null")
 			}
 			setIsTerminating(true)
 			try {
-				contract?.methods.terminateLease(server_id).send({
+				console.log(server_id, address)
+				contract?.methods.terminateInstance(server_id).send({
 					from: address,
 				}).on('error', (error: any) => {
 					reject(error)
@@ -159,7 +165,7 @@ export function useTerminateLease(contract?: HelperContract) {
 			} finally {
 				setIsTerminating(false)
 			}
-		}),
+		})},
 		isTerminating
 	}
 }
@@ -170,7 +176,8 @@ export function useUnList(contract?: HelperContract) {
 		unList: (address: string, server_id: number) => new Promise((resolve, reject) => {
 			setIsUnListing(true)
 			try {
-				contract?.methods.terminateInstance(server_id).send({
+				console.log(server_id, address)
+				contract?.methods.offlineServer(server_id).send({
 					from: address,
 				}).on('error', (error: any) => {
 					reject(error)
@@ -203,6 +210,12 @@ export function useOnline(contract?: HelperContract) {
 				const downband_width = Web3.utils.toWei(price.downband_width, 'ether')
 				return new Promise((resolve, reject) => {
 					try {
+						console.log(server_id, server_info, {
+							serverPrice: server_price,
+							storagePrice: storage_price,
+							upbandWidth: upband_width,
+							downbandWidth: downband_width
+						}, address)
 						contract?.methods.onlineServer(server_id, server_info, {
 							serverPrice: server_price,
 							storagePrice: storage_price,

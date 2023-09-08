@@ -28,7 +28,7 @@ export type AccountInfoResponse = {
     /**
      * 因provider质押的金额, 格式同balance
      */
-    provider_blocked_fund: string;
+    provider_blocked_funds: string;
     /**
      * provider的信息 @jax,  需要提供下
      */
@@ -37,7 +37,7 @@ export type AccountInfoResponse = {
     /**
      * 租用机器质押的金额, 格式同balance
      */
-    recipient_blocked_fund: string;
+    recipient_blocked_funds: string;
 }
 
 export type AccountContract = Contract<typeof accountContractABI>
@@ -137,8 +137,8 @@ export function useWeb3Context() {
         balance,
         accountInfo: {
             balance: Web3.utils.fromWei(accountInfo?.data?.balance || '0', 'ether'),
-            recipient_blocked_fund: Web3.utils.fromWei(accountInfo?.data?.provider_blocked_fund || '0', 'ether'),
-            provider_blocked_fund: Web3.utils.fromWei(accountInfo?.data?.recipient_blocked_fund || '0', 'ether'),
+            recipient_blocked_funds: Web3.utils.fromWei(accountInfo?.data?.recipient_blocked_funds || '0', 'ether'),
+            provider_blocked_funds: Web3.utils.fromWei(accountInfo?.data?.provider_blocked_funds || '0', 'ether'),
         },
         isProvider: Boolean(accountInfo?.data?.info),
         refreshAccountInfo,

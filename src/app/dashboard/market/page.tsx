@@ -4,7 +4,7 @@ import { Button, Slider } from "@mui/joy"
 import { useContext, useEffect, useState } from "react"
 import useSWR from 'swr'
 import { CommonResponse, getFetcher } from "@/utils/fetcher"
-import { InstanceInfo, InstanceResponse } from "@/constant/api"
+import { InstanceInfo, InstanceInfoResponse, InstanceResponse } from "@/constant/api"
 import { MarketInstance } from "@/components/Instance"
 import { DatePicker, Form, Modal } from "antd"
 import dayjs from "dayjs"
@@ -14,6 +14,7 @@ import { useRent } from "@/constant/contract"
 import { toast } from "sonner"
 import IconDocker from '@/assets/icons/file-type-docker.svg'
 import Image from 'next/image'
+import { useRouter } from "next/navigation"
 
 const dockerStartScriptStr = `env | grep >> /etc/environment; touch ~/.no_auto_tmux; sleep 5;
 sed -i '/rsync -au --remove-source-files \/venv\/ \/workspace\/venv\//a source \/workspace\/venv\/bin\/activate\n pip install jupyter_core' /start.sh;
@@ -27,10 +28,11 @@ export default function MarketPage() {
         helperContract,
         account,
     } = useContext(web3Context)
+    const router = useRouter()
     const { isRenting, rent } = useRent(helperContract)
     const [form] = useForm()
     const [rentDialogOpen, setRentDialogOpen] = useState(false)
-    const [currentInstance, setCurrentInstance] = useState<InstanceInfo>()
+    const [currentInstance, setCurrentInstance] = useState<InstanceInfoResponse>()
 
     const [imageDialogOpen, setImageDialogOpen] = useState(false)
 
@@ -94,8 +96,8 @@ export default function MarketPage() {
                 if (currentInstance) {
                     await rent(account, currentInstance.market_id, endDate)
                     setRentDialogOpen(false)
-                    refreshMarketList()
                     toast.success('Rent success')
+                    router.push('/dashboard/instances')
                 }
             } catch {
                 toast.error('Rent failed')
