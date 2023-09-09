@@ -62,7 +62,6 @@ export default function BillingPage() {
                     </div>
                 })
             }
-            <Button color="primary" size="sm">Top UP</Button>
         </div>
         <div>
             <Tabs variant="plain" color="primary" value={tab} onChange={(_, value) => {

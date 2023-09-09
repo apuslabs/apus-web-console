@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --hostname 0.0.0.0",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -18,9 +18,11 @@
     "@types/node": "20.5.7",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
+    "antd": "^5.9.0",
     "autoprefixer": "10.4.15",
     "axios": "^1.5.0",
     "bufferutil": "^4.0.7",
+    "dayjs": "^1.11.9",
     "encoding": "^0.1.13",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
@@ -28,6 +30,7 @@
     "postcss": "8.4.29",
     "qs": "^6.11.2",
     "react": "18.2.0",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "18.2.0",
     "sharp": "^0.32.5",
     "sonner": "^0.7.0",

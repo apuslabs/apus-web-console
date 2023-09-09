@@ -38,7 +38,7 @@ export function MachineInstance(props: MachinesResponse & {
         operation={
             <>
                 {/* <Button className="btn-primary-middle">Schedule Maintainence</Button> */}
-                <Button className="btn-primary-middle" loading={props.isLoading} onClick={e => {
+                <Button className="btn-primary-middle" loading={props.isLoading} disabled={props.status === 3} onClick={e => {
                     isOnlineOrRunning ? props.onUnList(props) : props.onList(props)
                 }}>{isOnlineOrRunning ? 'UnList' : 'List'}</Button>
                 {/* <Button className="btn-primary-middle">Set Price</Button> */}
@@ -235,7 +235,7 @@ function InstanceProto({ operation, additionalInfo, ...props }: InstanceInfo & {
                     },
                     {
                         label: 'Port Numbers',
-                        value: (network?.ports || 0) + 'x'
+                        value: (network?.ports || 0)
                     }
                 ], [
                     {
@@ -258,7 +258,7 @@ function InstanceProto({ operation, additionalInfo, ...props }: InstanceInfo & {
                     return <div className="flex gap-2" key={index}>
                         {
                             itemGroup.map(({ label, value }, index) => {
-                                return <div key={index}>
+                                return <div key={index} className="w-80">
                                     <span className=" text-secondary">{label}: </span>
                                     <span className=" text-main font-medium">{value}</span>
                                 </div>

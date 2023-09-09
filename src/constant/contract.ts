@@ -142,7 +142,7 @@ export function useTerminateLease(contract?: HelperContract) {
 	const [isTerminating, setIsTerminating] = useState(false)
 	return {
 		terminateLease: (address: string, server_id: string) => {
-			new Promise((resolve, reject) => {
+			return new Promise((resolve, reject) => {
 			if (!contract) {
 				reject("contract is null")
 			}

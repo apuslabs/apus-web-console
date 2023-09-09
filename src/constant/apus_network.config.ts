@@ -296,7 +296,7 @@ export const configRes = {
                         "type": "function"
                     }
                 ],
-                "contract_address": "0x1722177ded1C1F6988eDC7d9784528e77988F7ac",
+                "contract_address": "0x6368FEE87Ca2b7d28DBdB32781553095900abF1C",
                 "name": "account_contract"
             },
             {
@@ -1544,22 +1544,20 @@ export const configRes = {
                         "type": "function"
                     }
                 ],
-                "contract_address": "0x8beFF99EE557f54426F8AFc2069A0d8D0fC9F789",
+                "contract_address": "0x5dD0c595B7eb5B6aDb60F70788396eA5b77cE4C8",
                 "name": "helper_contract"
             }
         ],
         "public_to_private_keys": {
-            "0x375958BFfEFe8df7FB6B829222C25c0c031C59C7": "0x75655f02cf2ecd5d129a57654ead739f57bd3bdcb740b50456e473868dc34d06",
-            "0x51ABBC385AE0bD3c9247B999dc1c2146Fb6F2429": "0x78f28c9dd9a5251ca0f9afbaa2a9869996afb1b63cbc974685205c7ed307e57e",
-            "0x56e48deBc4aff73d3fc226A9E71339b0fb44BDbb": "0xcad798b4b670c65d29b1cdb1e89380fce01ebb0521b78356cf60b1bb412ecdbe",
-            "0x5942e7a28035c0154F2f9b1610CCe1D2E1F5D172": "0xd476f6cf3bbbc0d13fc6dced78a607a2dc39f77e6914a3438e44a1427b4b7d29",
-            "0x81eCb14C77a8Fcc59040eDf6fab96F9Aa25cC6B8": "0x2abd656d876ca56e3ce9b71fad5344a38c55f46ce7d4297bc21e79167b0d075e",
-            "0xB578D77875751EC84b6F2c22EF3c59086875db30": "0x1417acfc3c7f893e195d1c70db0549a7986d25fece3edf36560bfc6f918e9f7b",
-            "0xB6f1e22d0788f2c48C443cd9965F6C3Ee43b6620": "0xac247b2559a58f80c8a069a920e586223f8d8fa4be462febc435c7c973391ce7",
-            "0xCc84d0a4870177531195043bde99B38EB56132b3": "0xbed48bcd667635406eface910da6b0445c0e4661b559a1c7057cfa906d8815f7",
-            "0xa1DBc763379e067b13fB444320Edf8521C94f423": "0xc97b0afe49279c0c9a15be6f7111a271d5d11fa54deeab2bcc31ebde14724b75",
-            "0xaa6874eF9DB03b46BBd109DBA9da4B381E2Bb1AD": "0xf797724af80712ae67d2e4c3472f15f3e4409ebf6aee98cc11023b22425d9862"
+            "0x17c66CD3A22287F12c8953cfe19F6Fe36f2d5d40": "0xb8782645368dc1cc70e7fa0a79a77ad95f8a226e75054de9fdd4b1a43fc5ac27",
+            "0x3cb432EE97677f21e71C38A5E9c7d5BD528c9f32": "0x17ef0709c5be3977c573c44944c4a57486f1b28914762907b8514e656d6fb961",
+            "0x62DA151Df793d2E8eDB721BBa899FA55168A979A": "0x2bd1570a01dd4d8591822bd3b2f5832df1935aa6bbd1a6d3edf3c4abd77634df",
+            "0x68c1d55a42b6D1bbE95176e5F2C8F0fBd27A330B": "0xf0ba8304f469d6cd9354cd15c64d3e6e0ec224d21e0e213ccaed1dc7cba8604a",
+            "0x7929ee254982B00E0eAB67571a4058Ce16C0C6C8": "0x9804de8cf7f0e1b839c7522167decde90a254fa6f646373f978470e0b5ebb492",
+            "0xB5B6ac8b55E03DA2440fE9803215b0A15cBcd9e3": "0xbc20ffa0e4b4ebcde1a4e5dd463837fefaf3387534ea486b4d7462f6339d00f6",
+            "0xC05E11d8727FB6Ce050dA9769FB8AFD241F00a9b": "0x4952d70ba57e8d64cf7996404384899a95d16441ba04faf2215670a407f8d6a4",
+            "0xC73D43c392299866662f4BEd2c0e902a3A987647": "0x724d84ca0a09cff0444a55f271a846204095a53f4c78b8c2b3cfb5a4a9146921"
         },
-        "rpc_url": "http://9.tcp.cpolar.top:10861"
+        "rpc_url": "http://7.tcp.cpolar.top:11719"
     }
 } as const

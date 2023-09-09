@@ -185,6 +185,7 @@ export default function InstancePage() {
                 onTerminate={async props => {
                     try {
                         await terminateLease(account, props.instance_id)
+                        debugger
                         return refreshInstanceList()
                     } catch {
                         toast.error('Terminate failed')

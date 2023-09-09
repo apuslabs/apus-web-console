@@ -12,6 +12,7 @@ import StyledComponentsRegistry from '@/lib/AntdRegistry';
 import { ConfigProvider } from 'antd'
 import { antdTheme } from './theme';
 import Script from 'next/script';
+import Head from 'next/head';
 
 const robotoFlex = Roboto_Flex({ subsets: ['latin'], weight: ['400', '500', '600', '700'] })
 
