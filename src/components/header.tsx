@@ -29,7 +29,7 @@ export default function Header() {
             <SvgImage src={IconLogo} alt="logo" />
             <h1 className='ml-3 text-2xl font-bold'>Apus Network</h1>
         </div>
-        <ul className='flex-1 m-0 list-none h-full flex items-center  gap-4'>
+        <ul className='nav-menu'>
             {menuItems.map(({ item, href }, index) =>
                 <Link className='inline-flex' href={href} key={index}><li className='text-subtle-inverse hover:text-inverse cursor-pointer'>{item}</li></Link>
             )}

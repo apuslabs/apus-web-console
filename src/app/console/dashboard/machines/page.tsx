@@ -71,7 +71,7 @@ export default function InstancePage() {
             await refreshMachines()
             toast.success('Unlist success')
         }} isLoading={isUnListing} />)}
-        <Modal title="List Instance" width="59rem" confirmLoading={isOnlining} open={listDialogOpen} setOpen={setListDialogOpen} onOk={listMachine} onCancel={() => {
+        <Modal title="List Instance" width="59rem" confirmLoading={isOnlining} open={listDialogOpen} onOk={listMachine} onCancel={() => {
             setListDialogOpen(false)
         }}>
             <div>

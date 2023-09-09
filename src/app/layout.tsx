@@ -75,7 +75,7 @@ export default function RootLayout({
     <html lang="en" id="app">
       <Script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.0.1-alpha.5/web3.min.js" />
       <body className={robotoFlex.className}>
-        <ProviderContext><Header />{children}</ProviderContext>
+        <ProviderContext>{children}</ProviderContext>
       </body>
     </html>
   )

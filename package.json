@@ -45,6 +45,7 @@
     "@mui/material": "npm:@mui/joy@latest"
   },
   "devDependencies": {
-    "@types/qs": "^6.9.8"
+    "@types/qs": "^6.9.8",
+    "@types/react-copy-to-clipboard": "^5.0.4"
   }
 }

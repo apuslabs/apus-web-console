@@ -3,9 +3,9 @@
 import { Price } from "@/constant/api"
 import { web3Context } from "@/contexts/web3"
 import { CommonResponse, CommonResponse2, getFetcher } from "@/utils/fetcher"
-import { Button, Link } from "@mui/joy"
+import { Button, Link, Tab, TabList, TabPanel, Tabs } from "@mui/joy"
 import dayjs from "dayjs"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import useSWR from 'swr'
 import Web3 from "web3"
 import cns from 'classnames'
@@ -38,7 +38,11 @@ export default function BillingPage() {
 
     const {
         data: billingList
-    } = useSWR<CommonResponse2<BillingResponse[]>>(account ? [`/apus/account/bill/consume`, { address: account }] : null, getFetcher)
+    } = useSWR<CommonResponse2<BillingResponse[]>>(account ? [`/apus/account/bill/earning`, {
+        address: account,
+    }] : null, getFetcher)
+
+    const [tab, setTab] = useState(0)
     return <section className="p-5">
         <div className="flex items-center gap-12 mb-5">
             {
@@ -50,7 +54,7 @@ export default function BillingPage() {
                     value: accountInfo.balance,
                 }, {
                     label: 'Stake Funds',
-                    value: accountInfo.recipient_blocked_fund,
+                    value: accountInfo.recipient_blocked_funds,
                 }].map(({ label, value }) => {
                     return <div key={label} className="flex flex-row items-center gap-1 text-base text-main">
                         <span>{label}: </span>
@@ -59,10 +63,32 @@ export default function BillingPage() {
                 })
             }
         </div>
-        <div className="flex flex-col gap-3">
-            {billingList?.items?.map((v, index) => {
-                return <Transaction key={index} {...v} />
-            })}
+        <div>
+            <Tabs variant="plain" color="primary" value={tab} onChange={(_, value) => {
+                setTab(value as number)
+            }}>
+                <TabList disableUnderline>
+                    <Tab disableIndicator variant="plain" color={tab === 0 ? 'primary' : 'neutral'}>
+                        Earning History
+                    </Tab>
+                    <Tab disableIndicator variant="plain" color={tab === 1 ? 'primary' : 'neutral'}>
+                        Deduction History
+                    </Tab>
+                </TabList>
+                <TabPanel value={0}>
+                    <div className="flex flex-col gap-3">
+                        {billingList?.items.map((v, index) => {
+                            return <Transaction key={index} {...v} />
+                        })}
+                    </div>
+                </TabPanel>
+                <TabPanel value={1}>
+                    {/* {billingList?.data.map((v, index) => {
+                        return <Transaction key={index} {...v} />
+                    })} */}
+                </TabPanel>
+            </Tabs>
+
         </div>
     </section>
 }
@@ -95,8 +121,8 @@ function Transaction({ amount, instance_id, provider_address, recipient_address,
                         value: Web3.utils.fromWei(amount, 'ether') + ' ETH'
                     },
                     {
-                        label: 'Paid To: ',
-                        value: provider_address,
+                        label: 'Received From: ',
+                        value: recipient_address,
                     }
                 ]
             ].map((v, index) => {

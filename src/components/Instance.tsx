@@ -8,9 +8,9 @@ import { InstanceInfo, InstanceInfoResponse } from '@/constant/api'
 import { CommonDialog } from './CommonDialog'
 import { Modal, Popconfirm } from 'antd'
 import Web3 from 'web3'
-import { TenantInstancesResponse } from '@/app/dashboard/instances/page'
+import { TenantInstancesResponse } from '@/app/console/dashboard/instances/page'
 import dayjs from 'dayjs'
-import { MachinesResponse } from '@/app/dashboard/machines/page'
+import { MachinesResponse } from '@/app/console/dashboard/machines/page'
 
 export function MarketInstance(props: InstanceInfoResponse & {
     onRent: (instance: InstanceInfoResponse) => void

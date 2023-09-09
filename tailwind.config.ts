@@ -31,10 +31,15 @@ const config: Config = {
         half: '50%',
         7: '1.75rem',
         5: '1.25rem',
+        12: '3rem',
       },
       lineHeight: {
         14: '3.5rem',
-      }
+      },
+      maxWidth: {
+        360: '90rem',
+        300 : '75rem',
+      },
     },
   },
   plugins: [],
