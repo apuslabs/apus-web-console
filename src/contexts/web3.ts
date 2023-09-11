@@ -43,77 +43,82 @@ export type AccountInfoResponse = {
 export type AccountContract = Contract<typeof accountContractABI>
 export type HelperContract = Contract<typeof helperContractABI>
 
+export let web3: Web3
+export let accountContract: AccountContract
+export let helperContract: HelperContract
+
 export function useWeb3Context() {
     const [hasMetamask, setHasMetamask] = useState(false)
     const [account, setAccount] = useState<string>("")
     const [balance, setBalance] = useState<string>("0.")
-    const web3 = useRef<Web3>()
-    const accountContract = useRef<AccountContract>()
-    const helperContract = useRef<HelperContract>()
     const { data: accountInfo, isLoading, mutate: refreshAccountInfo } = useSWR<CommonResponse<AccountInfoResponse>>(account ? ['/apus/account/info', {
         address: account
     }] : null, getFetcher)
     const router = useRouter()
     const [isConnecting, setIsConnecting] = useState(false)
 
-    const initWeb3 = useCallback((accounts: string[]) => {
-        const account = Web3.utils.toChecksumAddress(accounts[0])
-        setAccount(account)
-        if (!web3.current) {
-            web3.current = new window.Web3(window.ethereum)
-            accountContract.current = new web3.current.eth.Contract(accountContractABI, accountContractAddress)
-            helperContract.current = new web3.current.eth.Contract(helperContractABI, helperContractAddress)
+    const initWeb3 = () => {
+        if (window.ethereum !== undefined && !web3) {
+            web3 = new window.Web3(window.ethereum)
+            accountContract = new web3.eth.Contract(accountContractABI, accountContractAddress)
+            helperContract = new web3.eth.Contract(helperContractABI, helperContractAddress)
         }
-        web3.current.eth.getBalance(accounts[0]).then(b => {
-            setBalance(Web3.utils.fromWei(b, 'ether'))
-        })
-        return {
-            account,
-            web3,
-            accountContract,
-            helperContract,
-        }
-    }, [web3, accountContract, helperContract])
+    }
 
     useEffect(() => {
-        const isEthereumUndefined = typeof window.ethereum === 'undefined'
-        setHasMetamask(!isEthereumUndefined)
-        if (!isEthereumUndefined) {
-            window.ethereum.request({ method: 'eth_accounts' }).then((accounts: string[]) => {
-                if (accounts.length !== 0) {
-                    initWeb3(accounts)
-                }
-            }).catch(console.error)
+        if (window.ethereum !== undefined) {
+            setHasMetamask(true)
         }
-    }, [initWeb3])
+    }, [])
 
-    useEffect(() => {
-        window.ethereum.on('accountsChanged', (accounts: string[]) => {
-            setAccount(account => {
-                if (account != accounts[0]) {
-                    return Web3.utils.toChecksumAddress(accounts[0])
-                }
-                return account
+    const initAccount = async () => {
+        if (window.ethereum !== undefined) {
+            const accounts = await window.ethereum.request({
+                method: 'eth_requestAccounts',
             })
+            const account = Web3.utils.toChecksumAddress(accounts[0])
+            setAccount(account)
+            const balance = await window.ethereum.request({
+                method: 'eth_getBalance',
+                params: [account, 'latest']
+            })
+            const etherBalance = Web3.utils.fromWei(balance, 'ether')
+            setBalance(etherBalance)
+            return {
+                account,
+                balance: etherBalance,
+            }
+        }
+        return { account: '', balance: '0' }
+    }
+
+    useEffect(() => {
+        initAccount()
+        window.ethereum.on('accountsChanged', (accounts: string[]) => {
+            initAccount()
         });
+        return () => {
+            window.ethereum.removeAllListeners('accountsChanged')
+        }
     }, [])
 
     const connectMetamask = useCallback(async () => {
-        if (typeof window.ethereum !== 'undefined') {
+        if (web3) {
             setIsConnecting(true)
             try {
-                const accounts = await window.ethereum.request({
-                    method: 'eth_requestAccounts',
-                })
-                const { web3, account, accountContract } = initWeb3(accounts)
-                await accountContract.current?.methods.register().send({
+                const { account, balance } = await initAccount()
+                if (Number(balance) <= 0) {
+                    toast.error('Your need to have some BNB to register')
+                    return
+                }
+                await accountContract?.methods.register().send({
                     from: account,
                 }).on('error', console.error).on('confirmation', (e) => {
                     if (e.receipt.status === BigInt(1)) {
                         toast.success('Sing up successfully')
-                        accountContract.current?.methods?.getAccount
+                        accountContract?.methods?.getAccount
                         refreshAccountInfo().then(() => {
-                            router.push('/dashboard/market')
+                            router.push('/console/dashboard/market')
                         })
                     }
                 })
@@ -123,17 +128,19 @@ export function useWeb3Context() {
                 setIsConnecting(false)
             }
         }
-    }, [refreshAccountInfo, router, initWeb3])
+    }, [refreshAccountInfo, router, web3])
 
-    return { 
-        hasMetamask, 
+    return {
+        initWeb3,
+        refreshAccount: initAccount,
+        hasMetamask,
         isLogin: accountInfo?.code === 200,
         needLogin: !isLoading && accountInfo?.code === 400,
         connectMetamask,
         account,
         web3,
-        accountContract: accountContract.current,
-        helperContract: helperContract.current,
+        accountContract: accountContract,
+        helperContract: helperContract,
         balance,
         accountInfo: {
             balance: Web3.utils.fromWei(accountInfo?.data?.balance || '0', 'ether'),

@@ -4,15 +4,14 @@ import Header from '@/components/header'
 import './globals.css'
 import { Toaster } from "sonner";
 import { Roboto_Flex } from 'next/font/google'
-import { PropsWithChildren } from 'react'
-import { Web3ContextProvider, useWeb3Context } from '@/contexts/web3'
+import { PropsWithChildren, useContext } from 'react'
+import { Web3ContextProvider, useWeb3Context, web3Context } from '@/contexts/web3'
 import { StyledEngineProvider } from '@mui/material/styles';
 import { CssBaseline, GlobalStyles } from '@mui/joy'
 import StyledComponentsRegistry from '@/lib/AntdRegistry';
 import { ConfigProvider } from 'antd'
 import { antdTheme } from './theme';
 import Script from 'next/script';
-import Head from 'next/head';
 
 const robotoFlex = Roboto_Flex({ subsets: ['latin'], weight: ['400', '500', '600', '700'] })
 
@@ -24,10 +23,12 @@ const robotoFlex = Roboto_Flex({ subsets: ['latin'], weight: ['400', '500', '600
 function ProviderContext({ children }: PropsWithChildren) {
   const web3Context = useWeb3Context()
 
-  return <StyledEngineProvider injectFirst><Web3ContextProvider value={web3Context}>
-    <CssBaseline />
-    <GlobalStyles
-      styles={(theme) => `
+  return <>
+    <Script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.0.1-alpha.5/web3.min.js" onReady={web3Context.initWeb3} />
+    <StyledEngineProvider injectFirst><Web3ContextProvider value={web3Context}>
+      <CssBaseline />
+      <GlobalStyles
+        styles={(theme) => `
         [data-sonner-toaster][data-theme] {
           font-family: ${theme.vars.fontFamily.body};
           font-size: ${theme.fontSize.md};
@@ -58,12 +59,12 @@ function ProviderContext({ children }: PropsWithChildren) {
           --normal-text: ${theme.vars.palette.warning.softColor};
         }
       `}
-    />
-    <StyledComponentsRegistry>
-      <ConfigProvider theme={antdTheme}>{children}</ConfigProvider>
-    </StyledComponentsRegistry>
-    <Toaster position="top-center" richColors closeButton />
-  </Web3ContextProvider></StyledEngineProvider>
+      />
+      <StyledComponentsRegistry>
+        <ConfigProvider theme={antdTheme}>{children}</ConfigProvider>
+      </StyledComponentsRegistry>
+      <Toaster position="top-center" richColors closeButton />
+    </Web3ContextProvider></StyledEngineProvider></>
 }
 
 export default function RootLayout({
@@ -73,7 +74,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" id="app">
-      <Script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.0.1-alpha.5/web3.min.js" />
       <body className={robotoFlex.className}>
         <ProviderContext>{children}</ProviderContext>
       </body>

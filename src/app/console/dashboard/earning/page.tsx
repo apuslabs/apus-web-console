@@ -2,8 +2,8 @@
 
 import { Price } from "@/constant/api"
 import { web3Context } from "@/contexts/web3"
-import { CommonResponse, CommonResponse2, getFetcher } from "@/utils/fetcher"
-import { Button, Link, Tab, TabList, TabPanel, Tabs } from "@mui/joy"
+import { CommonResponse2, getFetcher } from "@/utils/fetcher"
+import { Tab, TabList, TabPanel, Tabs } from "@mui/joy"
 import dayjs from "dayjs"
 import { useContext, useState } from "react"
 import useSWR from 'swr'

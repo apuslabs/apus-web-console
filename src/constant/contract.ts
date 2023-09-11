@@ -1,17 +1,1526 @@
-import Web3, { ContractOnceRequiresCallbackError } from "web3"
-import {configRes} from './apus_network.config'
+import Web3 from "web3"
 import { useState } from "react"
 import { AccountContract, HelperContract } from "@/contexts/web3"
 import dayjs from "dayjs"
-import { getFetcher } from "@/utils/fetcher"
 import { Price } from "./api"
 
-export const accountContractAddress = Web3.utils.toChecksumAddress(configRes.data.contract_info[0].contract_address)
-export const accountContractABI = configRes.data.contract_info[0].abi
+export const accountContractAddress = '0xA1B03FF0F99c118B46C7e49E1AbDc8919400895c'
+export const accountContractABI = [
+	{
+		"inputs": [],
+		"name": "cancellation",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_stakeAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "offlineUnBlockedFund",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_stakeAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "onlineBlockedFund",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "register",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "addr",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "balance",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "providerBlockedFunds",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "recipientBlockedFunds",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "info",
+						"type": "string"
+					}
+				],
+				"internalType": "struct AccountFactory.accountInfo",
+				"name": "accountinfo",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_stakeAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "rentBlockedFund",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_recipient",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_provider",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_stakeAmount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_unBlockedAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "rentUnBlockedFund",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_info",
+				"type": "string"
+			}
+		],
+		"name": "setProviderInfo",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "stake",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "unstake",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "withdraw",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_addr",
+				"type": "address"
+			}
+		],
+		"name": "getAccount",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "addr",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "balance",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "providerBlockedFunds",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "recipientBlockedFunds",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "info",
+						"type": "string"
+					}
+				],
+				"internalType": "struct AccountFactory.accountInfo",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
+		"name": "isRegister",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+] as const
 
-export const helperContractAddress = Web3.utils.toChecksumAddress(configRes.data.contract_info[1].contract_address)
-export const helperContractABI = configRes.data.contract_info[1].abi
-
+export const helperContractAddress = '0x84b3A4C39880F2Bf207620af993C3eA003E5995E'
+export const helperContractABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_deviceId",
+				"type": "uint256"
+			}
+		],
+		"name": "offlineServer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_machineId",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_serverInfo",
+				"type": "string"
+			},
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "serverPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "storagePrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "upbandWidth",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "downbandWidth",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct Price",
+				"name": "_price",
+				"type": "tuple"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_startTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_endTime",
+				"type": "uint256"
+			}
+		],
+		"name": "onlineServer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_leaseId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_endTime",
+				"type": "uint256"
+			}
+		],
+		"name": "RenewalLeaseServer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_deviceId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_endTime",
+				"type": "uint256"
+			}
+		],
+		"name": "rentServer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_leaseId",
+				"type": "uint256"
+			}
+		],
+		"name": "terminateInstance",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_leaseId",
+				"type": "uint256"
+			}
+		],
+		"name": "terminateLease",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "leaseId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "startTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "expireTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "deviceId",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct leaseInfo",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_accountFactoryAddress",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "account_contract",
+		"outputs": [
+			{
+				"internalType": "contract AccountFactory",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "a",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "b",
+				"type": "string"
+			}
+		],
+		"name": "concatenateStrings",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "devices",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "enum DeviceStatus",
+				"name": "status",
+				"type": "uint8"
+			},
+			{
+				"internalType": "string",
+				"name": "machineId",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "serverInfo",
+				"type": "string"
+			},
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "serverPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "storagePrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "upbandWidth",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "downbandWidth",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct Price",
+				"name": "price",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAll",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "leaseId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "providerBlockedFund",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "recipientBlockedFunds",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "enum billingStatus",
+						"name": "status",
+						"type": "uint8"
+					},
+					{
+						"internalType": "enum billingType",
+						"name": "billType",
+						"type": "uint8"
+					}
+				],
+				"internalType": "struct billingInfo[]",
+				"name": "",
+				"type": "tuple[]"
+			},
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "leaseId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "providerBlockedFund",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "recipientBlockedFunds",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "enum billingStatus",
+						"name": "status",
+						"type": "uint8"
+					},
+					{
+						"internalType": "enum billingType",
+						"name": "billType",
+						"type": "uint8"
+					}
+				],
+				"internalType": "struct billingInfo[]",
+				"name": "",
+				"type": "tuple[]"
+			},
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "leaseId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "startTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "expireTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "deviceId",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct leaseInfo[]",
+				"name": "",
+				"type": "tuple[]"
+			},
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "leaseId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "startTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "expireTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "deviceId",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct leaseInfo[]",
+				"name": "",
+				"type": "tuple[]"
+			},
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "enum DeviceStatus",
+						"name": "status",
+						"type": "uint8"
+					},
+					{
+						"internalType": "string",
+						"name": "machineId",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "serverInfo",
+						"type": "string"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "serverPrice",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "storagePrice",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "upbandWidth",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "downbandWidth",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct Price",
+						"name": "price",
+						"type": "tuple"
+					}
+				],
+				"internalType": "struct deviceInfo[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_deviceId",
+				"type": "uint256"
+			}
+		],
+		"name": "getDevice",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "enum DeviceStatus",
+						"name": "status",
+						"type": "uint8"
+					},
+					{
+						"internalType": "string",
+						"name": "machineId",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "serverInfo",
+						"type": "string"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "serverPrice",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "storagePrice",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "upbandWidth",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "downbandWidth",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct Price",
+						"name": "price",
+						"type": "tuple"
+					}
+				],
+				"internalType": "struct deviceInfo",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_deviceId",
+				"type": "uint256"
+			}
+		],
+		"name": "getLeaseByDeviceId",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "leaseId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "startTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "expireTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "deviceId",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct leaseInfo",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_leaseId",
+				"type": "uint256"
+			}
+		],
+		"name": "getProviderBillingByLeaseId",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "leaseId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "providerBlockedFund",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "recipientBlockedFunds",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "enum billingStatus",
+						"name": "status",
+						"type": "uint8"
+					},
+					{
+						"internalType": "enum billingType",
+						"name": "billType",
+						"type": "uint8"
+					}
+				],
+				"internalType": "struct billingInfo",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_leaseId",
+				"type": "uint256"
+			}
+		],
+		"name": "getRecipientBillingByLeaseId",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "leaseId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "providerBlockedFund",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "recipientBlockedFunds",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "enum billingStatus",
+						"name": "status",
+						"type": "uint8"
+					},
+					{
+						"internalType": "enum billingType",
+						"name": "billType",
+						"type": "uint8"
+					}
+				],
+				"internalType": "struct billingInfo",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "leaseProvider",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "leaseId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "startTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "expireTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "deviceId",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "leaseRecipient",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "leaseId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "startTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "expireTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "deviceId",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_limit",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_offset",
+				"type": "uint256"
+			}
+		],
+		"name": "listDevices",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "enum DeviceStatus",
+						"name": "status",
+						"type": "uint8"
+					},
+					{
+						"internalType": "string",
+						"name": "machineId",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "serverInfo",
+						"type": "string"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "serverPrice",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "storagePrice",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "upbandWidth",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "downbandWidth",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct Price",
+						"name": "price",
+						"type": "tuple"
+					}
+				],
+				"internalType": "struct deviceInfo[]",
+				"name": "_allDevices",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_provider",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_limit",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_offset",
+				"type": "uint256"
+			}
+		],
+		"name": "listOwnDevices",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "enum DeviceStatus",
+						"name": "status",
+						"type": "uint8"
+					},
+					{
+						"internalType": "string",
+						"name": "machineId",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "serverInfo",
+						"type": "string"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "serverPrice",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "storagePrice",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "upbandWidth",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "downbandWidth",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct Price",
+						"name": "price",
+						"type": "tuple"
+					}
+				],
+				"internalType": "struct deviceInfo[]",
+				"name": "_ownDevices",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "platformSharingRatio",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "providerBillings",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "leaseId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "providerBlockedFund",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "recipientBlockedFunds",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "enum billingStatus",
+				"name": "status",
+				"type": "uint8"
+			},
+			{
+				"internalType": "enum billingType",
+				"name": "billType",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_startTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_endTime",
+				"type": "uint256"
+			},
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "serverPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "storagePrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "upbandWidth",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "downbandWidth",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct Price",
+				"name": "_price",
+				"type": "tuple"
+			}
+		],
+		"name": "providerStakeCalcute",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "recipientBillings",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "leaseId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "providerBlockedFund",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "recipientBlockedFunds",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "enum billingStatus",
+				"name": "status",
+				"type": "uint8"
+			},
+			{
+				"internalType": "enum billingType",
+				"name": "billType",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_startTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_endTime",
+				"type": "uint256"
+			},
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "serverPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "storagePrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "upbandWidth",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "downbandWidth",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct Price",
+				"name": "_price",
+				"type": "tuple"
+			}
+		],
+		"name": "recipientStakeCalcute",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "number",
+				"type": "uint256"
+			}
+		],
+		"name": "uintToString",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	}
+] as const
 
 export function useStake(contract?: AccountContract) {
 	const [isStaking, setIsStaking] = useState(false)
@@ -143,29 +1652,30 @@ export function useTerminateLease(contract?: HelperContract) {
 	return {
 		terminateLease: (address: string, server_id: string) => {
 			return new Promise((resolve, reject) => {
-			if (!contract) {
-				reject("contract is null")
-			}
-			setIsTerminating(true)
-			try {
-				console.log(server_id, address)
-				contract?.methods.terminateInstance(server_id).send({
-					from: address,
-				}).on('error', (error: any) => {
-					reject(error)
-				}).on('confirmation', (e) => {
-					if (e.receipt.status === BigInt(1)) {
-						resolve(e)
-					} else {
-						reject(e)
-					}
-				})
-			} catch (e) {
-				reject(e)
-			} finally {
-				setIsTerminating(false)
-			}
-		})},
+				if (!contract) {
+					reject("contract is null")
+				}
+				setIsTerminating(true)
+				try {
+					console.log(server_id, address)
+					contract?.methods.terminateInstance(server_id).send({
+						from: address,
+					}).on('error', (error: any) => {
+						reject(error)
+					}).on('confirmation', (e) => {
+						if (e.receipt.status === BigInt(1)) {
+							resolve(e)
+						} else {
+							reject(e)
+						}
+					})
+				} catch (e) {
+					reject(e)
+				} finally {
+					setIsTerminating(false)
+				}
+			})
+		},
 		isTerminating
 	}
 }
@@ -237,7 +1747,7 @@ export function useOnline(contract?: HelperContract) {
 					}
 				})
 			} catch (e) {
-				return Promise.reject(e)	
+				return Promise.reject(e)
 			} finally {
 				setIsOnlining(false)
 			}

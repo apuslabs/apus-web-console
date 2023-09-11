@@ -16,9 +16,8 @@ export default function AccountPage() {
         balance,
         accountInfo,
         isProvider,
-        web3,
+        refreshAccount,
         accountContract,
-        helperContract,
         refreshAccountInfo,
     } = useContext(web3Context)
     const {
@@ -57,6 +56,7 @@ export default function AccountPage() {
         try {
             await stake(account, amount)
             setTopUpDialogOpen(false)
+            refreshAccount()
             refreshAccountInfo()
             form.resetFields()
             toast.success('Top up success')
@@ -72,6 +72,7 @@ export default function AccountPage() {
             await unstake(account, amount)
             setWithdrawDialogOpen(false)
             form.resetFields()
+            refreshAccount()
             refreshAccountInfo()
             toast.success('Withdraw success')
         } catch (error) {
