@@ -22,44 +22,44 @@ export default function DashboardLayout({
     const menus = isProvider ? [
         {
             label: 'Market',
-            href: '/dashboard/market'
+            href: '/console/dashboard/market'
         },
         {
             label: 'Account',
-            href: '/dashboard/account'
+            href: '/console/dashboard/account'
         },
         {
             label: 'Billing',
-            href: '/dashboard/billing'
+            href: '/console/dashboard/billing'
         },
         {
             label: 'Earning',
-            href: '/dashboard/earning'
+            href: '/console/dashboard/earning'
         },
         {
             label: 'Instances',
-            href: '/dashboard/instances'
+            href: '/console/dashboard/instances'
         },
         {
             label: 'Machines',
-            href: '/dashboard/machines'
+            href: '/console/dashboard/machines'
         }
     ] : [
         {
             label: 'Market',
-            href: '/dashboard/market'
+            href: '/console/dashboard/market'
         },
         {
             label: 'Account',
-            href: '/dashboard/account'
+            href: '/console/dashboard/account'
         },
         {
             label: 'Billing',
-            href: '/dashboard/billing'
+            href: '/console/dashboard/billing'
         },
         {
             label: 'Instances',
-            href: '/dashboard/instances'
+            href: '/console/dashboard/instances'
         },
     ]
     return (

@@ -97,7 +97,7 @@ export default function MarketPage() {
                     await rent(account, currentInstance.market_id, endDate)
                     setRentDialogOpen(false)
                     toast.success('Rent success')
-                    router.push('/dashboard/instances')
+                    router.push('/console/dashboard/instances')
                 }
             } catch {
                 toast.error('Rent failed')

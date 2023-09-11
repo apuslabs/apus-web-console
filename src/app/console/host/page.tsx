@@ -52,7 +52,7 @@ export default function HostPage() {
                             if (e.receipt.status === BigInt(1)) {
                                 refreshAccountInfo().then(() => {
                                     toast.success('Success')
-                                    router.push('/dashboard/market')
+                                    router.push('/console/dashboard/market')
                                 })
                             }
                         })
