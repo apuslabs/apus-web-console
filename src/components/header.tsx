@@ -56,7 +56,7 @@ function UserMenu() {
                 <div className="divider-verticle mx-3"></div>
                 <div className='mr-10'>{balance.toString()}</div>
                 {!isProvider ? <Link href="/host"><div className='btn-sign'>Host</div></Link> : null}
-            </div> : <Link href="/signin">
+            </div> : <Link href="/console/signin">
                 <div className='btn-sign'>Sign In</div></Link>
         }
     </div>

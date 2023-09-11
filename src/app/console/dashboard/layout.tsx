@@ -6,7 +6,6 @@ import { usePathname, useRouter } from "next/navigation"
 import cns from 'classnames'
 import { useWeb3Context, web3Context } from "@/contexts/web3"
 import { useContext, useEffect } from "react"
-import path from "path"
 
 
 export default function DashboardLayout({
@@ -89,7 +88,7 @@ function useLoginGuard() {
 
     useEffect(() => {
         if (pathname !== '/signin' && needLogin) {
-            router.push('/signin')
+            router.push('/console/signin')
         }
     }, [needLogin, pathname, router])
 }

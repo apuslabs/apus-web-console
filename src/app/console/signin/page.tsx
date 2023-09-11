@@ -8,12 +8,12 @@ import { useState } from 'react'
 
 export default function SignInPage() {
     const [isAgreementChecked, setIsAgreementChecked] = useState(false)
-    const { hasMetamask, connectMetamask } = useWeb3Context()
+    const { hasMetamask, connectMetamask, isConnecting } = useWeb3Context()
     const isBtnDisabled = !isAgreementChecked || !hasMetamask
 
     return <div className='flex flex-col items-center pt-36'>
         <Image src={IconMetamask.src} width={180} height={180} alt="metamask-icon" />
-        <Button className='mt-5 mb-3 btn-primary h-14 rounded-7 text-base px-9 leading-14' disabled={isBtnDisabled} onClick={() => {
+        <Button className='mt-5 mb-3 btn-primary h-14 rounded-7 text-base px-9 leading-14' disabled={isBtnDisabled} loading={isConnecting} onClick={() => {
             connectMetamask()
         }}>Sign in with metamask</Button>
         {

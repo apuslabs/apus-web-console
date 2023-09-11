@@ -6,7 +6,7 @@ import Web3, { Contract } from "web3";
 import useSWR from 'swr'
 import { CommonResponse, getFetcher } from "@/utils/fetcher";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export const web3Context = createContext<ReturnType<typeof useWeb3Context>>(null!)
 
@@ -51,10 +51,17 @@ export function useWeb3Context() {
     const [hasMetamask, setHasMetamask] = useState(false)
     const [account, setAccount] = useState<string>("")
     const [balance, setBalance] = useState<string>("0.")
+    const router = useRouter()
+    const pathname = usePathname()
     const { data: accountInfo, isLoading, mutate: refreshAccountInfo } = useSWR<CommonResponse<AccountInfoResponse>>(account ? ['/apus/account/info', {
         address: account
-    }] : null, getFetcher)
-    const router = useRouter()
+    }] : null, getFetcher, {
+        onSuccess: (data) => {
+            if (data.code === 200 && pathname === '/console/signin') {
+                router.push('/console/dashboard/market')
+            }
+        }
+    })
     const [isConnecting, setIsConnecting] = useState(false)
 
     const initWeb3 = () => {
@@ -71,22 +78,29 @@ export function useWeb3Context() {
         }
     }, [])
 
-    const initAccount = async () => {
+    const initAccount = async (requestAccount?: boolean) => {
         if (window.ethereum !== undefined) {
-            const accounts = await window.ethereum.request({
-                method: 'eth_requestAccounts',
-            })
-            const account = Web3.utils.toChecksumAddress(accounts[0])
-            setAccount(account)
-            const balance = await window.ethereum.request({
-                method: 'eth_getBalance',
-                params: [account, 'latest']
-            })
-            const etherBalance = Web3.utils.fromWei(balance, 'ether')
-            setBalance(etherBalance)
-            return {
-                account,
-                balance: etherBalance,
+            try {
+                const accounts = await window.ethereum.request({
+                    method: requestAccount ? 'eth_requestAccounts' : 'eth_accounts',
+                })
+                if (!accounts?.length) {
+                    return { account: '', balance: '0' }
+                }
+                const account = Web3.utils.toChecksumAddress(accounts[0])
+                setAccount(account)
+                const balance = await window.ethereum.request({
+                    method: 'eth_getBalance',
+                    params: [account, 'latest']
+                })
+                const etherBalance = Web3.utils.fromWei(balance, 'ether')
+                setBalance(etherBalance)
+                return {
+                    account,
+                    balance: etherBalance,
+                }
+            } catch (e) {
+                console.error(e)
             }
         }
         return { account: '', balance: '0' }
@@ -106,7 +120,7 @@ export function useWeb3Context() {
         if (web3) {
             setIsConnecting(true)
             try {
-                const { account, balance } = await initAccount()
+                const { account, balance } = await initAccount(true)
                 if (Number(balance) <= 0) {
                     toast.error('Your need to have some BNB to register')
                     return
@@ -117,9 +131,7 @@ export function useWeb3Context() {
                     if (e.receipt.status === BigInt(1)) {
                         toast.success('Sing up successfully')
                         accountContract?.methods?.getAccount
-                        refreshAccountInfo().then(() => {
-                            router.push('/console/dashboard/market')
-                        })
+                        refreshAccountInfo()
                     }
                 })
             } catch (e) {
@@ -148,6 +160,7 @@ export function useWeb3Context() {
             provider_blocked_funds: Web3.utils.fromWei(accountInfo?.data?.provider_blocked_funds || '0', 'ether'),
         },
         isProvider: Boolean(accountInfo?.data?.info),
+        isConnecting,
         refreshAccountInfo,
     }
 }
