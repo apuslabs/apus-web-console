@@ -1,6 +1,17 @@
-exports.id = 346;
-exports.ids = [346];
+exports.id = 637;
+exports.ids = [637];
 exports.modules = {
+
+/***/ 25730:
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 31232, 23));
+Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 52987, 23));
+Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 50831, 23));
+Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 56926, 23));
+Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 44282, 23))
+
+/***/ }),
 
 /***/ 43283:
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
@@ -1748,7 +1759,9 @@ function useStake(contract) {
                 try {
                     contract?.methods.stake().send({
                         from: address,
-                        value: web3__WEBPACK_IMPORTED_MODULE_0__/* ["default"].utils.toWei */ .ZPm.utils.toWei(value, "ether")
+                        value: web3__WEBPACK_IMPORTED_MODULE_0__/* ["default"].utils.toWei */ .ZPm.utils.toWei(value, "ether"),
+                        gas: BigInt(10000000).toString(),
+                        gasPrice: BigInt(800000000).toString()
                     }).on("error", (error)=>{
                         reject(error);
                     }).on("confirmation", (e)=>{
@@ -1777,7 +1790,9 @@ function useUnStake(contract) {
                 setIsUnStaking(true);
                 try {
                     contract?.methods.unstake(web3__WEBPACK_IMPORTED_MODULE_0__/* ["default"].utils.toWei */ .ZPm.utils.toWei(value, "ether")).send({
-                        from: address
+                        from: address,
+                        gas: BigInt(10000000).toString(),
+                        gasPrice: BigInt(800000000).toString()
                     }).on("error", (error)=>{
                         reject(error);
                     }).on("confirmation", (e)=>{
@@ -1807,7 +1822,9 @@ function useRent(contract) {
                 try {
                     console.log(server_id, endDate.unix(), address);
                     contract?.methods.rentServer(server_id, endDate.unix()).send({
-                        from: address
+                        from: address,
+                        gas: BigInt(10000000).toString(),
+                        gasPrice: BigInt(800000000).toString()
                     }).on("error", (error)=>{
                         reject(error);
                     }).on("confirmation", (e)=>{
@@ -1839,7 +1856,9 @@ function useRenewal(contract) {
                     const endDateUnix = endDate.unix();
                     console.log(server_id, endDateUnix, address);
                     contract?.methods.RenewalLeaseServer(server_id, endDateUnix).send({
-                        from: address
+                        from: address,
+                        gas: BigInt(10000000).toString(),
+                        gasPrice: BigInt(800000000).toString()
                     }).on("error", (error)=>{
                         reject(error);
                     }).on("confirmation", (e)=>{
@@ -1870,7 +1889,9 @@ function useTerminateLease(contract) {
                 try {
                     console.log(server_id, address);
                     contract?.methods.terminateInstance(server_id).send({
-                        from: address
+                        from: address,
+                        gas: BigInt(10000000).toString(),
+                        gasPrice: BigInt(800000000).toString()
                     }).on("error", (error)=>{
                         reject(error);
                     }).on("confirmation", (e)=>{
@@ -1898,7 +1919,9 @@ function useUnList(contract) {
                 try {
                     console.log(server_id, address);
                     contract?.methods.offlineServer(server_id).send({
-                        from: address
+                        from: address,
+                        gas: BigInt(10000000).toString(),
+                        gasPrice: BigInt(800000000).toString()
                     }).on("error", (error)=>{
                         reject(error);
                     }).on("confirmation", (e)=>{
@@ -1941,7 +1964,9 @@ function useOnline(contract) {
                             upbandWidth: upband_width,
                             downbandWidth: downband_width
                         }, dayjs__WEBPACK_IMPORTED_MODULE_2___default()().unix(), endDate.unix()).send({
-                            from: address
+                            from: address,
+                            gas: BigInt(10000000).toString(),
+                            gasPrice: BigInt(800000000).toString()
                         }).on("error", (error)=>{
                             reject(error);
                         }).on("confirmation", (e)=>{
@@ -2082,11 +2107,13 @@ function useWeb3Context() {
             try {
                 const { account, balance } = await initAccount(true);
                 if (Number(balance) <= 0) {
-                    sonner__WEBPACK_IMPORTED_MODULE_5__.toast.error("Your need to have some BNB to register");
+                    sonner__WEBPACK_IMPORTED_MODULE_5__.toast.error("Your need to have some ETH to register");
                     return;
                 }
                 await accountContract?.methods.register().send({
-                    from: account
+                    from: account,
+                    gas: BigInt(10000000).toString(),
+                    gasPrice: BigInt(800000000).toString()
                 }).on("error", console.error).on("confirmation", (e)=>{
                     if (e.receipt.status === BigInt(1)) {
                         sonner__WEBPACK_IMPORTED_MODULE_5__.toast.success("Sing up successfully");
