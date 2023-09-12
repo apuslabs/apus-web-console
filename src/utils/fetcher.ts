@@ -1,4 +1,4 @@
-const baseUrl = `http://35.93.23.87:8080`
+const baseUrl = `https://api.apus.network`
 import qs from 'qs'
 
 export const getFetcher = (args: [url: string, queryParams: Record<string, any>] | string) => {
