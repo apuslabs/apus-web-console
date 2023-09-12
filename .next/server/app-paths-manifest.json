@@ -1,0 +1,13 @@
+{
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js",
+  "/console/host/page": "app/console/host/page.js",
+  "/console/signin/page": "app/console/signin/page.js",
+  "/console/dashboard/page": "app/console/dashboard/page.js",
+  "/console/dashboard/account/page": "app/console/dashboard/account/page.js",
+  "/console/dashboard/billing/page": "app/console/dashboard/billing/page.js",
+  "/console/dashboard/earning/page": "app/console/dashboard/earning/page.js",
+  "/console/dashboard/instances/page": "app/console/dashboard/instances/page.js",
+  "/console/dashboard/machines/page": "app/console/dashboard/machines/page.js",
+  "/console/dashboard/market/page": "app/console/dashboard/market/page.js"
+}

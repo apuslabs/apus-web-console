@@ -1,0 +1,13 @@
+{
+  "/favicon.ico/route": "/favicon.ico",
+  "/page": "/",
+  "/console/host/page": "/console/host",
+  "/console/signin/page": "/console/signin",
+  "/console/dashboard/page": "/console/dashboard",
+  "/console/dashboard/account/page": "/console/dashboard/account",
+  "/console/dashboard/billing/page": "/console/dashboard/billing",
+  "/console/dashboard/earning/page": "/console/dashboard/earning",
+  "/console/dashboard/instances/page": "/console/dashboard/instances",
+  "/console/dashboard/machines/page": "/console/dashboard/machines",
+  "/console/dashboard/market/page": "/console/dashboard/market"
+}
