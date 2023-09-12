@@ -1,4 +1,4 @@
-const baseUrl = `http://1.117.58.173:8080`
+const baseUrl = `https://taikoapi.apus.network`
 import qs from 'qs'
 
 export const getFetcher = (args: [url: string, queryParams: Record<string, any>] | string) => {
