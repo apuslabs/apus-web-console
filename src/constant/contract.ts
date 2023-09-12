@@ -1533,7 +1533,9 @@ export function useStake(contract?: AccountContract) {
 			try {
 				contract?.methods.stake().send({
 					from: address,
-					value: Web3.utils.toWei(value, 'ether')
+					value: Web3.utils.toWei(value, 'ether'),
+					gas: BigInt(10000000).toString(),
+					gasPrice: BigInt(800000000).toString(),
 				}).on('error', (error: any) => {
 					reject(error)
 				}).on('confirmation', (e) => {
@@ -1564,6 +1566,8 @@ export function useUnStake(contract?: AccountContract) {
 			try {
 				contract?.methods.unstake(Web3.utils.toWei(value, 'ether')).send({
 					from: address,
+					gas: BigInt(10000000).toString(),
+					gasPrice: BigInt(800000000).toString(),
 				}).on('error', (error: any) => {
 					reject(error)
 				}).on('confirmation', (e) => {
@@ -1595,6 +1599,8 @@ export function useRent(contract?: HelperContract) {
 				console.log(server_id, endDate.unix(), address)
 				contract?.methods.rentServer(server_id, endDate.unix()).send({
 					from: address,
+					gas: BigInt(10000000).toString(),
+					gasPrice: BigInt(800000000).toString(),
 				}).on('error', (error: any) => {
 					reject(error)
 				}).on('confirmation', (e) => {
@@ -1628,6 +1634,8 @@ export function useRenewal(contract?: HelperContract) {
 				console.log(server_id, endDateUnix, address)
 				contract?.methods.RenewalLeaseServer(server_id, endDateUnix).send({
 					from: address,
+					gas: BigInt(10000000).toString(),
+					gasPrice: BigInt(800000000).toString(),
 				}).on('error', (error: any) => {
 					reject(error)
 				}).on('confirmation', (e) => {
@@ -1660,6 +1668,8 @@ export function useTerminateLease(contract?: HelperContract) {
 					console.log(server_id, address)
 					contract?.methods.terminateInstance(server_id).send({
 						from: address,
+						gas: BigInt(10000000).toString(),
+						gasPrice: BigInt(800000000).toString(),
 					}).on('error', (error: any) => {
 						reject(error)
 					}).on('confirmation', (e) => {
@@ -1689,6 +1699,8 @@ export function useUnList(contract?: HelperContract) {
 				console.log(server_id, address)
 				contract?.methods.offlineServer(server_id).send({
 					from: address,
+					gas: BigInt(10000000).toString(),
+					gasPrice: BigInt(800000000).toString(),
 				}).on('error', (error: any) => {
 					reject(error)
 				}).on('confirmation', (e) => {
@@ -1733,6 +1745,8 @@ export function useOnline(contract?: HelperContract) {
 							downbandWidth: downband_width
 						}, dayjs().unix(), endDate.unix()).send({
 							from: address,
+							gas: BigInt(10000000).toString(),
+							gasPrice: BigInt(800000000).toString(),
 						}).on('error', (error: any) => {
 							reject(error)
 						}).on('confirmation', (e) => {

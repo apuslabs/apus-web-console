@@ -127,6 +127,8 @@ export function useWeb3Context() {
                 }
                 await accountContract?.methods.register().send({
                     from: account,
+                    gas: BigInt(10000000).toString(),
+                    gasPrice: BigInt(800000000).toString(),
                 }).on('error', console.error).on('confirmation', (e) => {
                     if (e.receipt.status === BigInt(1)) {
                         toast.success('Sing up successfully')
