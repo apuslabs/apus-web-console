@@ -4,7 +4,7 @@ import { AccountContract, HelperContract } from "@/contexts/web3"
 import dayjs from "dayjs"
 import { Price } from "./api"
 
-export const accountContractAddress = '0xA1B03FF0F99c118B46C7e49E1AbDc8919400895c'
+export const accountContractAddress = '0x7592A188A064395E54b2E7fE01b5C5554569D111'
 export const accountContractABI = [
 	{
 		"inputs": [],
@@ -294,7 +294,7 @@ export const accountContractABI = [
 	}
 ] as const
 
-export const helperContractAddress = '0x84b3A4C39880F2Bf207620af993C3eA003E5995E'
+export const helperContractAddress = '0x976DE5a7aa0304D9F2F4a90De3A8c7C00629206b'
 export const helperContractABI = [
 	{
 		"inputs": [
