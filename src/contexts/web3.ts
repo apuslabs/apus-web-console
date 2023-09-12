@@ -122,7 +122,7 @@ export function useWeb3Context() {
             try {
                 const { account, balance } = await initAccount(true)
                 if (Number(balance) <= 0) {
-                    toast.error('Your need to have some BNB to register')
+                    toast.error('Your need to have some ETH to register')
                     return
                 }
                 await accountContract?.methods.register().send({
