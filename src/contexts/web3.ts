@@ -2,11 +2,12 @@
 
 import { accountContractABI, accountContractAddress, helperContractABI, helperContractAddress } from "@/constant/contract";
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
-import Web3, { Contract } from "web3";
+import type { Web3, Contract } from "web3";
 import useSWR from 'swr'
 import { CommonResponse, getFetcher } from "@/utils/fetcher";
 import { toast } from "sonner";
 import { useRouter, usePathname } from "next/navigation";
+import { toChecksumAddress, fromWei } from 'web3-utils'
 
 export const web3Context = createContext<ReturnType<typeof useWeb3Context>>(null!)
 
@@ -43,11 +44,12 @@ export type AccountInfoResponse = {
 export type AccountContract = Contract<typeof accountContractABI>
 export type HelperContract = Contract<typeof helperContractABI>
 
-export let web3: Web3
-export let accountContract: AccountContract
-export let helperContract: HelperContract
+export const Web3jsLoadEvent = new EventTarget()
 
 export function useWeb3Context() {
+    const web3 = useRef<Web3>()
+    const accountContract = useRef<AccountContract>()
+    const helperContract = useRef<HelperContract>()
     const [hasMetamask, setHasMetamask] = useState(false)
     const [account, setAccount] = useState<string>("")
     const [balance, setBalance] = useState<string>("0.")
@@ -64,86 +66,78 @@ export function useWeb3Context() {
     })
     const [isConnecting, setIsConnecting] = useState(false)
 
-    const initWeb3 = () => {
-        if (window.ethereum !== undefined && !web3) {
-            web3 = new window.Web3(window.ethereum)
-            accountContract = new web3.eth.Contract(accountContractABI, accountContractAddress)
-            helperContract = new web3.eth.Contract(helperContractABI, helperContractAddress)
-        }
-    }
-
     useEffect(() => {
         if (window.ethereum !== undefined) {
             setHasMetamask(true)
+            initAccount()
         }
-    }, [])
-
-    const initAccount = async (requestAccount?: boolean) => {
-        if (window.ethereum !== undefined) {
-            try {
-                const accounts = await window.ethereum.request({
-                    method: requestAccount ? 'eth_requestAccounts' : 'eth_accounts',
-                })
-                if (!accounts?.length) {
-                    return { account: '', balance: '0' }
-                }
-                const account = Web3.utils.toChecksumAddress(accounts[0])
-                setAccount(account)
-                const balance = await window.ethereum.request({
-                    method: 'eth_getBalance',
-                    params: [account, 'latest']
-                })
-                const etherBalance = Web3.utils.fromWei(balance, 'ether')
-                setBalance(etherBalance)
-                return {
-                    account,
-                    balance: etherBalance,
-                }
-            } catch (e) {
-                console.error(e)
-            }
+        const initWeb3 = () => {
+            console.log('initWeb3')
+            web3.current = new window.Web3(window.ethereum)
+            accountContract.current = new web3.current.eth.Contract(accountContractABI, accountContractAddress)
+            helperContract.current = new web3.current.eth.Contract(helperContractABI, helperContractAddress)
         }
-        return { account: '', balance: '0' }
-    }
-
-    useEffect(() => {
-        initAccount()
-        window.ethereum.on('accountsChanged', (accounts: string[]) => {
+        Web3jsLoadEvent.addEventListener('load', initWeb3);
+        window.ethereum.on('accountsChanged', () => {
             initAccount()
         });
         return () => {
             window.ethereum.removeAllListeners('accountsChanged')
+            Web3jsLoadEvent.removeEventListener('load', initWeb3)
         }
     }, [])
 
-    const connectMetamask = useCallback(async () => {
-        if (web3) {
-            setIsConnecting(true)
-            try {
-                const { account, balance } = await initAccount(true)
-                if (Number(balance) <= 0) {
-                    toast.error('Your need to have some BNB to register')
-                    return
-                }
-                await accountContract?.methods.register().send({
-                    from: account,
-                }).on('error', console.error).on('confirmation', (e) => {
-                    if (e.receipt.status === BigInt(1)) {
-                        toast.success('Sing up successfully')
-                        accountContract?.methods?.getAccount
-                        refreshAccountInfo()
-                    }
-                })
-            } catch (e) {
-                console.error(e)
-            } finally {
-                setIsConnecting(false)
+    const initAccount = async (requestAccount?: boolean) => {
+        try {
+            const accounts = await window.ethereum.request({
+                method: requestAccount ? 'eth_requestAccounts' : 'eth_accounts',
+            })
+            if (!accounts?.length) {
+                return { account: '', balance: '0' }
             }
+            const account = toChecksumAddress(accounts[0])
+            setAccount(account)
+            const balance = await window.ethereum.request({
+                method: 'eth_getBalance',
+                params: [account, 'latest']
+            })
+            const etherBalance = fromWei(balance, 'ether')
+            setBalance(etherBalance)
+            return {
+                account,
+                balance: etherBalance,
+            }
+        } catch (e) {
+            console.error(e)
+            return { account: '', balance: '0' }
         }
-    }, [refreshAccountInfo, router, web3])
+    }
+
+    const connectMetamask = useCallback(async () => {
+        setIsConnecting(true)
+        try {
+            const { account, balance } = await initAccount(true)
+            if (Number(balance) <= 0) {
+                toast.error('Your need to have some BNB to register')
+                return
+            }
+            await accountContract.current?.methods.register().send({
+                from: account,
+            }).on('error', console.error).on('confirmation', (e) => {
+                if (e.receipt.status === BigInt(1)) {
+                    toast.success('Sing up successfully')
+                    accountContract.current?.methods?.getAccount
+                    refreshAccountInfo()
+                }
+            })
+        } catch (e) {
+            console.error(e)
+        } finally {
+            setIsConnecting(false)
+        }
+    }, [refreshAccountInfo])
 
     return {
-        initWeb3,
         refreshAccount: initAccount,
         hasMetamask,
         isLogin: accountInfo?.code === 200,
@@ -151,13 +145,13 @@ export function useWeb3Context() {
         connectMetamask,
         account,
         web3,
-        accountContract: accountContract,
-        helperContract: helperContract,
+        accountContract: accountContract.current,
+        helperContract: helperContract.current,
         balance,
         accountInfo: {
-            balance: Web3.utils.fromWei(accountInfo?.data?.balance || '0', 'ether'),
-            recipient_blocked_funds: Web3.utils.fromWei(accountInfo?.data?.recipient_blocked_funds || '0', 'ether'),
-            provider_blocked_funds: Web3.utils.fromWei(accountInfo?.data?.provider_blocked_funds || '0', 'ether'),
+            balance: fromWei(accountInfo?.data?.balance || '0', 'ether'),
+            recipient_blocked_funds: fromWei(accountInfo?.data?.recipient_blocked_funds || '0', 'ether'),
+            provider_blocked_funds: fromWei(accountInfo?.data?.provider_blocked_funds || '0', 'ether'),
         },
         isProvider: Boolean(accountInfo?.data?.info),
         isConnecting,

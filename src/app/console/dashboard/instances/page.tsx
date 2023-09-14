@@ -11,6 +11,7 @@ import dayjs from "dayjs"
 import { useContext, useState } from "react"
 import { toast } from "sonner"
 import useSWR from 'swr'
+import { toWei } from "web3-utils"
 export interface TenantInstancesResponse {
     connection: Connection;
     info: InstanceInfoResponse;
@@ -161,7 +162,7 @@ export interface Status {
 
 
 export default function InstancePage() {
-    const { account, helperContract } = useContext(web3Context)
+    const { account, helperContract, accountInfo } = useContext(web3Context)
 
     const { data: instansListRes, mutate: refreshInstanceList } = useSWR<CommonResponse2<TenantInstancesResponse[]>>(account ? ['/apus_network/server/instance/list', { address: account }] : null, getFetcher)
 
@@ -199,8 +200,15 @@ export default function InstancePage() {
         )}
         <Modal title="Rent Instance" open={renewDialogOpen} confirmLoading={isRenewaling} okText="rent" onOk={async () => {
             const { endDate } = await form.validateFields()
+
             try {
                 if (currentInstance) {
+                    const toPay = BigInt(endDate.diff(dayjs(), 'second')) * BigInt(currentInstance.info.price.server_price)
+                    const balance = BigInt(toWei(accountInfo.balance, 'ether'))
+                    if (toPay > balance) {
+                        toast.error('Insufficient balance')
+                        return
+                    }
                     await renewal(account, currentInstance.instance_id, endDate)
                     setRenewDialogOpen(false)
                     refreshInstanceList()

@@ -1,11 +1,10 @@
 'use client'
 
-import Header from '@/components/header'
 import './globals.css'
 import { Toaster } from "sonner";
 import { Roboto_Flex } from 'next/font/google'
 import { PropsWithChildren, useContext } from 'react'
-import { Web3ContextProvider, useWeb3Context, web3Context } from '@/contexts/web3'
+import { Web3ContextProvider, Web3jsLoadEvent, useWeb3Context, web3Context } from '@/contexts/web3'
 import { StyledEngineProvider } from '@mui/material/styles';
 import { CssBaseline, GlobalStyles } from '@mui/joy'
 import StyledComponentsRegistry from '@/lib/AntdRegistry';
@@ -24,7 +23,6 @@ function ProviderContext({ children }: PropsWithChildren) {
   const web3Context = useWeb3Context()
 
   return <>
-    <Script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.0.1-alpha.5/web3.min.js" onReady={web3Context.initWeb3} />
     <StyledEngineProvider injectFirst><Web3ContextProvider value={web3Context}>
       <CssBaseline />
       <GlobalStyles
@@ -74,6 +72,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" id="app">
+      <head>
+        <Script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.1.1/web3.min.js" onLoad={() => {
+          Web3jsLoadEvent.dispatchEvent(new Event('load'))
+        }} />
+      </head>
       <body className={robotoFlex.className}>
         <ProviderContext>{children}</ProviderContext>
       </body>

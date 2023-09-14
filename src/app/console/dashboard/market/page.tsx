@@ -15,6 +15,7 @@ import { toast } from "sonner"
 import IconDocker from '@/assets/icons/file-type-docker.svg'
 import Image from 'next/image'
 import { useRouter } from "next/navigation"
+import { toWei } from "web3-utils"
 
 const dockerStartScriptStr = `env | grep >> /etc/environment; touch ~/.no_auto_tmux; sleep 5;
 sed -i '/rsync -au --remove-source-files \/venv\/ \/workspace\/venv\//a source \/workspace\/venv\/bin\/activate\n pip install jupyter_core' /start.sh;
@@ -24,7 +25,7 @@ export default function MarketPage() {
     const [diskSize, setDiskSize] = useState(200)
     const { data: instanceList, mutate: refreshMarketList } = useSWR<CommonResponse<InstanceResponse>>(['/apus_network/server/market/list', { offset: 0, limit: 9999 }], getFetcher)
     const {
-        accountContract,
+        accountInfo,
         helperContract,
         account,
     } = useContext(web3Context)
@@ -94,12 +95,19 @@ export default function MarketPage() {
             const { endDate } = await form.validateFields()
             try {
                 if (currentInstance) {
+                    const toPay = BigInt(endDate.diff(dayjs(), 'second')) * BigInt(currentInstance.price.server_price)
+                    const balance = BigInt(toWei(accountInfo.balance, 'ether'))
+                    if (toPay > balance) {
+                        toast.error('Insufficient balance')
+                        return
+                    }
                     await rent(account, currentInstance.market_id, endDate)
                     setRentDialogOpen(false)
                     toast.success('Rent success')
                     router.push('/console/dashboard/instances')
                 }
-            } catch {
+            } catch (e) {
+                console.error(e)
                 toast.error('Rent failed')
             }
         }} onCancel={() => {
