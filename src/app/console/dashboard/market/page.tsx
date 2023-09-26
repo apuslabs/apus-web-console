@@ -40,7 +40,7 @@ export default function MarketPage() {
     return <div className="grid" style={{
         gridTemplateColumns: '22.5rem 1fr'
     }}>
-        <div className=" bg-accent flex flex-col p-5">
+        <div className="bg-accent flex flex-col p-5">
             <div className="bg-default p-4 flex flex-col gap-3 rounded-2xl">
                 <div className="font-medium text-xl">Instance Configuration</div>
                 {

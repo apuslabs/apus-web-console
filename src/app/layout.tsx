@@ -3,7 +3,7 @@
 import './globals.css'
 import { Toaster } from "sonner";
 import { Roboto_Flex } from 'next/font/google'
-import { PropsWithChildren, useContext } from 'react'
+import { PropsWithChildren, useEffect } from 'react'
 import { Web3ContextProvider, Web3jsLoadEvent, useWeb3Context, web3Context } from '@/contexts/web3'
 import { StyledEngineProvider } from '@mui/material/styles';
 import { CssBaseline, GlobalStyles } from '@mui/joy'
@@ -73,7 +73,8 @@ export default function RootLayout({
   return (
     <html lang="en" id="app">
       <head>
-        <Script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.1.1/web3.min.js" onLoad={() => {
+        <Script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.0.3/web3.min.js" onLoad={() => {
+          console.log('dispatch load event')
           Web3jsLoadEvent.dispatchEvent(new Event('load'))
         }} />
       </head>
