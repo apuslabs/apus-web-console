@@ -44,7 +44,7 @@ export default function HostPage() {
                 }}
                 endDecorator={<Button variant="solid" onClick={async () => {
                     try {
-                        accountContract?.methods.setProviderInfo(JSON.stringify({
+                        accountContract?.current?.methods.setProviderInfo(JSON.stringify({
                             email
                         })).send({
                             from: account,
