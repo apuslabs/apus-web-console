@@ -1,4 +1,4 @@
-const baseUrl = `http://35.91.235.139`
+const baseUrl = `https://scrollapi.apus.network`
 import qs from 'qs'
 
 export const getFetcher = (args: [url: string, queryParams: Record<string, any>] | string) => {
