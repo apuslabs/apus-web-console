@@ -8,14 +8,14 @@ import { useContext, useState } from 'react'
 
 export default function SignInPage() {
     const [isAgreementChecked, setIsAgreementChecked] = useState(false)
-    const { hasMetamask, connectMetamask, isConnecting } = useContext(web3Context)
+    const { hasMetamask, connectMetamask, isConnecting, isScroll, switchScroll } = useContext(web3Context)
     const isBtnDisabled = !isAgreementChecked || !hasMetamask
 
     return <div className='flex flex-col items-center pt-36'>
         <Image src={IconMetamask.src} width={180} height={180} alt="metamask-icon" />
         <Button className='mt-5 mb-3 btn-primary h-14 rounded-7 text-base px-9 leading-14' disabled={isBtnDisabled} loading={isConnecting} onClick={() => {
-            connectMetamask()
-        }}>Sign in with metamask</Button>
+            isScroll ? connectMetamask() : switchScroll()
+        }}>{isScroll ? 'Sign in with metamask' : 'Switch to Scroll'}</Button>
         {
             hasMetamask ? <div className='flex items-center'>
                 <Checkbox checked={isAgreementChecked} onChange={e => {
