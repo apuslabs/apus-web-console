@@ -4,7 +4,7 @@ import dayjs from "dayjs"
 import { Price } from "./api"
 import { fromWei, toWei } from "web3-utils"
 
-export const accountContractAddress = '0x7592A188A064395E54b2E7fE01b5C5554569D111'
+export const accountContractAddress = '0x0511f0Cb37A57593741c42A88D4A3c14C389dF19'
 export const accountContractABI = [
 	{
 		"anonymous": false,
@@ -30,11 +30,7 @@ export const accountContractABI = [
 		"inputs": [],
 		"name": "owner",
 		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
+			{ "internalType": "address", "name": "", "type": "address" }
 		],
 		"stateMutability": "view",
 		"type": "function"
@@ -85,11 +81,7 @@ export const accountContractABI = [
 						"name": "recipientBlockedFunds",
 						"type": "uint256"
 					},
-					{
-						"internalType": "string",
-						"name": "info",
-						"type": "string"
-					}
+					{ "internalType": "string", "name": "info", "type": "string" }
 				],
 				"internalType": "struct AccountFactory.accountInfo",
 				"name": "accountinfo",
@@ -115,11 +107,7 @@ export const accountContractABI = [
 	},
 	{
 		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_info",
-				"type": "string"
-			}
+			{ "internalType": "string", "name": "_info", "type": "string" }
 		],
 		"name": "setProviderInfo",
 		"outputs": [],
@@ -128,11 +116,7 @@ export const accountContractABI = [
 	},
 	{
 		"inputs": [
-			{
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			},
+			{ "internalType": "address", "name": "user", "type": "address" },
 			{
 				"internalType": "uint256",
 				"name": "_stakeAmount",
@@ -146,11 +130,7 @@ export const accountContractABI = [
 	},
 	{
 		"inputs": [
-			{
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			},
+			{ "internalType": "address", "name": "user", "type": "address" },
 			{
 				"internalType": "uint256",
 				"name": "_stakeAmount",
@@ -164,11 +144,7 @@ export const accountContractABI = [
 	},
 	{
 		"inputs": [
-			{
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			},
+			{ "internalType": "address", "name": "user", "type": "address" },
 			{
 				"internalType": "uint256",
 				"name": "_stakeAmount",
@@ -218,11 +194,7 @@ export const accountContractABI = [
 	},
 	{
 		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
+			{ "internalType": "uint256", "name": "amount", "type": "uint256" }
 		],
 		"name": "unstake",
 		"outputs": [],
@@ -233,31 +205,17 @@ export const accountContractABI = [
 	{
 		"constant": true,
 		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_user",
-				"type": "address"
-			}
+			{ "internalType": "address", "name": "_user", "type": "address" }
 		],
 		"name": "isRegister",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
+		"outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
 		"stateMutability": "view",
 		"type": "function"
 	},
 	{
 		"constant": true,
 		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_addr",
-				"type": "address"
-			}
+			{ "internalType": "address", "name": "_addr", "type": "address" }
 		],
 		"name": "getAccount",
 		"outputs": [
@@ -283,11 +241,7 @@ export const accountContractABI = [
 						"name": "recipientBlockedFunds",
 						"type": "uint256"
 					},
-					{
-						"internalType": "string",
-						"name": "info",
-						"type": "string"
-					}
+					{ "internalType": "string", "name": "info", "type": "string" }
 				],
 				"internalType": "struct AccountFactory.accountInfo",
 				"name": "",
@@ -299,7 +253,7 @@ export const accountContractABI = [
 	}
 ] as const
 
-export const helperContractAddress = '0x976DE5a7aa0304D9F2F4a90De3A8c7C00629206b'
+export const helperContractAddress = '0x8f1335A13A3f8D2c5989E14E76AC4a3F7b5B7F2f'
 export const helperContractABI = [
 	{
 		"inputs": [
@@ -329,24 +283,12 @@ export const helperContractABI = [
 	{
 		"constant": true,
 		"inputs": [
-			{
-				"internalType": "string",
-				"name": "a",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "b",
-				"type": "string"
-			}
+			{ "internalType": "string", "name": "a", "type": "string" },
+			{ "internalType": "string", "name": "b", "type": "string" }
 		],
 		"name": "concatenateStrings",
 		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
+			{ "internalType": "string", "name": "", "type": "string" }
 		],
 		"stateMutability": "pure",
 		"type": "function"
@@ -354,24 +296,12 @@ export const helperContractABI = [
 	{
 		"constant": true,
 		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
+			{ "internalType": "uint256", "name": "", "type": "uint256" }
 		],
 		"name": "devices",
 		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
+			{ "internalType": "uint256", "name": "id", "type": "uint256" },
+			{ "internalType": "address", "name": "owner", "type": "address" },
 			{
 				"internalType": "enum DeviceStatus",
 				"name": "status",
@@ -666,19 +596,11 @@ export const helperContractABI = [
 	{
 		"constant": true,
 		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
+			{ "internalType": "uint256", "name": "", "type": "uint256" }
 		],
 		"name": "leaseProvider",
 		"outputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
+			{ "internalType": "address", "name": "owner", "type": "address" },
 			{
 				"internalType": "uint256",
 				"name": "leaseId",
@@ -706,19 +628,11 @@ export const helperContractABI = [
 	{
 		"constant": true,
 		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
+			{ "internalType": "uint256", "name": "", "type": "uint256" }
 		],
 		"name": "leaseRecipient",
 		"outputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
+			{ "internalType": "address", "name": "owner", "type": "address" },
 			{
 				"internalType": "uint256",
 				"name": "leaseId",
@@ -748,11 +662,7 @@ export const helperContractABI = [
 		"inputs": [],
 		"name": "platformSharingRatio",
 		"outputs": [
-			{
-				"internalType": "uint8",
-				"name": "",
-				"type": "uint8"
-			}
+			{ "internalType": "uint8", "name": "", "type": "uint8" }
 		],
 		"stateMutability": "view",
 		"type": "function"
@@ -760,24 +670,12 @@ export const helperContractABI = [
 	{
 		"constant": true,
 		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
+			{ "internalType": "uint256", "name": "", "type": "uint256" }
 		],
 		"name": "providerBillings",
 		"outputs": [
-			{
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			},
+			{ "internalType": "address", "name": "user", "type": "address" },
+			{ "internalType": "uint256", "name": "id", "type": "uint256" },
 			{
 				"internalType": "uint256",
 				"name": "leaseId",
@@ -855,11 +753,7 @@ export const helperContractABI = [
 		],
 		"name": "providerStakeCalcute",
 		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
+			{ "internalType": "uint256", "name": "", "type": "uint256" }
 		],
 		"stateMutability": "pure",
 		"type": "function"
@@ -867,24 +761,12 @@ export const helperContractABI = [
 	{
 		"constant": true,
 		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
+			{ "internalType": "uint256", "name": "", "type": "uint256" }
 		],
 		"name": "recipientBillings",
 		"outputs": [
-			{
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			},
+			{ "internalType": "address", "name": "user", "type": "address" },
+			{ "internalType": "uint256", "name": "id", "type": "uint256" },
 			{
 				"internalType": "uint256",
 				"name": "leaseId",
@@ -962,11 +844,7 @@ export const helperContractABI = [
 		],
 		"name": "recipientStakeCalcute",
 		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
+			{ "internalType": "uint256", "name": "", "type": "uint256" }
 		],
 		"stateMutability": "pure",
 		"type": "function"
@@ -1020,19 +898,11 @@ export const helperContractABI = [
 	{
 		"constant": true,
 		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "number",
-				"type": "uint256"
-			}
+			{ "internalType": "uint256", "name": "number", "type": "uint256" }
 		],
 		"name": "uintToString",
 		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
+			{ "internalType": "string", "name": "", "type": "string" }
 		],
 		"stateMutability": "pure",
 		"type": "function"

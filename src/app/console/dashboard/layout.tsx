@@ -83,11 +83,12 @@ function useLoginGuard() {
     const router = useRouter()
     const pathname = usePathname()
     const {
-        needLogin
+        needLogin,
+        isScroll,
     } = useContext(web3Context)
 
     useEffect(() => {
-        if (pathname !== '/signin' && needLogin) {
+        if ((pathname !== '/signin' && needLogin) || !isScroll) {
             router.push('/console/signin')
         }
     }, [needLogin, pathname, router])

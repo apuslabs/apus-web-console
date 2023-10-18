@@ -46,6 +46,18 @@ export type HelperContract = Contract<typeof helperContractABI>
 
 export const Web3jsLoadEvent = new EventTarget()
 
+const scrollChainConfig = {
+    chainId: '0x28C5F',
+    chainName: 'Taiko Jolnir L2',
+    nativeCurrency: {
+        name: 'ETH',
+        symbol: 'ETH',
+        decimals: 18,
+    },
+    rpcUrls: ['https://rpc.jolnir.taiko.xyz'],
+    blockExplorerUrls: ['https://explorer.jolnir.taiko.xyz'],
+}
+
 export function useWeb3Context() {
     const web3 = useRef<Web3>()
     const accountContract = useRef<AccountContract>()
@@ -53,6 +65,7 @@ export function useWeb3Context() {
     const [hasMetamask, setHasMetamask] = useState(false)
     const [account, setAccount] = useState<string>("")
     const [balance, setBalance] = useState<string>("0.")
+    const [isScroll, setIsScroll] = useState(false)
     const router = useRouter()
     const pathname = usePathname()
     const { data: accountInfo, isLoading, mutate: refreshAccountInfo } = useSWR<CommonResponse<AccountInfoResponse>>(account ? ['/apus/account/info', {
@@ -117,6 +130,26 @@ export function useWeb3Context() {
         }
     }, [refreshAccountInfo])
 
+    const switchScroll = useCallback(async () => {
+        if (window.ethereum !== undefined) {
+            await window.ethereum
+                .request({
+                    method: 'wallet_addEthereumChain',
+                    params: [scrollChainConfig],
+                })
+            await window.ethereum
+                .request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [
+                        {
+                            chainId: scrollChainConfig.chainId
+                        },
+                    ],
+                })
+            setIsScroll(true)
+        }
+    }, [])
+
     useEffect(() => {
         if (window.ethereum !== undefined) {
             setHasMetamask(true)
@@ -127,9 +160,15 @@ export function useWeb3Context() {
             web3.current = new window.Web3(window.ethereum)
             accountContract.current = new web3.current.eth.Contract(accountContractABI, accountContractAddress)
             helperContract.current = new web3.current.eth.Contract(helperContractABI, helperContractAddress)
+            web3.current.eth.getChainId().then((chainId) => {
+                setIsScroll(chainId === BigInt(scrollChainConfig.chainId))
+            })
         }
         Web3jsLoadEvent.addEventListener('load', initWeb3);
         window.ethereum.on('accountsChanged', () => {
+            initAccount()
+        });
+        window.ethereum.on('chainChanged', () => {
             initAccount()
         });
         return () => {
@@ -157,5 +196,7 @@ export function useWeb3Context() {
         isProvider: Boolean(accountInfo?.data?.info),
         isConnecting,
         refreshAccountInfo,
+        isScroll,
+        switchScroll,
     }
 }
