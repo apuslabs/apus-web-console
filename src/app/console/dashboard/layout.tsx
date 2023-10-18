@@ -4,7 +4,7 @@ import { ArrowRight, ArrowRightAlt } from "@mui/icons-material"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import cns from 'classnames'
-import { useWeb3Context, web3Context } from "@/contexts/web3"
+import { web3Context } from "@/contexts/web3"
 import { useContext, useEffect } from "react"
 
 
@@ -84,7 +84,7 @@ function useLoginGuard() {
     const pathname = usePathname()
     const {
         needLogin
-    } = useWeb3Context()
+    } = useContext(web3Context)
 
     useEffect(() => {
         if (pathname !== '/signin' && needLogin) {

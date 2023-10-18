@@ -1,14 +1,14 @@
 'use client'
 
 import IconMetamask from '@/assets/icons/metamask-icon.svg'
-import { useWeb3Context } from '@/contexts/web3'
+import { web3Context } from '@/contexts/web3'
 import { Button, Checkbox, Link } from '@mui/joy'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 
 export default function SignInPage() {
     const [isAgreementChecked, setIsAgreementChecked] = useState(false)
-    const { hasMetamask, connectMetamask, isConnecting } = useWeb3Context()
+    const { hasMetamask, connectMetamask, isConnecting } = useContext(web3Context)
     const isBtnDisabled = !isAgreementChecked || !hasMetamask
 
     return <div className='flex flex-col items-center pt-36'>
@@ -27,6 +27,5 @@ export default function SignInPage() {
                 <Link href="https://metamask.io/download/" target="_blank">Download</Link>
             </>
         }
-
     </div>
 }

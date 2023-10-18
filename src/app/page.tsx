@@ -64,7 +64,7 @@ function Header() {
         )}
       </ul>
       <div>
-        <div className="btn-sign">Console</div>
+        <Link href="/console/dashboard/market"><div className="btn-sign cursor-pointer">Console</div></Link>
       </div>
     </div>
   </div>
