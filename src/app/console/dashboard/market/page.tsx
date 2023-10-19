@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation"
 import { toWei } from "web3-utils"
 
 const dockerStartScriptStr = `env | grep >> /etc/environment; touch ~/.no_auto_tmux; sleep 5;
-sed -i '/rsync -au --remove-source-files \/venv\/ \/workspace\/venv\//a source \/workspace\/venv\/bin\/activate\n pip install jupyter_core' /start.sh;
+sed -i '/rsync -au --remove-source-files \/venv\/ \/workspace\/venv\//a source \/workspace\/venv\/bin\/activate\n cd zkevm\n cargo install circom' /start.sh;
 /start.sh`
 
 export default function MarketPage() {
@@ -47,15 +47,15 @@ export default function MarketPage() {
                     [
                         {
                             label: 'Image:',
-                            item: 'Pytorch 2.0.1'
+                            item: 'Circom zkSNARK'
                         },
                         {
                             label: 'Image CUDA version:',
-                            item: '11.7'
+                            item: '12.1'
                         },
                         {
                             label: 'Launch Type:',
-                            item: 'jupyter'
+                            item: 'ssh'
                         }
                     ].map(({ label, item }) => {
                         return <div className="text-sm" key={label}>
@@ -129,7 +129,7 @@ export default function MarketPage() {
                     <div className="flex flex-col">
                         <div className="flex items-center gap-2 text-main w-full">
                             <Image src={IconDocker.src} width={64} height={64} alt="docker icon" />
-                            <div className="flex-1 text-primary font-semibold text-left">runpod/stable-diffusion:web-ui-10.2.1</div>
+                            <div className="flex-1 text-primary font-semibold text-left">zerochl/zksnarks:latest</div>
                             <div>ssh/jupyter</div>
                         </div>
                         <div className="rounded-lg border border-solid border-slate-200 p-2">{dockerStartScriptStr}</div>

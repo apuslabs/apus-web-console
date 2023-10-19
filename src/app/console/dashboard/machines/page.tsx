@@ -55,7 +55,8 @@ export default function InstancePage() {
                 await refreshMachines()
                 toast.success('List success')
             }
-        } catch {
+        } catch (e) {
+            console.error(e)
             toast.error('List failed')
         } finally {
             setListDialogOpen(false)
