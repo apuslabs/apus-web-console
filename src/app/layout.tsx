@@ -71,7 +71,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" id="app">
+    <html lang="en" id="app" className="scroll-smooth">
       <head>
         <Script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.0.3/web3.min.js" onLoad={() => {
           console.log('dispatch load event')

@@ -51,20 +51,20 @@ const menuItems: {
     },
     {
       item: 'Why Us',
-      href: '/#why-us',
+      href: '#why-us',
     },
     {
       item: 'Partners',
-      href: '/#partners',
+      href: '#partners',
     },
     {
-      item: 'About',
-      href: '/about',
+      item: 'Contact',
+      href: '#contact',
     }
   ]
 
 function Header() {
-  return <div className="fixed top-0 left-0 right-0 h-16 flex justify-center z-10 bg-dark">
+  return <div className="fixed top-0 left-0 right-0 h-16 flex justify-center z-20 bg-dark">
     <div className="h-full flex items-center section-container">
       <div className='flex items-center mr-12'>
         <SvgImage src={IconLogo} alt="logo" />
@@ -92,9 +92,9 @@ const contactItems = [
 
 
 function Footer() {
-  return <div className="fixed bottom-0 left-0 bg-dark right-0 h-16 flex items-center">
+  return <div className="fixed bottom-0 left-0 bg-dark right-0 h-16 flex items-center z-20">
     <div className="h-full flex items-center section-container gap-4">
-      {contactItems.map(({ icon, iconAlt, href }) => <Link key={iconAlt} href={href}><SvgImage size={32} src={icon} alt={iconAlt} /></Link>)}
+      {contactItems.map(({ icon, iconAlt, href }) => <Link key={iconAlt} href={href} target="_blank"><SvgImage size={32} src={icon} alt={iconAlt} /></Link>)}
     </div>
   </div>
 }
@@ -197,7 +197,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="section-wrapper">
+      <section className="section-wrapper" id="why-us">
         <div className="section-container">
           <h1 className="section-header">Why Us</h1>
           <div className="flex justify-center items-center gap-16">
@@ -315,7 +315,7 @@ export default function Home() {
           </div>
         </div>
       </section> */}
-      <section className="section-wrapper z-10">
+      <section className="section-wrapper z-10" id="partners">
         <div className="section-container">
           <h1 className="section-header">Partners</h1>
           <div className="flex flex-col items-center">
@@ -333,7 +333,7 @@ export default function Home() {
 
         </div>
       </section>
-      <section className="section-wrapper" ref={containerRef}>
+      <section className="section-wrapper" ref={containerRef} id="contact">
         <Image src={ContactBG} alt="contact-bg" width={662} height={606} className="absolute left-0 bottom-0 rotate-12" />
         <div className="flex flex-col items-center z-10">
           <div className="mb-4 font-bold text-6xl">Contact</div>
