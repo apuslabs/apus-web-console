@@ -22,8 +22,9 @@ a {
 }
 
 .text-strong {
-  /* @apply underline; */
-  color: rgba(255,255,255,0.8)
+  @apply text-inverse;
+  /* color: rgba(255,255,255,0.8); */
+
 }
 
 .btn-sign {
@@ -62,19 +63,9 @@ a {
 }
 
 .section-header {
-  @apply after:inline-block after:content-[''] after:h-0.5 after:absolute after:left-0 after:-bottom-0.5 after:w-24 after:bg-light text-3xl font-medium relative my-16;
+  @apply inline-block after:inline-block after:content-[''] after:h-0.5 after:absolute after:left-0 after:-bottom-0.5 after:w-full after:bg-light text-3xl font-medium relative my-16;
 }
 
 .reset {
   @apply list-none m-0 p-0;
-}
-
-.font-lighting {
-  /* text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
-                0 0 20px rgba(255, 255, 255, 0.8),
-                0 0 30px rgba(255, 255, 255, 0.8),
-                0 0 40px rgba(255, 255, 255, 0.8); */
-  background: linear-gradient(to right, #00e6e6, #003333);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }

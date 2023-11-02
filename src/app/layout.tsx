@@ -2,7 +2,7 @@
 
 import './globals.css'
 import { Toaster } from "sonner";
-import { Roboto_Flex } from 'next/font/google'
+import { Noto_Sans } from 'next/font/google'
 import { PropsWithChildren, useEffect } from 'react'
 import { Web3ContextProvider, Web3jsLoadEvent, useWeb3Context, web3Context } from '@/contexts/web3'
 import { StyledEngineProvider } from '@mui/material/styles';
@@ -12,7 +12,7 @@ import { ConfigProvider } from 'antd'
 import { antdTheme } from './theme';
 import Script from 'next/script';
 
-const robotoFlex = Roboto_Flex({ subsets: ['latin'], weight: ['400', '500', '600', '700'] })
+const robotoFlex = Noto_Sans({ subsets: ['latin'], weight: ['400', '500', '600', '700'] })
 
 // export const metadata: Metadata = {
 //   title: 'Create Next App',
