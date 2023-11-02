@@ -64,7 +64,7 @@ const menuItems: {
   ]
 
 function Header() {
-  return <div className="fixed top-0 left-0 right-0 h-16 flex justify-center z-10">
+  return <div className="fixed top-0 left-0 right-0 h-16 flex justify-center z-10 bg-dark">
     <div className="h-full flex items-center section-container">
       <div className='flex items-center mr-12'>
         <SvgImage src={IconLogo} alt="logo" />
