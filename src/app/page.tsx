@@ -214,7 +214,7 @@ export default function Home() {
             </div>
             <Image src={IconRightArrow} width={96} alt="" />
             <div className="flex flex-col items-center">
-              <div className="mb-4 text-2xl font-bold text-inverse">Apus Network</div>
+              <div className="mb-4 text-2xl font-bold text-inverse">Apus</div>
               <Image src={IconLogo} height={64} alt="logo" />
               <div className="mt-4 text-lg font-semibold text-subtle-inverse text-center">Unlimited Compute<br />Worldwide</div>
             </div>
