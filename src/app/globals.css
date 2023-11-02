@@ -21,6 +21,11 @@ a {
   text-decoration: none;
 }
 
+.text-strong {
+  /* @apply underline; */
+  color: rgba(255,255,255,0.8)
+}
+
 .btn-sign {
   @apply px-8 h-10 rounded-3xl cursor-pointer text-inverse text-base font-semibold;
   line-height: 2.5rem;
@@ -62,4 +67,14 @@ a {
 
 .reset {
   @apply list-none m-0 p-0;
+}
+
+.font-lighting {
+  /* text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                0 0 20px rgba(255, 255, 255, 0.8),
+                0 0 30px rgba(255, 255, 255, 0.8),
+                0 0 40px rgba(255, 255, 255, 0.8); */
+  background: linear-gradient(to right, #00e6e6, #003333);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

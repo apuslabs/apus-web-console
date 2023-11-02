@@ -129,7 +129,7 @@ export function useWeb3Context() {
             helperContract.current = new web3.current.eth.Contract(helperContractABI, helperContractAddress)
         }
         Web3jsLoadEvent.addEventListener('load', initWeb3);
-        window.ethereum.on('accountsChanged', () => {
+        window.ethereum?.on('accountsChanged', () => {
             initAccount()
         });
         return () => {
