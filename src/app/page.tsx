@@ -46,21 +46,21 @@ const menuItems: {
   href: string,
 }[] = [
     {
-      item: 'Docs',
-      href: '/docs',
+      item: 'Home',
+      href: '/',
     },
-    // {
-    //   item: 'Partners',
-    //   href: '/partners',
-    // },
-    // {
-    //   item: 'Recuriment',
-    //   href: '/recruitment',
-    // },
-    // {
-    //   item: 'About',
-    //   href: '/about',
-    // }
+    {
+      item: 'Why Us',
+      href: '/#why-us',
+    },
+    {
+      item: 'Partners',
+      href: '/#partners',
+    },
+    {
+      item: 'About',
+      href: '/about',
+    }
   ]
 
 function Header() {
@@ -86,7 +86,7 @@ const contactItems = [
   { icon: IconTwitter, iconAlt: 'twitter', href: 'https://twitter.com/apus_network' },
   { icon: IconTelegram, iconAlt: 'telegram', href: 'https://t.me/+AWdHtLSl2m4yM2I1' },
   { icon: IconMedium, iconAlt: 'medium', href: 'https://medium.com/@apusnetwork' },
-  { icon: IconGithub, iconAlt: 'github', href: "https://github.com/apusnetwork-official" },
+  { icon: IconGithub, iconAlt: 'github', href: "https://github.com/apuslabs" },
   { icon: IconMail, iconAlt: 'mail', href: "mailto:team@apus.network" },
 ]
 
@@ -108,7 +108,7 @@ function FootNote() {
 function Contact() {
   return <div className="h-24 rounded-12 border border-solid border-slate-400 right-0 flex items-center px-12">
     <div className="h-full px-12 flex items-center section-container gap-24">
-      {contactItems.map(({ icon, iconAlt, href }) => <Link key={iconAlt} href={href}><SvgImage size={46} src={icon} alt={iconAlt} /></Link>)}
+      {contactItems.map(({ icon, iconAlt, href }) => <Link key={iconAlt} href={href} className="hover:scale-110 transition-all"><SvgImage size={46} src={icon} alt={iconAlt} /></Link>)}
     </div>
   </div>
 }
@@ -315,7 +315,7 @@ export default function Home() {
           </div>
         </div>
       </section> */}
-      <section className="section-wrapper">
+      <section className="section-wrapper z-10">
         <div className="section-container">
           <h1 className="section-header">Partners</h1>
           <div className="flex flex-col items-center">
@@ -327,7 +327,7 @@ export default function Home() {
                 { img: PartnerManta, href: "https://manta.network/" },
                 { img: PartnerEverVision, href: "https://ever.finance/#/" },
                 { img: PartnerCosmos, href: "https://cosmos.network/" }
-              ].map((item, index) => <Link key={index} href={item.href} prefetch={false} target="_blank"><Image src={item.img} alt="avatar" width={320} className="hover:scale-110 transition-all" /></Link>)}
+              ].map((item, index) => <Link key={index} href={item.href} prefetch={false} target="_blank"><Image src={item.img} alt="avatar" width={300} className="hover:scale-110 transition-all" /></Link>)}
             </div>
           </div>
 
@@ -335,15 +335,15 @@ export default function Home() {
       </section>
       <section className="section-wrapper" ref={containerRef}>
         <Image src={ContactBG} alt="contact-bg" width={662} height={606} className="absolute left-0 bottom-0 rotate-12" />
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center z-10">
           <div className="mb-4 font-bold text-6xl">Contact</div>
           {/* <div className="mb-4">Interested in Apus Network development, accessing GPU compute, supplving GPU compute, or have any questions?</div> */}
           <div className="mb-20 text-xl font-medium">{`Join the community and get involved! We'd love to meet you.`}</div>
           <Contact />
         </div>
       </section>
-      <section className="section-wrapper">
-        <h3 className={cns(exo2.className, "mb-52 text-5xl font-semibold text-subtle-inverse")}>Democratizing Compute is powered by the people and for the people!</h3>
+      <section className="section-wrapper text-center">
+        <h3 className={cns(exo2.className, "mb-52 text-3xl font-semibold text-subtle-inverse")}>Democratizing Compute is powered by the people and for the people!</h3>
       </section>
       {isVisible ? <FootNote /> : <Footer />}
     </main>
