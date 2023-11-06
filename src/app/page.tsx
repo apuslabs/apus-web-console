@@ -35,11 +35,36 @@ import PartnerTaiko from '@/assets/icons/taiko-logo.svg'
 import HistoryPPTV from '@/assets/icons/pptv-logo.png'
 import HistoryPPIO from '@/assets/icons/ppio-logo.png'
 import IconRightArrow from '@/assets/icons/icons8-right-arrow-100.png'
+// import { useWindowSize } from 'react-use';
 
 import ContactBG from '@/assets/images/contact-bg.png'
 import cns from 'classnames'
 
 const exo2 = Exo_2({ subsets: ['latin'], weight: ['600'] })
+
+function useWindowSize() {
+  const [state, setState] = useState<{ width: number; height: number }>({
+    width: 1024,
+    height: 1024,
+  });
+  useEffect(() => {
+    setState({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+    const listener = () => {
+      setState({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+    window.addEventListener('resize', listener)
+    return () => {
+      window.removeEventListener('resize', listener)
+    }
+  }, [])
+  return state;
+}
 
 const menuItems: {
   item: ReactNode,
@@ -64,17 +89,16 @@ const menuItems: {
   ]
 
 function Header() {
-  return <div className="fixed top-0 left-0 right-0 h-16 flex justify-center z-20 bg-dark">
+  const { width } = useWindowSize()
+  return <div className="fixed top-0 left-0 right-0 h-16 flexjustify-center z-20 bg-dark">
     <div className="h-full flex items-center section-container">
-      <div className='flex items-center mr-12'>
-        <SvgImage src={IconLogo} alt="logo" />
-        <h1 className='ml-3 text-2xl font-bold'>Apus Network</h1>
+      <div className='flex flex-1 md:flex-auto items-center mr-4 md:mr-12'>
+        <div className="scale-75 md:scale-100"><SvgImage src={IconLogo} alt="logo" /></div>
+        <h1 className='ml-3 text-lg md:text-2xl font-bold'>Apus Network</h1>
       </div>
-      <ul className='nav-menu gap-24 justify-end m-24'>
-        {menuItems.map(({ item, href }, index) =>
-          <Link className='inline-flex' href={href} key={index}><li className='nav-link'>{item}</li></Link>
-        )}
-      </ul>
+      {width >= 768 ? <ul className='nav-menu gap-24 justify-end m-24'>{menuItems.map(({ item, href }, index) =>
+        <Link className='inline-flex' href={href} key={index}><li className='nav-link'>{item}</li></Link>
+      )}</ul> : null}
       <div>
         <Link href="/console/dashboard/market"><div className="btn-sign cursor-pointer">Console</div></Link>
       </div>
@@ -92,23 +116,27 @@ const contactItems = [
 
 
 function Footer() {
+  const { width } = useWindowSize()
+  const isMobile = width < 768
   return <div className="fixed bottom-0 left-0 bg-dark right-0 h-16 flex items-center z-20">
     <div className="h-full flex items-center section-container gap-4">
-      {contactItems.map(({ icon, iconAlt, href }) => <Link key={iconAlt} href={href} target="_blank"><SvgImage size={32} src={icon} alt={iconAlt} /></Link>)}
+      {contactItems.map(({ icon, iconAlt, href }) => <Link key={iconAlt} href={href} target="_blank"><SvgImage size={isMobile ? 24 : 32} src={icon} alt={iconAlt} /></Link>)}
     </div>
   </div>
 }
 
 function FootNote() {
-  return <div className="fixed bottom-0 left-0 bg-dark right-0 h-16 flex items-center justify-center text-subtle-inverse">
+  return <div className="fixed bottom-0 left-0 bg-dark right-0 h-16 flex items-center justify-center text-subtle-inverse text-xs md:text-lg">
     <div>Copyright © Apus.Network 2023. All rights reserved</div>
   </div>
 }
 
 function Contact() {
-  return <div className="h-24 rounded-12 border border-solid border-slate-400 right-0 flex items-center px-12">
-    <div className="h-full px-12 flex items-center section-container gap-24">
-      {contactItems.map(({ icon, iconAlt, href }) => <Link key={iconAlt} href={href} className="hover:scale-110 transition-all"><SvgImage size={46} src={icon} alt={iconAlt} /></Link>)}
+  const { width } = useWindowSize()
+  const isMobile = width < 768
+  return <div className="h-16 md:h-24 rounded-12 border border-solid border-slate-400 right-0 flex items-center px-4 md:px-12">
+    <div className="h-full px-4 md:px-12 flex items-center section-container gap-4 md:gap-24">
+      {contactItems.map(({ icon, iconAlt, href }) => <Link key={iconAlt} href={href} className="hover:scale-110 transition-all"><SvgImage size={isMobile ? 32 : 46} src={icon} alt={iconAlt} /></Link>)}
     </div>
   </div>
 }
@@ -135,21 +163,23 @@ function useElementOnScreen<T extends Element>(options?: IntersectionObserverIni
 }
 
 export default function Home() {
+  const { width } = useWindowSize()
   const [containerRef, isVisible] = useElementOnScreen<HTMLElement>()
+  const isMobile = width < 768
 
   return (
     <main className="bg-dark text-inverse">
       <Header />
       <section className="section-wrapper">
-        <Image className="absolute left-0 top-0 h-full object-fit" src={IndexBgHW} alt="bg-ring" />
+        <Image className="absolute left-0 top-0 h-full object-fit max-w-full" src={IndexBgHW} alt="bg-ring" />
         <Image className="absolute right-0 object-contain top-1/2 -translate-y-1/2" src={IndexBgRing} alt="bg-ring" />
         <div className="flex flex-col items-center text-center mt-20" style={{
           maxWidth: '75rem',
         }}>
-          <h1 className="text-7xl font-bold leading-tight">
+          <h1 className="text-3xl md:text-7xl font-bold leading-tight">
             Decentralized ZKP compute marketplace
           </h1>
-          <h2 className="w-4/5 text-subtle-inverse text-xl mt-8">
+          <h2 className="w-4/5 text-subtle-inverse text-lg md:text-xl mt-8">
             Our mission is to <span className="text-strong">democratize compute</span> by building a <span className="text-strong">decentralized ZKP marketplace</span>, <br />transforming global compute resources into <span className="text-strong">accessible and affordable ZKP capabilities</span>.
           </h2>
           {/* <h4 className=" mt-28 text-inverse font-bold text-xl">
@@ -163,10 +193,10 @@ export default function Home() {
       </section>
       <section className="section-wrapper">
         <div className="section-container">
-          <h1 className="section-header">Advantages</h1>
+          <h1 className="section-header z-10">Advantages</h1>
           <div className="flex justify-center">
             {/* <Image className="absolute right-0 object-contain top-1/2 -translate-y-1/2 blur-sm" src={IndexBgRing} alt="bg-ring" /> */}
-            <ul className="max-w-300 grid grid-rows-2 grid-cols-2 gap-40 reset">
+            <ul className="md:max-w-300 flex flex-col md:grid md:grid-rows-2 md:grid-cols-2 gap-4 md:gap-40 reset">
               {[
                 {
                   title: 'Liveness',
@@ -190,8 +220,8 @@ export default function Home() {
                 }
               ].map(({ title, content, img }) => <li key={title} className="relative">
                 <Image src={img} alt="advantage" width={277} height={247} className="absolute right-0 -top-20" />
-                <h2 className="relative text-2xl font-bold z-10">{title}</h2>
-                <p className="mt-6 text-subtle-inverse">{content}</p>
+                <h2 className="relative text-xl md:text-2xl font-bold z-10">{title}</h2>
+                <p className="relative mt-6 text-subtle-inverse z-10">{content}</p>
               </li>)}
             </ul>
           </div>
@@ -200,28 +230,90 @@ export default function Home() {
       <section className="section-wrapper" id="why-us">
         <div className="section-container">
           <h1 className="section-header">Why Us</h1>
-          <div className="flex justify-center items-center gap-16">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-16 mt-4 md:mt-0">
             <div className="flex flex-col items-center">
-              <div className="mb-4 text-2xl font-bold text-inverse">PPTV</div>
-              <Image src={HistoryPPTV} height={64} alt="pptv" />
-              <div className="mt-4 text-lg font-semibold text-subtle-inverse text-center">450MM Users<br />Worldwide</div>
+              <div className="mb-4 text-xl md:text-2xl font-bold text-inverse">PPTV</div>
+              <Image src={HistoryPPTV} height={isMobile ? 48 : 64} alt="pptv" />
+              <div className="mt-4 text-xl md:text-lg font-semibold text-subtle-inverse text-center">450MM Users<br />Worldwide</div>
             </div>
-            <Image src={IconRightArrow} width={96} alt="" />
+            <Image src={IconRightArrow} width={isMobile ? 48 : 64} alt="" className="rotate-90 md:rotate-0" />
             <div className="flex flex-col items-center">
-              <div className="mb-4 text-2xl font-bold text-inverse">PPIO</div>
-              <Image src={HistoryPPIO} height={64} alt="ppio" />
-              <div className="mt-4 text-lg font-semibold text-subtle-inverse text-center">5000 Nodes<br />Worldwide</div>
+              <div className="mb-4 text-xl md:text-2xl font-bold text-inverse">PPIO</div>
+              <Image src={HistoryPPIO} height={isMobile ? 48 : 64} alt="ppio" />
+              <div className="mt-4 text-xl md:text-lg font-semibold text-subtle-inverse text-center">5000 Nodes<br />Worldwide</div>
             </div>
-            <Image src={IconRightArrow} width={96} alt="" />
+            <Image src={IconRightArrow} width={isMobile ? 48 : 64} alt="" className="rotate-90 md:rotate-0" />
             <div className="flex flex-col items-center">
-              <div className="mb-4 text-2xl font-bold text-inverse">Apus</div>
-              <Image src={IconLogo} height={64} alt="logo" />
-              <div className="mt-4 text-lg font-semibold text-subtle-inverse text-center">Unlimited Compute<br />Worldwide</div>
+              <div className="mb-4 text-xl md:text-2xl font-bold text-inverse">Apus</div>
+              <Image src={IconLogo} height={isMobile ? 48 : 64} alt="logo" />
+              <div className="mt-4 text-xl md:text-lg font-semibold text-subtle-inverse text-center">Unlimited Compute<br />Worldwide</div>
             </div>
           </div>
         </div>
       </section>
-      {/* <section className="section-wrapper">
+
+      <section className="section-wrapper z-10" id="partners">
+        <div className="section-container">
+          <h1 className="section-header">Partners</h1>
+          <div className="flex flex-col items-center">
+            <div className="py-4 md:py-16 grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-32">
+              {[
+                { img: PartnerTaiko, href: "https://taiko.xyz/" },
+                { img: PartnerScroll, href: "https://scroll.io/" },
+                { img: PartnerPolygon, href: "https://polygon.technology/home" },
+                { img: PartnerManta, href: "https://manta.network/" },
+                { img: PartnerEverVision, href: "https://ever.finance/#/" },
+                { img: PartnerCosmos, href: "https://cosmos.network/" }
+              ].map((item, index) => <Link key={index} href={item.href} prefetch={false} target="_blank"><Image src={item.img} alt="avatar" width={isMobile ? 160 : 300} className="hover:scale-110 transition-all" /></Link>)}
+            </div>
+          </div>
+
+        </div>
+      </section>
+      <section className="section-wrapper overflow-hidden" ref={containerRef} id="contact">
+        <Image src={ContactBG} alt="contact-bg" width={662} className="absolute left-0 bottom-0 rotate-12 max-w-full max-h-full" />
+        <div className="flex flex-col items-center z-10 px-4 text-center">
+          <div className="mb-4 font-bold text-4xl md:text-6xl">Contact</div>
+          {/* <div className="mb-4">Interested in Apus Network development, accessing GPU compute, supplving GPU compute, or have any questions?</div> */}
+          <div className="mb-5 md:mb-20 text-lg md:text-xl font-medium">{`Join the community and get involved! We'd love to meet you.`}</div>
+          <Contact />
+        </div>
+      </section>
+      <section className="section-wrapper text-center">
+        <h3 className={cns(exo2.className, "mb-24 md:mb-52 text-xl md:text-3xl font-semibold text-subtle-inverse")}>Democratizing Compute is powered by the people and for the people!</h3>
+      </section>
+      {isVisible ? <FootNote /> : <Footer />}
+    </main>
+  )
+}
+
+// function TeamMember({
+//   avatar,
+//   name,
+//   titles,
+//   className,
+// }: {
+//   avatar: any
+//   name: string
+//   titles: string[]
+//   className?: string
+// }) {
+//   return <div className={cns('flex gap-2 max-w-1/2', className)}>
+//     <Image src={avatar} alt="avatar" width={120} height={120} className="rounded-half" />
+//     <div>
+//       <div className="mg-2 font-bold text-2xl">{name}</div>
+//       <ul className="text-xl text-subtle-inverse leading-normal">
+//         {
+//           titles.map((title, index) => <li key={index}>{title}</li>)
+//         }
+//       </ul>
+//     </div>
+//   </div>
+// }
+
+
+
+{/* <section className="section-wrapper">
         <div className="section-container">
           <h1 className="section-header">Teams</h1>
           <div className="flex flex-col items-center">
@@ -315,61 +407,3 @@ export default function Home() {
           </div>
         </div>
       </section> */}
-      <section className="section-wrapper z-10" id="partners">
-        <div className="section-container">
-          <h1 className="section-header">Partners</h1>
-          <div className="flex flex-col items-center">
-            <div className="py-16 grid grid-cols-3 gap-32">
-              {[
-                { img: PartnerTaiko, href: "https://taiko.xyz/" },
-                { img: PartnerScroll, href: "https://scroll.io/" },
-                { img: PartnerPolygon, href: "https://polygon.technology/home" },
-                { img: PartnerManta, href: "https://manta.network/" },
-                { img: PartnerEverVision, href: "https://ever.finance/#/" },
-                { img: PartnerCosmos, href: "https://cosmos.network/" }
-              ].map((item, index) => <Link key={index} href={item.href} prefetch={false} target="_blank"><Image src={item.img} alt="avatar" width={300} className="hover:scale-110 transition-all" /></Link>)}
-            </div>
-          </div>
-
-        </div>
-      </section>
-      <section className="section-wrapper" ref={containerRef} id="contact">
-        <Image src={ContactBG} alt="contact-bg" width={662} height={606} className="absolute left-0 bottom-0 rotate-12" />
-        <div className="flex flex-col items-center z-10">
-          <div className="mb-4 font-bold text-6xl">Contact</div>
-          {/* <div className="mb-4">Interested in Apus Network development, accessing GPU compute, supplving GPU compute, or have any questions?</div> */}
-          <div className="mb-20 text-xl font-medium">{`Join the community and get involved! We'd love to meet you.`}</div>
-          <Contact />
-        </div>
-      </section>
-      <section className="section-wrapper text-center">
-        <h3 className={cns(exo2.className, "mb-52 text-3xl font-semibold text-subtle-inverse")}>Democratizing Compute is powered by the people and for the people!</h3>
-      </section>
-      {isVisible ? <FootNote /> : <Footer />}
-    </main>
-  )
-}
-
-function TeamMember({
-  avatar,
-  name,
-  titles,
-  className,
-}: {
-  avatar: any
-  name: string
-  titles: string[]
-  className?: string
-}) {
-  return <div className={cns('flex gap-2 max-w-1/2', className)}>
-    <Image src={avatar} alt="avatar" width={120} height={120} className="rounded-half" />
-    <div>
-      <div className="mg-2 font-bold text-2xl">{name}</div>
-      <ul className="text-xl text-subtle-inverse leading-normal">
-        {
-          titles.map((title, index) => <li key={index}>{title}</li>)
-        }
-      </ul>
-    </div>
-  </div>
-}
