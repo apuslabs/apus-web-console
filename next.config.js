@@ -1,5 +1,14 @@
+const withMDX = require('@next/mdx')({
+    extension: /\.mdx?$/,
+    options: {
+      remarkPlugins: [require("remark-prism")],
+    },
+  })
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    // Configure `pageExtensions` to include MDX files
+    pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
     images: {
         dangerouslyAllowSVG: true,
         contentDispositionType: 'attachment',
@@ -14,4 +23,4 @@ const nextConfig = {
     }
 }
 
-module.exports = nextConfig
+module.exports = withMDX(nextConfig)

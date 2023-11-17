@@ -1,0 +1,89 @@
+import { Button } from 'antd'
+
+# How to Join Apus
+
+Welcome to the Apus Marketplace! This guide will walk you through the process of joining our platform, utilizing our services, and monitoring your earnings.
+
+**Overview**
+
+1. **Clone the Starter Template**
+2. **Update the Configuration File**
+3. **Run the Docker Container**
+4. **Check Logs and Earnings**
+
+---
+
+## Pre-requisites
+Before diving into the details, ensure your setup meets the following prerequisites:
+
+1. **Software Requirements**:
+   - Git: [Download Git](https://git-scm.com/downloads)
+   - Docker (including Docker Compose): [Download Docker](https://www.docker.com/get-started)
+
+2. **Ethereum Wallet Address**: You will need an Ethereum wallet address for transactions. 
+
+3. **Hardware Specifications**:
+   - Processor: Minimum 8-core CPU
+   - Memory: At least 16GB RAM
+   - Storage: NVMe SSD for optimal performance
+   - Network: Stable and robust internet connection
+
+## Step-by-Step Instructions
+
+### Step 1: Clone the Starter Template
+Run the following command in your terminal:
+```bash
+git clone https://github.com/ApusMarketplace/apus-starter.git
+```
+This command clones the starter template to your local machine.
+
+## Step 2: Update the Configuration File
+
+Navigate to the cloned directory
+```bash
+cd apus-starter
+vi .env
+```
+Update Environment Variables
+```shell
+TASK_TYPES=DataProcessing,ImageAnalysis # comma separated list of task types
+TASK_PRICING=10,20 # wei
+MAX_PARALLEL_TASKS=1 # number of tasks to run in parallel
+
+PRIVATE_KEY=your_private_key_here # private key of your ethereum wallet
+```
+Save and exit the file.
+
+## Step 3: Run the Docker Container
+
+Execute the following command to start the service:
+```bash
+docker-compose up -d
+```
+This command will deploy the container in detached mode.
+
+## Step 4: Check Logs
+
+To view the logs, use:
+```bash
+docker compose logs -f apus_marketplace
+```
+
+When you see the following message, it means your node is ready to accept tasks:
+```
+INFO[0000] 2021/08/31 15:00:00 Your node is ready to accept tasks
+```
+![Logs](https://i.imgur.com/5ZQ3Z3H.png)
+
+## Setp 5: Check Earnings
+
+1. Setup Taiko Testnet
+<Button>Setup Taiko</Button>
+2. Setup APTa
+<Button>Setup APTa</Button>
+
+When you see the following message, it means your node is successfully generatted a proof and submitted it to the blockchain:
+```
+INFO[0000] 2021/08/31 15:00:00 Proof submitted to xxx
+```
+![Earnings](https://i.imgur.com/5ZQ3Z3H.png)
