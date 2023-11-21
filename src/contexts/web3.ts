@@ -5,9 +5,9 @@ import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import type { Web3, Contract } from "web3";
 import useSWR from 'swr'
 import { CommonResponse, getFetcher } from "@/utils/fetcher";
-import { toast } from "sonner";
 import { useRouter, usePathname } from "next/navigation";
 import { toChecksumAddress, fromWei, toWei } from 'web3-utils'
+import { message } from "antd";
 
 export const web3Context = createContext<ReturnType<typeof useWeb3Context>>(null!)
 
@@ -97,7 +97,7 @@ export function useWeb3Context() {
         try {
             const { account, balance } = await initAccount(true)
             if (Number(balance) <= 0) {
-                toast.error('Your need to have some BNB to register')
+                message.error('Your need to have some BNB to register')
                 return
             }
             console.info(accountContract.current?.methods.register())
@@ -105,7 +105,7 @@ export function useWeb3Context() {
                 from: account,
             }).on('error', console.error).on('confirmation', (e) => {
                 if (e.receipt.status === BigInt(1)) {
-                    toast.success('Sing up successfully')
+                    message.success('Sing up successfully')
                     accountContract.current?.methods?.getAccount
                     refreshAccountInfo()
                 }
