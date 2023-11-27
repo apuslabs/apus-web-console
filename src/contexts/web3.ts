@@ -1,13 +1,25 @@
 'use client'
 
-import { accountContractABI, accountContractAddress, helperContractABI, helperContractAddress } from "@/constant/contract";
+import { MARKET_CONTRACT, TASK_CONTRACT, TOKEN_CONTRACT } from "@/constant/contract";
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import type { Web3, Contract } from "web3";
 import useSWR from 'swr'
 import { CommonResponse, getFetcher } from "@/utils/fetcher";
-import { toast } from "sonner";
 import { useRouter, usePathname } from "next/navigation";
-import { toChecksumAddress, fromWei, toWei } from 'web3-utils'
+import { toChecksumAddress, fromWei } from 'web3-utils'
+import { message } from "antd";
+
+const taikoChainConfig = {
+    chainId: '0x28c5f',
+    chainName: 'Taiko Jolnir L2',
+    nativeCurrency: {
+        name: 'ETH',
+        symbol: 'ETH',
+        decimals: 18,
+    },
+    rpcUrls: ['https://rpc.jolnir.taiko.xyz'],
+    blockExplorerUrls: ['https://explorer.jolnir.taiko.xyz'],
+}
 
 export const web3Context = createContext<ReturnType<typeof useWeb3Context>>(null!)
 
@@ -41,15 +53,17 @@ export type AccountInfoResponse = {
     recipient_blocked_funds: string;
 }
 
-export type AccountContract = Contract<typeof accountContractABI>
-export type HelperContract = Contract<typeof helperContractABI>
+export type MarketContract = Contract<typeof MARKET_CONTRACT.abi>
+export type TaskContract = Contract<typeof TASK_CONTRACT.abi>
+export type TokenContract = Contract<typeof TOKEN_CONTRACT.abi>
 
 export const Web3jsLoadEvent = new EventTarget()
 
 export function useWeb3Context() {
     const web3 = useRef<Web3>()
-    const accountContract = useRef<AccountContract>()
-    const helperContract = useRef<HelperContract>()
+    const marketContract = useRef<MarketContract>()
+    const taskContract = useRef<TaskContract>()
+    const tokenContract = useRef<TokenContract>()
     const [hasMetamask, setHasMetamask] = useState(false)
     const [account, setAccount] = useState<string>("")
     const [balance, setBalance] = useState<string>("0.")
@@ -65,6 +79,27 @@ export function useWeb3Context() {
         }
     })
     const [isConnecting, setIsConnecting] = useState(false)
+
+    const [isTaiko, setIsTaiko] = useState(false)
+    const switchTaiko = useCallback(async () => {
+        if (window.ethereum !== undefined) {
+            await window.ethereum
+                .request({
+                    method: 'wallet_addEthereumChain',
+                    params: [taikoChainConfig],
+                })
+            await window.ethereum
+                .request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [
+                        {
+                            chainId: taikoChainConfig.chainId
+                        },
+                    ],
+                })
+            setIsTaiko(true)
+        }
+    }, [])
 
     const initAccount = async (requestAccount?: boolean) => {
         try {
@@ -95,27 +130,17 @@ export function useWeb3Context() {
     const connectMetamask = useCallback(async () => {
         setIsConnecting(true)
         try {
-            const { account, balance } = await initAccount(true)
+            const {balance } = await initAccount(true)
             if (Number(balance) <= 0) {
-                toast.error('Your need to have some BNB to register')
+                message.error('Your need to have some eth to register')
                 return
             }
-            console.info(accountContract.current?.methods.register())
-            await accountContract.current?.methods.register().send({
-                from: account,
-            }).on('error', console.error).on('confirmation', (e) => {
-                if (e.receipt.status === BigInt(1)) {
-                    toast.success('Sing up successfully')
-                    accountContract.current?.methods?.getAccount
-                    refreshAccountInfo()
-                }
-            })
         } catch (e) {
             console.error(e)
         } finally {
             setIsConnecting(false)
         }
-    }, [refreshAccountInfo])
+    }, [])
 
     useEffect(() => {
         if (window.ethereum !== undefined) {
@@ -125,8 +150,12 @@ export function useWeb3Context() {
         const initWeb3 = () => {
             console.log('initWeb3')
             web3.current = new window.Web3(window.ethereum)
-            accountContract.current = new web3.current.eth.Contract(accountContractABI, accountContractAddress)
-            helperContract.current = new web3.current.eth.Contract(helperContractABI, helperContractAddress)
+            marketContract.current = new web3.current.eth.Contract(MARKET_CONTRACT.abi, MARKET_CONTRACT.address)
+            taskContract.current = new web3.current.eth.Contract(TASK_CONTRACT.abi, TASK_CONTRACT.address)
+            tokenContract.current = new web3.current.eth.Contract(TOKEN_CONTRACT.abi, TOKEN_CONTRACT.address)
+            web3.current.eth.getChainId().then((chainId) => {
+                setIsTaiko(chainId === BigInt(taikoChainConfig.chainId))
+            })
         }
         Web3jsLoadEvent.addEventListener('load', initWeb3);
         window.ethereum?.on('accountsChanged', () => {
@@ -146,8 +175,9 @@ export function useWeb3Context() {
         connectMetamask,
         account,
         web3,
-        accountContract: accountContract,
-        helperContract: helperContract,
+        marketContract,
+        taskContract,
+        tokenContract,
         balance,
         accountInfo: {
             balance: fromWei(accountInfo?.data?.balance || '0', 'ether'),
@@ -157,5 +187,7 @@ export function useWeb3Context() {
         isProvider: Boolean(accountInfo?.data?.info),
         isConnecting,
         refreshAccountInfo,
+        isTaiko,
+        switchTaiko,
     }
 }
