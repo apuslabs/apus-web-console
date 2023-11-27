@@ -1,9 +1,6 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
-  corePlugins: {
-    preflight: false,
-  },
   important: '#app',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',

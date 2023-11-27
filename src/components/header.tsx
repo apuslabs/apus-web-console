@@ -3,7 +3,7 @@
 import IconLogo from "@/assets/icons/logo.svg";
 import IconDiscord from "@/assets/icons/discord";
 import IconMetamask from "@/assets/icons/metamask-icon.svg";
-import React, { ReactNode, useContext, useState } from "react";
+import React, { ReactNode, useContext } from "react";
 import Link from "next/link";
 import SvgImage from "./SvgImage";
 import { web3Context } from "@/contexts/web3";
@@ -47,7 +47,7 @@ export default function Header() {
 }
 
 function UserMenu() {
-  const { isLogin, isProvider, account, balance } = useContext(web3Context);
+  const { isLogin, isProvider, account} = useContext(web3Context);
 
   return (
     <div className="h-full flex items-center">
@@ -61,12 +61,6 @@ function UserMenu() {
           />
           <div className="ml-3">{account}</div>
           <div className="divider-verticle mx-3"></div>
-          <div className="mr-10">{balance.toString()}</div>
-          {!isProvider ? (
-            <Link href="/console/host">
-              <div className="btn-sign">Host</div>
-            </Link>
-          ) : null}
         </div>
       ) : (
         <Link href="/console/signin">

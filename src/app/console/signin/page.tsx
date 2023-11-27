@@ -9,7 +9,7 @@ import { useContext, useState } from "react";
 
 export default function SignInPage() {
   const [isAgreementChecked, setIsAgreementChecked] = useState(false);
-  const { hasMetamask, connectMetamask, isConnecting } =
+  const { hasMetamask, connectMetamask, isConnecting, isTaiko, switchTaiko } =
     useContext(web3Context);
   const isBtnDisabled = !isAgreementChecked || !hasMetamask;
 
@@ -22,14 +22,14 @@ export default function SignInPage() {
         alt="metamask-icon"
       />
       <Button
-        className="mt-5 mb-3 btn-primary h-14 rounded-7 text-base px-9 leading-14"
+        className="mt-5 mb-3 btn-primary h-14 rounded-7 text-base px-9"
         disabled={isBtnDisabled}
         loading={isConnecting}
         onClick={() => {
-          connectMetamask();
+          isTaiko ? connectMetamask() : switchTaiko()
         }}
       >
-        Sign in with metamask
+          { isTaiko ? 'Sign in with metamask' : 'Switch to Taiko' }
       </Button>
       {hasMetamask ? (
         <div className="flex items-center">

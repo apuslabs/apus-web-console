@@ -33,7 +33,7 @@ Before diving into the details, ensure your setup meets the following prerequisi
 ### Step 1: Clone the Starter Template
 Run the following command in your terminal:
 ```bash
-git clone https://github.com/ApusMarketplace/apus-starter.git
+git clone -b apus-simple-taiko-node https://github.com/apuslabs/simple-taiko-node.git
 ```
 This command clones the starter template to your local machine.
 
@@ -41,16 +41,32 @@ This command clones the starter template to your local machine.
 
 Navigate to the cloned directory
 ```bash
-cd apus-starter
+cd simple-taiko-node
+git checkout apus-simple-taiko-node
 vi .env
 ```
 Update Environment Variables
 ```shell
-TASK_TYPES=DataProcessing,ImageAnalysis # comma separated list of task types
-TASK_PRICING=10,20 # wei
-MAX_PARALLEL_TASKS=1 # number of tasks to run in parallel
+############################### DEFAULT #####################################
+# Chain ID
+CHAIN_ID = 167007
+APUS_RPC = http://1.117.58.173:8545
+APUS_CHAIN_ID = 1337
+GAS_LIMIT = 1000000
+APUS_TASK_CONTRACT_ADDRESS = 0x889Ba25624207ba627034868E4a05c9826F69CA2
 
-PRIVATE_KEY=your_private_key_here # private key of your ethereum wallet
+# If you want to be a prover who generates and submits zero knowledge proofs of proposed L2 blocks, you need to change
+# `ENABLE_PROVER` to true and set `L1_PROVER_PRIVATE_KEY`.
+ENABLE_PROVER=true
+
+## Use Your own PK, require some eth
+PROVER_PUBLIC_KEY =
+PROVER_PRIVATE_KEY =
+CLIENT_ID  = 22
+CLIENT_URL = http://ec2-18-209-35-10.compute-1.amazonaws.com:9000
+MIN_FEE    = 10
+ZKEVM_CHAIN_INSTANCES_NUM = 1
+MAX_ZKEVM_INSTANCE = 1
 ```
 Save and exit the file.
 
@@ -66,14 +82,14 @@ This command will deploy the container in detached mode.
 
 To view the logs, use:
 ```bash
-docker compose logs -f apus_marketplace
+docker logs -f simple-taiko-node-zkevm_chain_prover_rpcd-1
 ```
 
 When you see the following message, it means your node is ready to accept tasks:
 ```
 INFO[0000] 2021/08/31 15:00:00 Your node is ready to accept tasks
 ```
-![Logs](https://i.imgur.com/5ZQ3Z3H.png)
+![Logs](https://1688.311688.xyz/share/your/images/save/your/photos/2023/11/27/6563f499a7c8d.png)
 
 ## Setp 5: Check Earnings
 
@@ -86,4 +102,3 @@ When you see the following message, it means your node is successfully generatte
 ```
 INFO[0000] 2021/08/31 15:00:00 Proof submitted to xxx
 ```
-![Earnings](https://i.imgur.com/5ZQ3Z3H.png)
