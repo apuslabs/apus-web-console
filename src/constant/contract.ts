@@ -1,5 +1,5 @@
 export const MARKET_CONTRACT = {
-	address: '0x1bF7794ac84b7Aa295aC0E1E91e675Ac2AC546d6',
+	address: '0x4501A814e7CA2A4fA3D2281F23B8173d4bAF893C',
 	abi: [
 		{
 			"inputs": [
@@ -394,7 +394,7 @@ export const MARKET_CONTRACT = {
 }
 
 export const TOKEN_CONTRACT = {
-	address: '0xC7d90e35B20E5A4766Bdb71C01f9C556B691457A',
+	address: '0x032de9842f0508fBcC06f66Ab341Fa48c360eaD0',
 	abi: [
 		{
 			"inputs": [
@@ -756,7 +756,7 @@ export const TOKEN_CONTRACT = {
 }
 
 export const TASK_CONTRACT = {
-	address: '0x12EbEba0384A8a874997Ee6c8a7A785cA16e2c28',
+	address: '0x6332856d390BA618faC75550bEE1814eD033666a',
 	abi: [
 		{
 			"inputs": [
@@ -957,6 +957,25 @@ export const TASK_CONTRACT = {
 					"internalType": "struct ApusData.Task[]",
 					"name": "",
 					"type": "tuple[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "numDays",
+					"type": "uint256"
+				}
+			],
+			"name": "getDailyTaskCount",
+			"outputs": [
+				{
+					"internalType": "uint256[]",
+					"name": "",
+					"type": "uint256[]"
 				}
 			],
 			"stateMutability": "view",

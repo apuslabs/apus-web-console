@@ -60,7 +60,7 @@ function UserMenu() {
             alt="metamask-icon"
           />
           <div className="ml-3">{account}</div>
-          <div className="divider-verticle mx-3"></div>
+          {/*<div className="divider-verticle mx-3"></div>*/}
         </div>
       ) : (
         <Link href="/console/signin">

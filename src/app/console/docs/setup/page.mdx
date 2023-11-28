@@ -94,11 +94,25 @@ INFO[0000] 2021/08/31 15:00:00 Your node is ready to accept tasks
 ## Setp 5: Check Earnings
 
 1. Setup Taiko Testnet
-<Button>Setup Taiko</Button>
-2. Setup APTa
-<Button>Setup APTa</Button>
 
-When you see the following message, it means your node is successfully generatted a proof and submitted it to the blockchain:
+```env
+chainId         0x28c5f,
+chainName       Taiko Jolnir L2,
+currency        ETH
+rpcUrls         https://rpc.jolnir.taiko.xyz
+explorerUrl     https://explorer.jolnir.taiko.xyz
 ```
-INFO[0000] 2021/08/31 15:00:00 Proof submitted to xxx
+
+2. Setup APTa
+
+`0x032de9842f0508fBcC06f66Ab341Fa48c360eaD0`
+
+When you run
+```shell
+docker compose logs -f taiko_client_prover_relayer | egrep "block proof was|proof submission error|Block proven"
 ```
+
+if your prover has successfully proven a block, your logs should show:
+
+- 💰 Your block proof was accepted means you successfully submitted a proof and your bond is returned.
+- ✅ Block proven means a proposed block was successfully proved on TaikoL1 (by anyone).

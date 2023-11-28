@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useEffect} from 'react'
+import {useEffect, useLayoutEffect, useRef, useState} from 'react'
 import {Card, Col, Row, Statistic} from "antd";
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
@@ -19,29 +19,33 @@ import {
     useAvailableClientCount,
     useAvgProofTime,
     useAvgReward, useLatestTaskId,
-    useTaskCount,
+    useTaskCount, useTasks,
     useTotalClient
-} from "@/contexts/useContract";
-import {useWeb3Context} from "@/contexts/web3";
+} from "../../../contexts/useContract";
+import {useWeb3Context,TaskContract} from "../../../contexts/web3";
 
 echarts.use(
     [TooltipComponent, LineChart, CanvasRenderer]
 );
 
-export default function Explorer() {
-    // 模拟的数据
-    var mockData = [
-        { date: '2023-11-24', value: 0 },
-        { date: '2023-11-25', value: 2 },
-        { date: '2023-11-026', value: 1 },
-        // ...
-    ];
-
-// 提取日期和数值
-    var dates = mockData.map(function(item) {
+function useChartData(taskContract: TaskContract) {
+    const tasks = useTasks(taskContract)
+    let chartData = []
+    for (let i = 0; i < tasks.length; i++) {
+        // first is today, second is yesterday, and so on, gen chart data
+        let date = new Date(Date.now() - i * 24 * 60 * 60 * 1000)
+        let dateStr = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+        chartData.push({
+            date: dateStr,
+            value: tasks[i].toString()
+        })
+    }
+    chartData = chartData.reverse()
+    // 提取日期和数值
+    var dates = chartData.map(function(item) {
         return item.date;
     });
-    var values = mockData.map(function(item) {
+    var values = chartData.map(function(item) {
         return item.value;
     });
     const chartOptions = {
@@ -54,7 +58,6 @@ export default function Explorer() {
         yAxis: {
             type: 'value',
             min: 0,
-            max: 2000,
             show: false, // 不显示纵轴
         },
         grid: {
@@ -76,14 +79,25 @@ export default function Explorer() {
         ],
     }
 
-    const cardRef = React.useRef<HTMLDivElement>(null)
-    const [, setChartWidth] = React.useState(0)
-    useEffect(() => {
+    const cardRef = useRef<HTMLDivElement>(null)
+    const [chartWidth, setChartWidth] = useState(0)
+    useLayoutEffect(() => {
         if (cardRef.current) {
-            setChartWidth(cardRef.current.clientWidth)
+            setChartWidth(cardRef.current.clientWidth - 48)
         }
     }, []);
+    return {
+        cardRef,
+        chartWidth,
+        chartOptions,
+        todayProofs: tasks[tasks.length - 1]
+    }
+}
+
+export default function Explorer() {
     const { marketContract, taskContract} = useWeb3Context()
+    console.log(marketContract, taskContract)
+    const {chartOptions, todayProofs, cardRef, chartWidth} = useChartData(taskContract.current)
     const totalClient = useTotalClient(marketContract.current)
     const availableClient = useAvailableClientCount(marketContract.current)
     const taskCount = useTaskCount(taskContract.current)
@@ -92,13 +106,12 @@ export default function Explorer() {
     const avgReward = useAvgReward(taskContract.current)
     const latestTaskId = useLatestTaskId(taskContract.current)
 
-
     return <>
         <Card ref={cardRef} bordered={false}>
             <h3>Daily proofs</h3>
-            <h1 className=" text-4xl">{mockData[0].value}</h1>
+            <h1 className=" text-4xl">{todayProofs}</h1>
             <ReactEChartsCore
-                style={{width: '100%', height: 300}}
+                style={{width: chartWidth, height: 300}}
                 echarts={echarts}
                 option={chartOptions}
                 notMerge={true}
@@ -106,13 +119,12 @@ export default function Explorer() {
                 theme={"dark-blue"}
             />
         </Card>
-
         <Row gutter={[16, 16]} className={"mt-4"}>
             {
                 [
                     { title: "Total Provers", value: totalClient },
                     { title: "Total Tasks", value: taskCount },
-                    { title: "Avg Proof Time", valueL: avgProofTime },
+                    { title: "Avg Proof Time", value: Math.floor(avgProofTime / 60) + 'm' + avgProofTime % 60 + 's' },
                     { title: "Avg Reward", value: avgReward },
                     { title: "Available Instances", value: availableClient },
                     { title: "Pending Tasks", value: pendingTask },

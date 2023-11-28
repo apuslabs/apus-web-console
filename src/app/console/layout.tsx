@@ -12,14 +12,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-    const router =  useRouter()
+  const router =  useRouter()
   return (
-    <Layout className="h-screen">
-      <Layout style={{ flexGrow: 0 }}>
+    <Layout className="h-screen flex flex-col">
+      <div style={{ flexGrow: 0, flexShrink: 0 }}>
         <Header />
-      </Layout>
-      <Layout>
-        <Sider width={200}>
+      </div>
+      <div className={"flex w-full"}>
+        <Sider width={200} className={"h-full flex-0"}>
           <Menu mode="inline" defaultSelectedKeys={['guide']} style={{ height: '100%', borderRight: 0 }}
           items={[
             { key: 'docs/setup', icon: <ReadOutlined />, label: 'Guide' },
@@ -30,10 +30,10 @@ export default function RootLayout({
               router.push(`/console/${info.key}`)
           }}/>
         </Sider>
-        <Layout style={{ padding: '24px', overflow: "scroll" }}>
+        <Layout className={"flex-1"} style={{ padding: '24px', overflow: "scroll" }}>
         {children}
         </Layout>
-      </Layout>
+      </div>
     </Layout>
   )
 }

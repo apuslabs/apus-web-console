@@ -100,7 +100,7 @@ function Header() {
         <Link className='inline-flex' href={href} key={index}><li className='nav-link'>{item}</li></Link>
       )}</ul> : null}
       <div>
-        <Link href="/console/dashboard/market"><div className="btn-sign cursor-pointer">Console</div></Link>
+        <Link href="/console/docs/setup"><div className="btn-sign cursor-pointer">Console</div></Link>
       </div>
     </div>
   </div>

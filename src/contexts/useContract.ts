@@ -1,4 +1,6 @@
-import {MarketContract, TaskContract, useWeb3Context} from "@/contexts/web3";
+import {MarketContract, TaskContract, useWeb3Context} from "../contexts/web3";
+import sha256 from 'crypto-js/sha256';
+import enc from 'crypto-js/enc-utf8';
 import {useEffect, useState} from "react";
 
 export function useTotalClient(marketContract?: MarketContract) {
@@ -42,7 +44,6 @@ export function useUserClients(marketContract?: MarketContract) {
         if (marketContract && account) {
             // @ts-ignore
             marketContract.methods.getUserClients(account).call<string[]>().then((clients: string[]) => {
-                console.log(clients)
                 setUserClients(clients)
             })
         }
@@ -103,7 +104,7 @@ export function useAvgProofTime(taskContract?: TaskContract) {
     useEffect(() => {
         if (taskContract) {
             taskContract.methods.getAvgProofTime().call<number>().then((time: number) => {
-                setAvgProofTime(time)
+                setAvgProofTime(Number(time))
             })
         }
     }, [taskContract])
@@ -138,6 +139,19 @@ export function useProverTasks(taskContract?: TaskContract) {
     return proverTasks
 }
 
+export function useTasks(taskContract?: TaskContract) {
+    const [tasks, setTasks] = useState<any[]>([])
+    useEffect(() => {
+        if (taskContract) {
+            // @ts-ignore
+            taskContract.methods.getDailyTaskCount?.(7).call().then((tasks: any[]) => {
+                setTasks(tasks)
+            })
+        }
+    }, [taskContract])
+    return tasks
+}
+
 export function useBalance(tokenContract?: TaskContract) {
     const [balances, setBalances] = useState<any[]>([])
     const {account} = useWeb3Context()
@@ -150,4 +164,61 @@ export function useBalance(tokenContract?: TaskContract) {
         }
     }, [tokenContract, account])
     return balances
+}
+
+function generateRandomId(url: string) {
+    // 将URL字符串转换为字节数组
+    const urlBytes = enc.parse(url);
+
+    // 使用哈希算法生成摘要
+    const hash = sha256(urlBytes);
+
+    // 将摘要的前 32 个字节转换为一个无符号整数（uint256）
+    const id = BigInt(`0x${hash.toString().slice(0, 16)}`);
+
+    return id.toString();
+}
+
+export function useJoinMarket(marketContract?: MarketContract) {
+    const {account} = useWeb3Context()
+    const [loading, setLoading] = useState<boolean>(false)
+    return {
+        joinMarket: (formData?: any) => {
+            setLoading(true)
+            // @ts-ignore
+            return marketContract.methods.joinMarket({
+                // cf: {
+                owner: account,
+                ...formData,
+                id: generateRandomId(formData.url),
+                curInstance: 0,
+                stat: 0,
+                // }
+            }).send({
+                from: account
+            }).then(res => {
+                setLoading(false)
+                return res
+            })
+        },
+        loading,
+    }
+}
+
+export function useOfflineClient(marketContract?: MarketContract) {
+    const {account} = useWeb3Context()
+    const [loading, setLoading] = useState<boolean>(false)
+    return {
+        offlineClient: (id: string) => {
+            setLoading(true)
+            // @ts-ignore
+            return marketContract.methods.offlineClient(account, id).send({
+                from: account
+            }).then(res => {
+                setLoading(false)
+                return res
+            })
+        },
+        loading,
+    }
 }

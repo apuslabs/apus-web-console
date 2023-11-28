@@ -74,7 +74,7 @@ export function useWeb3Context() {
     }] : null, getFetcher, {
         onSuccess: (data) => {
             if (data.code === 200 && pathname === '/console/signin') {
-                router.push('/console/dashboard/market')
+                router.push('/console/stats')
             }
         }
     })
@@ -135,6 +135,8 @@ export function useWeb3Context() {
                 message.error('Your need to have some eth to register')
                 return
             }
+            router.push('/console/stats')
+            initAccount()
         } catch (e) {
             console.error(e)
         } finally {
@@ -143,19 +145,21 @@ export function useWeb3Context() {
     }, [])
 
     useEffect(() => {
+        const initWeb3 = () => {
+            if (window.Web3) {
+                web3.current = new window.Web3(window.ethereum)
+                marketContract.current = new web3.current.eth.Contract(MARKET_CONTRACT.abi, MARKET_CONTRACT.address)
+                taskContract.current = new web3.current.eth.Contract(TASK_CONTRACT.abi, TASK_CONTRACT.address)
+                tokenContract.current = new web3.current.eth.Contract(TOKEN_CONTRACT.abi, TOKEN_CONTRACT.address)
+                web3.current.eth.getChainId().then((chainId) => {
+                    setIsTaiko(chainId === BigInt(taikoChainConfig.chainId))
+                })
+            }
+        }
         if (window.ethereum !== undefined) {
             setHasMetamask(true)
             initAccount()
-        }
-        const initWeb3 = () => {
-            console.log('initWeb3')
-            web3.current = new window.Web3(window.ethereum)
-            marketContract.current = new web3.current.eth.Contract(MARKET_CONTRACT.abi, MARKET_CONTRACT.address)
-            taskContract.current = new web3.current.eth.Contract(TASK_CONTRACT.abi, TASK_CONTRACT.address)
-            tokenContract.current = new web3.current.eth.Contract(TOKEN_CONTRACT.abi, TOKEN_CONTRACT.address)
-            web3.current.eth.getChainId().then((chainId) => {
-                setIsTaiko(chainId === BigInt(taikoChainConfig.chainId))
-            })
+            initWeb3()
         }
         Web3jsLoadEvent.addEventListener('load', initWeb3);
         window.ethereum?.on('accountsChanged', () => {
@@ -170,8 +174,8 @@ export function useWeb3Context() {
     return {
         refreshAccount: initAccount,
         hasMetamask,
-        isLogin: accountInfo?.code === 200,
-        needLogin: !isLoading && accountInfo?.code === 400,
+        isLogin: !!account,
+        needLogin: !account,
         connectMetamask,
         account,
         web3,
@@ -180,9 +184,7 @@ export function useWeb3Context() {
         tokenContract,
         balance,
         accountInfo: {
-            balance: fromWei(accountInfo?.data?.balance || '0', 'ether'),
-            recipient_blocked_funds: fromWei(accountInfo?.data?.recipient_blocked_funds || '0', 'ether'),
-            provider_blocked_funds: fromWei(accountInfo?.data?.provider_blocked_funds || '0', 'ether'),
+            balance: balance,
         },
         isProvider: Boolean(accountInfo?.data?.info),
         isConnecting,
