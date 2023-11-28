@@ -3,7 +3,7 @@
 import {Card, Divider, Statistic, Table, Tag} from "antd";
 import {useWeb3Context} from "../../../contexts/web3";
 import {useBalance, useProverTasks} from "../../../contexts/useContract";
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
 
 export default function Billing() {
     const { balance,tokenContract, taskContract } = useWeb3Context()

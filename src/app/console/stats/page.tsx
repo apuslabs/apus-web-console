@@ -28,7 +28,7 @@ echarts.use(
     [TooltipComponent, LineChart, CanvasRenderer]
 );
 
-function useChartData(taskContract: TaskContract) {
+function useChartData(taskContract?: TaskContract) {
     const tasks = useTasks(taskContract)
     let chartData = []
     for (let i = 0; i < tasks.length; i++) {
