@@ -18,7 +18,7 @@ export default function RootLayout({
       <div style={{ flexGrow: 0, flexShrink: 0 }}>
         <Header />
       </div>
-      <div className={"flex w-full"}>
+      <div className={"flex-1 flex w-full"}>
         <Sider width={200} className={"h-full flex-0"}>
           <Menu mode="inline" defaultSelectedKeys={['guide']} style={{ height: '100%', borderRight: 0 }}
           items={[

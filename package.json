@@ -24,6 +24,7 @@
     "autoprefixer": "10.4.15",
     "axios": "^1.5.0",
     "bufferutil": "^4.0.7",
+    "crypto-js": "^4.2.0",
     "dayjs": "^1.11.9",
     "echarts": "^5.4.3",
     "echarts-for-react": "^3.0.2",
@@ -50,6 +51,7 @@
     "@mui/material": "npm:@mui/joy@latest"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.2.1",
     "@types/qs": "^6.9.8",
     "@types/react-copy-to-clipboard": "^5.0.4"
   }
