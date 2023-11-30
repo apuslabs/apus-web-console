@@ -125,8 +125,8 @@ export default function Explorer() {
                     { title: "Total Provers", value: totalClient },
                     { title: "Total Tasks", value: taskCount },
                     { title: "Avg Proof Time", value: Math.floor(avgProofTime / 60) + 'm' + avgProofTime % 60 + 's' },
-                    { title: "Avg Reward", value: avgReward },
-                    { title: "Available Instances", value: availableClient },
+                    { title: "Avg Reward", value: avgReward + 'wei' },
+                    { title: "Available Provers", value: availableClient },
                     { title: "Pending Tasks", value: pendingTask },
                     { title: "Latest TaskID", value: latestTaskId },
                 ].map((item, index) => {

@@ -1,12 +1,13 @@
 "use client"
 
-import {Col, Drawer, Form, Input, List, Modal, Row, Tag} from "antd";
+import {Col, Drawer, Form, Input, List, Modal, Row, Tag, Tooltip, message} from "antd";
 import ClientCard, {AddClientCard} from "./ClientCard";
 import {useClientTasks, useJoinMarket, useUserClients} from "../../../contexts/useContract";
 import {useWeb3Context} from "../../../contexts/web3";
 import {useState} from "react";
 import { unix } from "dayjs";
 import { useForm } from "antd/es/form/Form";
+import { LinkOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 
 export default function Client() {
     const {marketContract} = useWeb3Context()
@@ -50,7 +51,7 @@ function ProofDrawer({
 }) {
     const { taskContract } = useWeb3Context()
     const tasks = useClientTasks(clientId, taskContract.current)
-    return <Drawer title={"Proofs"} open={open} onClose={onClose}>
+    return <Drawer title={"Proof Logs"} open={open} onClose={onClose}>
         <List bordered={false} dataSource={tasks} renderItem={(item: any) => {
             let statusText
             if (item.proveTime != 0) {
@@ -64,9 +65,13 @@ function ProofDrawer({
             }
 
             return <List.Item className={"flex flex-col items-start"}>
-                <div className={"text-2xl font-semibold"}>{item.uniqID.toString()} {statusText}</div>
+                <div className={"text-2xl font-semibold flex items-center"}>{item.uniqID.toString()} {statusText} <Tooltip title="Tap to view block detail">
+                    <div onClick={() => {
+                        window.open(`https://explorer.jolnir.taiko.xyz/search-results?q=${item.uniqID}`, "_blank")
+                    }}><LinkOutlined /></div>
+                </Tooltip></div>
                 <div className={"text-sm text-subtle-inverse"}>{unix(Number(item.assignTime)).format('YYYY-MM-DD hh:mm:ss')}</div>
-                <div>Rewards({item.reward?.token == 0 ? 'eth' : item.reward?.token.substring(0, 8)}): <span className={"font-bold"}>{item.reward?.amount.toString()}</span> </div>
+                <div>Rewards({item.reward?.token == 0 ? 'eth' : item.reward?.token.substring(0, 8)}): <span className={"font-bold"}>{item.reward?.amount.toString()} wei</span> </div>
             </List.Item>
         }}>
         </List>
@@ -125,7 +130,7 @@ function AddClientModal({
             }>
                 <Input type="number" min={0} step={1} placeholder={"10"} />
             </Form.Item>
-            <Form.Item label={"Max Instance"} name={"maxZkEvmInstance"} required rules={
+            <Form.Item label={<div>Max Instance <Tooltip title={"Requried 8c16g for each prover\nFor example:\n8c16g -> 1,16c32g -> 2\n12c16g -> 1,8c32g -> 1"}><QuestionCircleOutlined /></Tooltip></div>} name={"maxZkEvmInstance"} required rules={
                 [
                     {
                         validator: async (_, value) => {
