@@ -53,7 +53,7 @@ function ProofDrawer({
     const { taskContract } = useWeb3Context()
     const tasks = useClientTasks(clientId, taskContract.current)
     return <Drawer title={"Proof Logs"} open={open} onClose={onClose}>
-        <List bordered={false} dataSource={tasks} renderItem={(item: any) => {
+        <List bordered={false} dataSource={[...tasks].reverse()} renderItem={(item: any) => {
             const statusText = ['Posted', 'Assigned', 'Done', 'Payed', 'Slashed'][item._stat]
             const tagColor = ['blue', 'blue', 'green', 'green', 'red'][item._stat]
 
