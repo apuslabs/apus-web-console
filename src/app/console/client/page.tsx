@@ -11,7 +11,7 @@ import { LinkOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 
 export default function Client() {
     const {marketContract} = useWeb3Context()
-    const clients = useUserClients(marketContract.current)
+    const {userClients: clients, refreshList} = useUserClients(marketContract.current)
     const [curClient, setCurClient] = useState<number | null>(null)
     const [addClientModal, setAddClientModal] = useState(false)
     return <>
@@ -19,7 +19,7 @@ export default function Client() {
             {clients.map((client) =>
                 <Col key={client.id} span={8}><ClientCard {...client} onClick={() => {
                     setCurClient(client.id)
-                }} /></Col>)
+                }} refreshList={refreshList} /></Col>)
             }
             <Col span={8}>
                 <AddClientCard onClick={() => {setAddClientModal(true)}} />
@@ -31,6 +31,7 @@ export default function Client() {
         <AddClientModal
             onAdd={() => {
                 setAddClientModal(false)
+                refreshList()
             }}
             onClose={() => {
                 setAddClientModal(false)
@@ -85,7 +86,7 @@ function AddClientModal({
     return <Modal title={"Join Market"} open={open} onCancel={onClose} confirmLoading={loading} onOk={async () => {
         const v = await form.validateFields()
         await joinMarket(v)
-        onClose()
+        onAdd()
     }}>
         <Form form={form} labelCol={{span: 8}}>
             <Form.Item label={<div>Client URL <Tooltip title={"The apus docker service request URL."}><QuestionCircleOutlined /></Tooltip></div>} name={"url"} required rules={

@@ -134,7 +134,7 @@ export function useWeb3Context() {
         } finally {
             setIsConnecting(false)
         }
-    }, [])
+    }, [router])
 
     useEffect(() => {
         const initWeb3 = () => {

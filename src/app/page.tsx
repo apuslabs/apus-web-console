@@ -39,72 +39,11 @@ import IconRightArrow from '@/assets/icons/icons8-right-arrow-100.png'
 
 import ContactBG from '@/assets/images/contact-bg.png'
 import cns from 'classnames'
+import useWindowSize from "@/lib/useWindowSize"
+import { SimpleHeader } from "@/components/header"
 
 const exo2 = Exo_2({ subsets: ['latin'], weight: ['600'] })
 
-function useWindowSize() {
-  const [state, setState] = useState<{ width: number; height: number }>({
-    width: 1024,
-    height: 1024,
-  });
-  useEffect(() => {
-    setState({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    });
-    const listener = () => {
-      setState({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    }
-    window.addEventListener('resize', listener)
-    return () => {
-      window.removeEventListener('resize', listener)
-    }
-  }, [])
-  return state;
-}
-
-const menuItems: {
-  item: ReactNode,
-  href: string,
-}[] = [
-    {
-      item: 'Home',
-      href: '/',
-    },
-    {
-      item: 'Why Us',
-      href: '#why-us',
-    },
-    {
-      item: 'Partners',
-      href: '#partners',
-    },
-    {
-      item: 'Contact',
-      href: '#contact',
-    }
-  ]
-
-export function Header() {
-  const { width } = useWindowSize()
-  return <div className="fixed top-0 left-0 right-0 h-16 flexjustify-center z-20 bg-dark">
-    <div className="h-full flex items-center section-container">
-      <div className='flex flex-1 md:flex-auto items-center mr-4 md:mr-12'>
-        <div className="scale-75 md:scale-100"><SvgImage src={IconLogo} alt="logo" /></div>
-        <h1 className='ml-3 text-lg md:text-2xl font-bold'>Apus Network</h1>
-      </div>
-      {width >= 768 ? <ul className='nav-menu gap-24 justify-end m-24'>{menuItems.map(({ item, href }, index) =>
-        <Link className='inline-flex' href={href} key={index}><li className='nav-link'>{item}</li></Link>
-      )}</ul> : null}
-      <div>
-        <Link href="/console/client"><div className="btn-sign cursor-pointer">Console</div></Link>
-      </div>
-    </div>
-  </div>
-}
 
 const contactItems = [
   { icon: IconTwitter, iconAlt: 'twitter', href: 'https://twitter.com/apus_network' },
@@ -169,7 +108,7 @@ export default function Home() {
 
   return (
     <main className="bg-dark text-inverse">
-      <Header />
+      <SimpleHeader />
       <section className="section-wrapper">
         <Image className="absolute left-0 top-0 h-full object-fit max-w-full" src={IndexBgHW} alt="bg-ring" />
         <Image className="absolute right-0 object-contain top-1/2 -translate-y-1/2" src={IndexBgRing} alt="bg-ring" />

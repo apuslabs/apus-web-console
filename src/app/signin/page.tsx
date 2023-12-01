@@ -21,7 +21,7 @@ export default function SignInPage() {
         if (isInit && account && isTaiko) {
             router.push('/console/client')
         }
-    }, [account, isTaiko, isInit]);
+    }, [account, isTaiko, isInit, router]);
 
   return (<LayoutWithHeader>
     <div className="flex flex-col items-center pt-36 mx-auto">

@@ -20,7 +20,7 @@ export default function RootLayout({
         if (isInit && (!account || !isTaiko)) {
             router.push('/signin')
         }
-    }, [account, isTaiko, isInit]);
+    }, [account, isTaiko, isInit, router]);
 
     const pathname = usePathname()
 

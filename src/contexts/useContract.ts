@@ -1,7 +1,7 @@
 import {MarketContract, TaskContract, useWeb3Context} from "../contexts/web3";
 import sha256 from 'crypto-js/sha256';
 import enc from 'crypto-js/enc-utf8';
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 
 export function useTotalClient(marketContract?: MarketContract) {
     const [totalClient, setTotalClient] = useState<number>(0)
@@ -48,7 +48,18 @@ export function useUserClients(marketContract?: MarketContract) {
             })
         }
     }, [marketContract, account])
-    return userClients
+    const refreshList = useCallback(() => {
+        if (marketContract && account) {
+            // @ts-ignore
+            marketContract.methods.getUserClients(account).call<string[]>().then((clients: string[]) => {
+                setUserClients(clients)
+            })
+        }
+    }, [marketContract, account])
+    return {
+        userClients,
+        refreshList,
+    }
 }
 
 export function useTaskCount(taskContract?: TaskContract) {
@@ -116,10 +127,8 @@ export function useClientTasks(clientId: number | null, taskContract?: TaskContr
     const {account} = useWeb3Context()
     useEffect(() => {
         if (taskContract && account && clientId) {
-            debugger
             // @ts-ignore
             taskContract.methods.getClientTasks(account, clientId).call<string[]>().then((tasks: string[]) => {
-                debugger
                 setClientTasks(tasks)
             })
         }

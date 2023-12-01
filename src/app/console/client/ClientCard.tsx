@@ -33,10 +33,10 @@ const ClientCard = ({ id, url, minFee, maxZkEvmInstance, curInstance, stat, onCl
             <Divider />
             <div className={"flex justify-between"}>
                 <Tag color={stat == 0 ? 'green' : 'volcano'}>{stat == 0 ? 'Running' : 'Stopped'}</Tag>
-                <Popconfirm
+                {stat == 0 ? <Popconfirm
                     title="Stop the Client"
                     description="Are you sure to stop this client?"
-                    okButtonProps={{ loading: loading }}
+                    okButtonProps={{loading: loading}}
                     onConfirm={() => {
                         offlineClient(id).then(() => {
                             refreshList()
@@ -45,8 +45,9 @@ const ClientCard = ({ id, url, minFee, maxZkEvmInstance, curInstance, stat, onCl
                     okText="Yes"
                     showCancel={false}
                 >
-                    <Button danger size={"small"} loading={loading} className={"flex items-center"}><DeleteOutlined /></Button>
-                </Popconfirm>
+                    <Button danger size={"small"} loading={loading}
+                            className={"flex items-center"}><DeleteOutlined/></Button>
+                </Popconfirm> : null}
             </div>
         </Card>
     );
