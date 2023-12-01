@@ -1,5 +1,5 @@
 export const MARKET_CONTRACT = {
-	address: '0x4501A814e7CA2A4fA3D2281F23B8173d4bAF893C',
+	address: '0xD1bA4979ca39154E79D2Fa7676AACc7E6367DB24',
 	abi: [
 		{
 			"inputs": [
@@ -394,7 +394,7 @@ export const MARKET_CONTRACT = {
 }
 
 export const TOKEN_CONTRACT = {
-	address: '0x032de9842f0508fBcC06f66Ab341Fa48c360eaD0',
+	address: '0x0eaD84bE2483bCFA7361D541037Aab3769174c41',
 	abi: [
 		{
 			"inputs": [
@@ -756,7 +756,7 @@ export const TOKEN_CONTRACT = {
 }
 
 export const TASK_CONTRACT = {
-	address: '0x6332856d390BA618faC75550bEE1814eD033666a',
+	address: '0xf534274b4279AB4639d55bCbFA6875A384c7A86c',
 	abi: [
 		{
 			"inputs": [

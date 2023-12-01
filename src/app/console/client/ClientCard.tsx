@@ -1,5 +1,5 @@
 import {Card, Tooltip, Tag, Typography, Divider, Button, message, Popconfirm} from 'antd';
-import {LinkOutlined, PlusOutlined, ArrowRightOutlined, DeleteOutlined } from '@ant-design/icons';
+import {LinkOutlined, PlusOutlined, ArrowRightOutlined, DeleteOutlined, DesktopOutlined } from '@ant-design/icons';
 import { useWeb3Context } from '@/contexts/web3';
 import { useOfflineClient } from '@/contexts/useContract';
 const { Text} = Typography;
@@ -19,20 +19,20 @@ const ClientCard = ({ id, url, minFee, maxZkEvmInstance, curInstance, stat, onCl
     return (
         <Card bordered={false}>
             <div className={"flex justify-between items-center"}>
-                <div className={"text-2xl"}>Prover ID: {id.toString()}</div>
-                <Tag color={stat == 0 ? 'green' : 'volcano'}>{stat == 0 ? 'Running' : 'Stopped'}</Tag>
+                <div className={"text-xl"}><DesktopOutlined /><span className={"ml-2 text-sm text-secondary"}>ID: </span>{id.toString()}</div>
+                <Button onClick={onClick} type={"link"}><div className={"flex items-center"}>Proof Logs <ArrowRightOutlined className={"ml-2"} /></div></Button>
             </div>
             <Divider />
-            <Tooltip title="Tap to copy URL">
-                <div className={"mb-2"} onClick={() => {
-                    navigator.clipboard.writeText(url.toString())
-                    message.success('Copied!')
-                }}>URL: {new URL(url.toString()).hostname} <LinkOutlined /></div>
-            </Tooltip>
-            <div className={"text-primary text-xl mb-2"}>Fee: {minFee.toString()} wei</div>
-            <div className={"mb-2"}>Avaiable Provers: <span className={"text-green-700"}>{curInstance.toString()}</span><span className={"text-zinc-500"}> / {maxZkEvmInstance.toString()}</span></div>
+            <div className={"mb-2"}>URL: {new URL(url.toString()).hostname} <LinkOutlined className={"cursor-pointer"} onClick={() => {
+                navigator.clipboard.writeText(url.toString())
+                message.success('URL Copied')
+            }} /></div>
+            <div className={"text-secondary text-xl mb-2"}>Fee: <span className={"text-primary"}>{minFee.toString()} wei</span></div>
+            <div className={"mb-2 text-secondary"}>Avaiable Provers: <span className={"text-bold text-white"}>{(maxZkEvmInstance - curInstance).toString()} / {maxZkEvmInstance.toString()}</span></div>
+
+            <Divider />
             <div className={"flex justify-between"}>
-                <Button onClick={onClick} type={"dashed"}><div className={"flex items-center"}>Proof Logs <ArrowRightOutlined className={"ml-2"} /></div></Button>
+                <Tag color={stat == 0 ? 'green' : 'volcano'}>{stat == 0 ? 'Running' : 'Stopped'}</Tag>
                 <Popconfirm
                     title="Stop the Client"
                     description="Are you sure to stop this client?"
@@ -45,7 +45,7 @@ const ClientCard = ({ id, url, minFee, maxZkEvmInstance, curInstance, stat, onCl
                     okText="Yes"
                     showCancel={false}
                 >
-                    <Button type={"default"} danger loading={loading}><div className={"flex items-center"}>Delete <DeleteOutlined className={"ml-2"} /></div></Button>
+                    <Button danger size={"small"} loading={loading} className={"flex items-center"}><DeleteOutlined /></Button>
                 </Popconfirm>
             </div>
         </Card>
@@ -57,7 +57,7 @@ export const AddClientCard = ({ onClick }: {
 }) => {
     return (
         <Card
-            className={"h-full"}
+            className={"h-full w-full"}
             bodyStyle={{ height: '100%' }}
             bordered={false}
             hoverable

@@ -1,20 +1,30 @@
 "use client";
 
-import IconMetamask from "@/assets/icons/metamask-icon.svg";
-import { web3Context } from "@/contexts/web3";
-import { Button, Checkbox } from "antd";
+import Header from "@/components/header";
+import IconMetamask from "../../assets/icons/metamask-icon.svg";
+import { web3Context } from "../../contexts/web3";
+import { Button, Checkbox, Layout } from "antd";
 import Image from "next/image";
 import Link from "next/link";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import {useRouter} from "next/navigation";
 
 export default function SignInPage() {
   const [isAgreementChecked, setIsAgreementChecked] = useState(false);
-  const { hasMetamask, connectMetamask, isConnecting, isTaiko, switchTaiko } =
+  const { hasMetamask, connectMetamask, isConnecting, isTaiko, switchTaiko, isInit, account } =
     useContext(web3Context);
   const isBtnDisabled = !isAgreementChecked || !hasMetamask;
 
-  return (
-    <div className="flex flex-col items-center pt-36">
+  const router = useRouter()
+
+    useEffect(() => {
+        if (isInit && account && isTaiko) {
+            router.push('/console/client')
+        }
+    }, [account, isTaiko, isInit]);
+
+  return (<LayoutWithHeader>
+    <div className="flex flex-col items-center pt-36 mx-auto">
       <Image
         src={IconMetamask.src}
         width={180}
@@ -55,6 +65,14 @@ export default function SignInPage() {
           </Link>
         </>
       )}
-    </div>
+    </div></LayoutWithHeader>
   );
+}
+
+function LayoutWithHeader({ children }: { children: React.ReactNode}) {
+    return <Layout className="h-screen flex flex-col">
+        <div style={{ flexGrow: 0, flexShrink: 0 }}>
+            <Header />
+        </div>
+        <div className={"flex-1 flex w-full p-6"} style={{ overflow: "scroll" }}>{children}</div></Layout>
 }

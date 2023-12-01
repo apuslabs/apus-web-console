@@ -61,23 +61,18 @@ export const Web3jsLoadEvent = new EventTarget()
 
 export function useWeb3Context() {
     const web3 = useRef<Web3>()
+    const taiko = useRef<Web3>()
     const marketContract = useRef<MarketContract>()
     const taskContract = useRef<TaskContract>()
     const tokenContract = useRef<TokenContract>()
+    const taikoMarketContract = useRef<MarketContract>()
+    const taikoTaskContract = useRef<TaskContract>()
+    const taikoTokenContract = useRef<TokenContract>()
     const [hasMetamask, setHasMetamask] = useState(false)
     const [account, setAccount] = useState<string>("")
     const [balance, setBalance] = useState<string>("0.")
     const router = useRouter()
-    const pathname = usePathname()
-    const { data: accountInfo, isLoading, mutate: refreshAccountInfo } = useSWR<CommonResponse<AccountInfoResponse>>(account ? ['/apus/account/info', {
-        address: account
-    }] : null, getFetcher, {
-        onSuccess: (data) => {
-            if (data.code === 200 && pathname === '/console/signin') {
-                router.push('/console/stats')
-            }
-        }
-    })
+    const [isInit, setIsInit] = useState(false)
     const [isConnecting, setIsConnecting] = useState(false)
 
     const [isTaiko, setIsTaiko] = useState(false)
@@ -124,19 +119,16 @@ export function useWeb3Context() {
         } catch (e) {
             console.error(e)
             return { account: '', balance: '0' }
+        } finally {
+             setIsInit(true)
         }
     }
 
     const connectMetamask = useCallback(async () => {
         setIsConnecting(true)
         try {
-            const {balance } = await initAccount(true)
-            if (Number(balance) <= 0) {
-                message.error('Your need to have some eth to register')
-                return
-            }
-            router.push('/console/stats')
-            initAccount()
+            initAccount(true)
+            router.push('/console/client')
         } catch (e) {
             console.error(e)
         } finally {
@@ -151,6 +143,10 @@ export function useWeb3Context() {
                 marketContract.current = new web3.current.eth.Contract(MARKET_CONTRACT.abi, MARKET_CONTRACT.address)
                 taskContract.current = new web3.current.eth.Contract(TASK_CONTRACT.abi, TASK_CONTRACT.address)
                 tokenContract.current = new web3.current.eth.Contract(TOKEN_CONTRACT.abi, TOKEN_CONTRACT.address)
+                taiko.current = new window.Web3(new window.Web3.providers.HttpProvider(taikoChainConfig.rpcUrls[0]))
+                taikoMarketContract.current = new taiko.current.eth.Contract(MARKET_CONTRACT.abi, MARKET_CONTRACT.address)
+                taikoTaskContract.current = new taiko.current.eth.Contract(TASK_CONTRACT.abi, TASK_CONTRACT.address)
+                taikoTokenContract.current = new taiko.current.eth.Contract(TOKEN_CONTRACT.abi, TOKEN_CONTRACT.address)
                 web3.current.eth.getChainId().then((chainId) => {
                     setIsTaiko(chainId === BigInt(taikoChainConfig.chainId))
                 })
@@ -174,22 +170,19 @@ export function useWeb3Context() {
     return {
         refreshAccount: initAccount,
         hasMetamask,
-        isLogin: !!account,
-        needLogin: !account,
         connectMetamask,
         account,
+        balance,
         web3,
+        isInit,
         marketContract,
         taskContract,
         tokenContract,
-        balance,
-        accountInfo: {
-            balance: balance,
-        },
-        isProvider: Boolean(accountInfo?.data?.info),
         isConnecting,
-        refreshAccountInfo,
         isTaiko,
         switchTaiko,
+        taikoMarketContract,
+        taikoTaskContract,
+        taikoTokenContract,
     }
 }

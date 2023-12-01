@@ -1,7 +1,7 @@
 'use client'
 
 import {useEffect, useLayoutEffect, useRef, useState} from 'react'
-import {Card, Col, Row, Statistic} from "antd";
+import {Card, Col, Layout, Row, Statistic} from "antd";
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import {LineChart} from 'echarts/charts';
@@ -21,8 +21,9 @@ import {
     useAvgReward, useLatestTaskId,
     useTaskCount, useTasks,
     useTotalClient
-} from "../../../contexts/useContract";
-import {useWeb3Context,TaskContract} from "../../../contexts/web3";
+} from "../../contexts/useContract";
+import {useWeb3Context,TaskContract} from "../../contexts/web3";
+import Header from '../../components/header';
 
 echarts.use(
     [TooltipComponent, LineChart, CanvasRenderer]
@@ -95,18 +96,17 @@ function useChartData(taskContract?: TaskContract) {
 }
 
 export default function Explorer() {
-    const { marketContract, taskContract} = useWeb3Context()
-    console.log(marketContract, taskContract)
-    const {chartOptions, todayProofs, cardRef, chartWidth} = useChartData(taskContract.current)
-    const totalClient = useTotalClient(marketContract.current)
-    const availableClient = useAvailableClientCount(marketContract.current)
-    const taskCount = useTaskCount(taskContract.current)
-    const pendingTask = useAssignedTaskCount(taskContract.current)
-    const avgProofTime = useAvgProofTime(taskContract.current)
-    const avgReward = useAvgReward(taskContract.current)
-    const latestTaskId = useLatestTaskId(taskContract.current)
+    const { taikoMarketContract, taikoTaskContract} = useWeb3Context()
+    const {chartOptions, todayProofs, cardRef, chartWidth} = useChartData(taikoTaskContract.current)
+    const totalClient = useTotalClient(taikoMarketContract.current)
+    const availableClient = useAvailableClientCount(taikoMarketContract.current)
+    const taskCount = useTaskCount(taikoTaskContract.current)
+    const pendingTask = useAssignedTaskCount(taikoTaskContract.current)
+    const avgProofTime = useAvgProofTime(taikoTaskContract.current)
+    const avgReward = useAvgReward(taikoTaskContract.current)
+    const latestTaskId = useLatestTaskId(taikoTaskContract.current)
 
-    return <>
+    return <LayoutWithHeader>
         <Card ref={cardRef} bordered={false}>
             <h3>Daily proofs</h3>
             <h1 className=" text-4xl">{todayProofs}</h1>
@@ -138,5 +138,13 @@ export default function Explorer() {
                 })
             }
         </Row>
-    </>
+    </LayoutWithHeader>
+}
+
+function LayoutWithHeader({ children }: { children: React.ReactNode}) {
+    return <Layout className="h-screen flex flex-col">
+        <div style={{ flexGrow: 0, flexShrink: 0 }}>
+            <Header showConsole />
+        </div>
+        <div className={"flex-1 flex flex-col w-full p-6"} style={{ overflow: "scroll" }}>{children}</div></Layout>
 }

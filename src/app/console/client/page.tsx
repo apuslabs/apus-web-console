@@ -1,6 +1,6 @@
 "use client"
 
-import {Col, Drawer, Form, Input, List, Modal, Row, Tag, Tooltip, message} from "antd";
+import {Col, Drawer, Form, Input, InputNumber, List, Modal, Row, Tag, Tooltip, message} from "antd";
 import ClientCard, {AddClientCard} from "./ClientCard";
 import {useClientTasks, useJoinMarket, useUserClients} from "../../../contexts/useContract";
 import {useWeb3Context} from "../../../contexts/web3";
@@ -17,11 +17,11 @@ export default function Client() {
     return <>
         <Row gutter={[16, 16]}>
             {clients.map((client) =>
-                <Col key={client.id} span={12}><ClientCard {...client} onClick={() => {
+                <Col key={client.id} span={8}><ClientCard {...client} onClick={() => {
                     setCurClient(client.id)
                 }} /></Col>)
             }
-            <Col span={6}>
+            <Col span={8}>
                 <AddClientCard onClick={() => {setAddClientModal(true)}} />
             </Col>
         </Row>
@@ -53,19 +53,11 @@ function ProofDrawer({
     const tasks = useClientTasks(clientId, taskContract.current)
     return <Drawer title={"Proof Logs"} open={open} onClose={onClose}>
         <List bordered={false} dataSource={tasks} renderItem={(item: any) => {
-            let statusText
-            if (item.proveTime != 0) {
-                statusText = <Tag color={"green"}>Proved</Tag>
-            }
-            else if (item.expiry < Date.now() / 1000) {
-                statusText = <Tag color={"red"}>Expired</Tag>
-            }
-            else {
-                statusText = <Tag color={"blue"}>Pending</Tag>
-            }
+            const statusText = ['Posted', 'Assigned', 'Done', 'Payed', 'Slashed'][item._stat]
+            const tagColor = ['blue', 'blue', 'green', 'green', 'red'][item._stat]
 
             return <List.Item className={"flex flex-col items-start"}>
-                <div className={"text-2xl font-semibold flex items-center"}>{item.uniqID.toString()} {statusText} <Tooltip title="Tap to view block detail">
+                <div className={"text-2xl font-semibold flex items-center"}>{item.uniqID.toString()} <Tag color={tagColor}>{statusText}</Tag> <Tooltip title="Tap to view block detail">
                     <div onClick={() => {
                         window.open(`https://explorer.jolnir.taiko.xyz/search-results?q=${item.uniqID}`, "_blank")
                     }}><LinkOutlined /></div>
@@ -95,8 +87,8 @@ function AddClientModal({
         await joinMarket(v)
         onClose()
     }}>
-        <Form form={form} labelCol={{span: 6}}>
-            <Form.Item label={"Client URL"} name={"url"} required rules={
+        <Form form={form} labelCol={{span: 8}}>
+            <Form.Item label={<div>Client URL <Tooltip title={"The apus docker service request URL."}><QuestionCircleOutlined /></Tooltip></div>} name={"url"} required rules={
                 [
                     {
                         validator: async (_, value) => {
@@ -113,7 +105,9 @@ function AddClientModal({
             }>
                 <Input type="text" />
             </Form.Item>
-            <Form.Item label={"Min Fee"} name={"minFee"} required rules={
+            <Form.Item label={
+                <div>Min Fee <Tooltip title={"The minimal fee sequencer should pay for you."}><QuestionCircleOutlined /></Tooltip></div>
+            } name={"minFee"} required rules={
                 [
                     {
                         validator: async (_, value) => {
@@ -128,9 +122,9 @@ function AddClientModal({
                     }
                 ]
             }>
-                <Input type="number" min={0} step={1} placeholder={"10"} />
+                <InputNumber min={0} max={10000} placeholder={"10"} precision={1} addonAfter={"wei"} />
             </Form.Item>
-            <Form.Item label={<div>Max Instance <Tooltip title={"Requried 8c16g for each prover\nFor example:\n8c16g -> 1,16c32g -> 2\n12c16g -> 1,8c32g -> 1"}><QuestionCircleOutlined /></Tooltip></div>} name={"maxZkEvmInstance"} required rules={
+            <Form.Item label={<div>Max Provers <Tooltip title={"How many prover instances your client can run?"}><QuestionCircleOutlined /></Tooltip></div>} name={"maxZkEvmInstance"} required rules={
                 [
                     {
                         validator: async (_, value) => {
@@ -145,8 +139,41 @@ function AddClientModal({
                     }
                 ]
             }>
-                <Input type="number" min={0} step={1} placeholder={"1"} />
+                <InputNumber min={0} max={4} step={1} precision={1} placeholder={"1"} />
             </Form.Item>
+            <Row>
+                <Col span={16} offset={8}><div className={"text-secondary text-xs mt-1"}>
+                    <p>requires 8c16g each provers</p>
+                    <table className={"table-border mt-1"}>
+                        <tbody>
+                        <tr>
+                            <td></td>
+                            <td>16g</td>
+                            <td>32g</td>
+                            <td>64g</td>
+                        </tr>
+                        <tr>
+                            <td>8c</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>16c</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>32c</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>4</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div></Col>
+            </Row>
         </Form>
     </Modal>
 }

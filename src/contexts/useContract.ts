@@ -116,8 +116,10 @@ export function useClientTasks(clientId: number | null, taskContract?: TaskContr
     const {account} = useWeb3Context()
     useEffect(() => {
         if (taskContract && account && clientId) {
+            debugger
             // @ts-ignore
             taskContract.methods.getClientTasks(account, clientId).call<string[]>().then((tasks: string[]) => {
+                debugger
                 setClientTasks(tasks)
             })
         }
@@ -153,12 +155,12 @@ export function useTasks(taskContract?: TaskContract) {
 }
 
 export function useBalance(tokenContract?: TaskContract) {
-    const [balances, setBalances] = useState<any[]>([])
+    const [balances, setBalances] = useState<any>()
     const {account} = useWeb3Context()
     useEffect(() => {
         if (tokenContract && account) {
             // @ts-ignore
-            tokenContract.methods.balanceOf(account).call<string[]>().then((balances: string[]) => {
+            tokenContract.methods.balanceOf(account).call<string[]>().then((balances: string) => {
                 setBalances(balances)
             })
         }

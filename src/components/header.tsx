@@ -15,43 +15,48 @@ const menuItems: {
 }[] = [
   {
     item: "Docs",
-    href: "/console/docs/setup",
+    href: "/docs/setup",
   },
   {
-    item: IconDiscord,
-    href: "https://discord.gg/9Wb2f5Z",
+    item: "Stats",
+    href: "/stats",
   },
 ];
 
-export default function Header() {
+export default function Header({ showConsole }: { showConsole?: boolean }) {
   return (
-    <header className="flex justify-between bg-dark text-base text-inverse h-16 px-5">
-      <Link className="flex items-center mr-12" href="/">
+    <header className="flex justify-between items-center bg-dark text-base text-inverse h-16 px-5">
+      <Link className="flex items-center" href="/">
         <SvgImage src={IconLogo} alt="logo" />
         <h1 className="ml-3 text-2xl font-bold text-inverse">Apus Network</h1>
       </Link>
       <ul className="nav-menu">
         {menuItems.map(({ item, href }, index) => (
           <Link className="inline-flex" href={href} key={index}>
-            <li className="text-subtle-inverse hover:text-inverse cursor-pointer">
-              {item}
-            </li>
+              <li className="text-subtle-inverse hover:text-inverse cursor-pointer">
+            {item}
+              </li>
           </Link>
         ))}
       </ul>
+        <Link className="mr-6 inline-flex text-subtle-inverse hover:text-inverse cursor-pointer" href="https://discord.gg/9Wb2f5Z">
+            {IconDiscord}
+        </Link>
       <div>
-        <UserMenu />
+        <UserMenu showConsole={showConsole} />
       </div>
     </header>
   );
 }
 
-function UserMenu() {
-  const { isLogin, isProvider, account} = useContext(web3Context);
+function UserMenu({showConsole}: {showConsole?: boolean}) {
+  const { account} = useContext(web3Context);
 
   return (
     <div className="h-full flex items-center">
-      {isLogin ? (
+      {showConsole ?<Link href="/console/client">
+          <div className="btn-sign">Console</div>
+      </Link> : account ? (
         <div className="flex items-center">
           <Image
             src={IconMetamask.src}
@@ -63,7 +68,7 @@ function UserMenu() {
           {/*<div className="divider-verticle mx-3"></div>*/}
         </div>
       ) : (
-        <Link href="/console/signin">
+        <Link href="/signin">
           <div className="btn-sign">Sign In</div>
         </Link>
       )}

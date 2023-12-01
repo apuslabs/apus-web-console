@@ -88,7 +88,7 @@ const menuItems: {
     }
   ]
 
-function Header() {
+export function Header() {
   const { width } = useWindowSize()
   return <div className="fixed top-0 left-0 right-0 h-16 flexjustify-center z-20 bg-dark">
     <div className="h-full flex items-center section-container">
@@ -100,7 +100,7 @@ function Header() {
         <Link className='inline-flex' href={href} key={index}><li className='nav-link'>{item}</li></Link>
       )}</ul> : null}
       <div>
-        <Link href="/console/docs/setup"><div className="btn-sign cursor-pointer">Console</div></Link>
+        <Link href="/console/client"><div className="btn-sign cursor-pointer">Console</div></Link>
       </div>
     </div>
   </div>
