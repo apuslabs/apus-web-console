@@ -22,8 +22,8 @@ export default function Billing() {
                         window.open(`https://explorer.jolnir.taiko.xyz/search-results?q=${t}`, "_blank")
                     }}><LinkOutlined /></div>
                 </Tooltip></div> },
-            { title: 'Task Reward', key: 'rewardToken', render: (_: string, item) => <span>{item.reward.amount.toString()} wei({item.reward.token == 0 ? "eth" : item.reward.token})</span> },
-            { title: 'APT Reward', key: 'rewardType', render: (_: string, item) => <span>2</span> },
+            { title: 'Task Reward', key: 'rewardToken', render: (_: string, item) => <span>{item.reward.amount.toString()} wei({item.reward.token == 0 ? "eth-sepolia" : item.reward.token})</span> },
+            { title: 'Apus Eagle Reward', key: 'rewardType', render: (_: string, item) => <span>1000</span> },
             { title: 'Status', key: 'status', render: (_: string, item) => {
                     const statusText = ['Pending', 'Pending', 'Claimed', 'Payed', 'Slashed'][item._stat]
                     const tagColor = ['blue', 'blue', 'green', 'green', 'red'][item._stat]

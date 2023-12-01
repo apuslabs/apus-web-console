@@ -9,6 +9,7 @@ import SvgImage from "./SvgImage";
 import { web3Context } from "@/contexts/web3";
 import Image from "next/image";
 import useWindowSize from "@/lib/useWindowSize";
+import classNames from "classnames";
 
 const menuItems: {
   item: ReactNode;
@@ -24,28 +25,31 @@ const menuItems: {
   },
 ];
 
-export default function Header({ showConsole }: { showConsole?: boolean }) {
+export default function Header({ showConsole, autoHideMenu, fullWidth }: { showConsole?: boolean, autoHideMenu?: boolean, fullWidth?: boolean }) {
+    const { width } = useWindowSize()
   return (
-    <header className="flex justify-between items-center bg-dark text-base text-inverse h-16 px-5">
-      <Link className="flex items-center" href="/">
-        <SvgImage src={IconLogo} alt="logo" />
-        <h1 className="ml-3 text-2xl font-bold text-inverse">Apus Network</h1>
-      </Link>
-      <ul className="nav-menu">
-        {menuItems.map(({ item, href }, index) => (
-          <Link className="inline-flex" href={href} key={index}>
-              <li className="text-subtle-inverse hover:text-inverse cursor-pointer">
-            {item}
-              </li>
-          </Link>
-        ))}
-      </ul>
+    <header className="w-full flex justify-center bg-dark text-base text-inverse h-16">
+        <div className={classNames("w-full h-full flex justify-between items-center", fullWidth ? "px-5" :  "section-container")}>
+        <Link className="flex items-center" href="/">
+            <SvgImage src={IconLogo} alt="logo" />
+            <h1 className="ml-3 text-2xl font-bold text-inverse">Apus Network</h1>
+        </Link>
+        {autoHideMenu && width < 768 ? null : <ul className="nav-menu">
+            {menuItems.map(({item, href}, index) => (
+                <Link className="inline-flex" href={href} key={index}>
+                    <li className="text-subtle-inverse hover:text-inverse cursor-pointer">
+                        {item}
+                    </li>
+                </Link>
+            ))}
+        </ul>}
         <Link className="mr-6 inline-flex text-subtle-inverse hover:text-inverse cursor-pointer" href="https://discord.gg/9Wb2f5Z">
             {IconDiscord}
         </Link>
       <div>
         <UserMenu showConsole={showConsole} />
       </div>
+        </div>
     </header>
   );
 }

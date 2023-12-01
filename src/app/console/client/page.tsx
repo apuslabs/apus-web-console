@@ -64,7 +64,7 @@ function ProofDrawer({
                     }}><LinkOutlined /></div>
                 </Tooltip></div>
                 <div className={"text-sm text-subtle-inverse"}>{unix(Number(item.assignTime)).format('YYYY-MM-DD hh:mm:ss')}</div>
-                <div>Rewards({item.reward?.token == 0 ? 'eth' : item.reward?.token.substring(0, 8)}): <span className={"font-bold"}>{item.reward?.amount.toString()} wei</span> </div>
+                <div>Rewards({item.reward?.token == 0 ? 'eth-sepolia' : item.reward?.token.substring(0, 8)}): <span className={"font-bold"}>{item.reward?.amount.toString()} wei</span> </div>
             </List.Item>
         }}>
         </List>

@@ -40,7 +40,7 @@ import IconRightArrow from '@/assets/icons/icons8-right-arrow-100.png'
 import ContactBG from '@/assets/images/contact-bg.png'
 import cns from 'classnames'
 import useWindowSize from "@/lib/useWindowSize"
-import { SimpleHeader } from "@/components/header"
+import Header, { SimpleHeader } from "@/components/header"
 
 const exo2 = Exo_2({ subsets: ['latin'], weight: ['600'] })
 
@@ -108,7 +108,9 @@ export default function Home() {
 
   return (
     <main className="bg-dark text-inverse">
-      <SimpleHeader />
+      <div className="fixed top-0 left-0 right-0 h-16 z-20">
+          <Header showConsole autoHideMenu />
+      </div>
       <section className="section-wrapper">
         <Image className="absolute left-0 top-0 h-full object-fit max-w-full" src={IndexBgHW} alt="bg-ring" />
         <Image className="absolute right-0 object-contain top-1/2 -translate-y-1/2" src={IndexBgRing} alt="bg-ring" />

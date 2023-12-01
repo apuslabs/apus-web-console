@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <Layout className="h-screen flex flex-col">
       <div style={{ flexGrow: 0, flexShrink: 0 }}>
-        <Header />
+        <Header fullWidth />
       </div>
       <div className={"flex-1 flex w-full"}>
         <Sider width={200} className={"h-full flex-0"}>

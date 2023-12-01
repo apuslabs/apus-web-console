@@ -4,15 +4,6 @@ import { Button } from 'antd'
 
 Welcome to the Apus Marketplace! This guide will walk you through the process of joining our platform, utilizing our services, and monitoring your earnings.
 
-**Overview**
-
-1. **Clone the Starter Template**
-2. **Update the Configuration File**
-3. **Run the Docker Container**
-4. **Check Logs and Earnings**
-
----
-
 ## Pre-requisites
 Before diving into the details, ensure your setup meets the following prerequisites:
 
@@ -20,7 +11,12 @@ Before diving into the details, ensure your setup meets the following prerequisi
    - Git: [Download Git](https://git-scm.com/downloads)
    - Docker (including Docker Compose): [Download Docker](https://www.docker.com/get-started)
 
-2. **Ethereum Wallet Address**: You will need an Ethereum wallet address for transactions. 
+2. **Ethereum Wallet Address**: You will need **an ethereum wallet address and at least 0.01 eth on taiko** for transactions.
+    - 2.1. [Download Metamask](https://metamask.io/download.html)
+    - 2.2. [Create a Wallet](https://support.metamask.io/hc/en-us/articles/4404722782107)
+    - 2.3. [Setup your wallet](https://taiko.xyz/docs/guides/setup-your-wallet) Click `Connect to Sepolia` and `Connect to Jolnir`
+    - 2.4. [Receive test token](https://sepoliafaucet.com/)
+    - 2.5. [Bridge token to taiko](https://taiko.xyz/docs/guides/bridge-tokens)
 
 3. **Hardware Specifications**:
    - Processor: Minimum 8-core CPU
@@ -37,38 +33,43 @@ git clone -b apus-simple-taiko-node https://github.com/apuslabs/simple-taiko-nod
 ```
 This command clones the starter template to your local machine.
 
-## Step 2: Update the Configuration File
+### Step 2: Update the Configuration File
 
 Navigate to the cloned directory
 ```bash
 cd simple-taiko-node
 vi .env
 ```
-Update Environment Variables on demand.*Usually, you don't need to update the following variables:*
+Update Environment Variables on demand. Usually, you don't need to update the following variables.
 ```shell
-############################### DEFAULT #####################################
-ENABLE_PROVER=true
+# Set minimal price you can accept for a proof task in wei, proposer will not send task until the price is met
 MIN_FEE=10
+# Set the maximum number of tasks you can accept at the same time
 ZKEVM_CHAIN_INSTANCES_NUM=1
+# Set the maximum number of ZKEVM instances you can run at the same time
 MAX_ZKEVM_INSTANCE=1
 ```
 Save and exit the file.
 
-## Step 3: Run the Docker Container
+### Step 3: Run the Docker Container
 
 Execute the following command to start the service:
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 This command will deploy the container in detached mode.
 
-## Step 4: Join Market
+**make sure your port 9000 is accessible**
 
-To join the market, you need to register your node on the Apus Console.
+if your port 9000 is closed, you can update the port in `docker-compose.yml`
+```yml
+services:
+  zkevm_chain_prover_rpcd:
+    ports:
+      - 0.0.0.0:9001:9000
+```
 
-![Register](https://1688.311688.xyz/share/your/images/save/your/photos/2023/12/01/6569566d1f6a6.png)
-
-## Step 5: Check Logs
+### Step 4: Check Logs
 
 To view the logs, use:
 ```bash
@@ -82,8 +83,27 @@ When you see the following message, it means your node is ready to accept tasks:
 When you see the following message, it means your node is generating proof:
 ![Logs](https://1688.311688.xyz/share/your/images/save/your/photos/2023/11/27/6563f499a7c8d.png)
 
-## Setp 5: Check Earnings
+> **Your Client URL is http://your.domain:9000**
+> *if you update the port, you should use the port you set*
+
+### Step 5: Join Market
+
+To join the market, you need to register your node on the Apus Console.
+
+![Register](https://1688.311688.xyz/share/your/images/save/your/photos/2023/12/01/6569566d1f6a6.png)
+
+1. **Client URL**: Your Client URL is http://your.domain:9000,see Step 4
+2. **Min Fee**: Minimal fee you can accept for a proof task in wei, proposer will not send task until the price is met
+3. **Max Provers**: The maximum number of provers you can run at the same time, require 8c16g for each prover.
+
+### Setp 6: Check Earnings
 
 Check Apus Console Billing Page to see your earnings:
 
 ![Billing](https://1688.311688.xyz/share/your/images/save/your/photos/2023/12/01/6569566dc8fae.png)
+
+1. Pending: Proof task is running, reward to be claimed
+2. Claimed: Proof task is finished, reward claimed
+3. Payed: Proof task is verified, reward payed to your wallet
+
+you will receive **eth/ttkoj and ApusEagle token** as reward.
