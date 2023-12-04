@@ -1,6 +1,6 @@
 'use client'
 
-import { MARKET_CONTRACT, TASK_CONTRACT, TOKEN_CONTRACT } from "@/constant/contract";
+import { MARKET_CONTRACT, TASK_CONTRACT, TOKEN_CONTRACT, MARKET_QUERY_CONTRACT } from "@/constant/contract";
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import type { Web3, Contract } from "web3";
 import useSWR from 'swr'
@@ -56,6 +56,7 @@ export type AccountInfoResponse = {
 export type MarketContract = Contract<typeof MARKET_CONTRACT.abi>
 export type TaskContract = Contract<typeof TASK_CONTRACT.abi>
 export type TokenContract = Contract<typeof TOKEN_CONTRACT.abi>
+export type MarketQueryContract = Contract<typeof MARKET_QUERY_CONTRACT.abi>
 
 export const Web3jsLoadEvent = new EventTarget()
 
@@ -66,6 +67,7 @@ export function useWeb3Context() {
     const taskContract = useRef<TaskContract>()
     const tokenContract = useRef<TokenContract>()
     const taikoMarketContract = useRef<MarketContract>()
+    const taikoMarketQueryContract = useRef<MarketContract>()
     const taikoTaskContract = useRef<TaskContract>()
     const taikoTokenContract = useRef<TokenContract>()
     const [hasMetamask, setHasMetamask] = useState(false)
@@ -145,6 +147,7 @@ export function useWeb3Context() {
                 tokenContract.current = new web3.current.eth.Contract(TOKEN_CONTRACT.abi, TOKEN_CONTRACT.address)
                 taiko.current = new window.Web3(new window.Web3.providers.HttpProvider(taikoChainConfig.rpcUrls[0]))
                 taikoMarketContract.current = new taiko.current.eth.Contract(MARKET_CONTRACT.abi, MARKET_CONTRACT.address)
+                taikoMarketQueryContract.current = new taiko.current.eth.Contract(MARKET_QUERY_CONTRACT.abi, MARKET_QUERY_CONTRACT.address)
                 taikoTaskContract.current = new taiko.current.eth.Contract(TASK_CONTRACT.abi, TASK_CONTRACT.address)
                 taikoTokenContract.current = new taiko.current.eth.Contract(TOKEN_CONTRACT.abi, TOKEN_CONTRACT.address)
                 web3.current.eth.getChainId().then((chainId) => {
@@ -184,5 +187,6 @@ export function useWeb3Context() {
         taikoMarketContract,
         taikoTaskContract,
         taikoTokenContract,
+        taikoMarketQueryContract,
     }
 }

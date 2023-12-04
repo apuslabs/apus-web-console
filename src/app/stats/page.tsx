@@ -96,10 +96,10 @@ function useChartData(taskContract?: TaskContract) {
 }
 
 export default function Explorer() {
-    const { taikoMarketContract, taikoTaskContract} = useWeb3Context()
+    const { taikoMarketContract, taikoMarketQueryContract, taikoTaskContract} = useWeb3Context()
     const {chartOptions, todayProofs, cardRef, chartWidth} = useChartData(taikoTaskContract.current)
-    const totalClient = useTotalClient(taikoMarketContract.current)
-    const availableClient = useAvailableClientCount(taikoMarketContract.current)
+    const totalClient = useTotalClient(taikoMarketQueryContract.current)
+    const availableClient = useAvailableClientCount(taikoMarketQueryContract.current)
     const taskCount = useTaskCount(taikoTaskContract.current)
     const pendingTask = useAssignedTaskCount(taikoTaskContract.current)
     const avgProofTime = useAvgProofTime(taikoTaskContract.current)

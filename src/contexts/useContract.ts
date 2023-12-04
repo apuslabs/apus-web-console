@@ -1,9 +1,9 @@
-import {MarketContract, TaskContract, useWeb3Context} from "../contexts/web3";
+import {MarketContract, TaskContract, MarketQueryContract, useWeb3Context} from "../contexts/web3";
 import sha256 from 'crypto-js/sha256';
 import enc from 'crypto-js/enc-utf8';
 import {useCallback, useEffect, useState} from "react";
 
-export function useTotalClient(marketContract?: MarketContract) {
+export function useTotalClient(marketContract?: MarketQueryContract) {
     const [totalClient, setTotalClient] = useState<number>(0)
     useEffect(() => {
         if (marketContract) {
@@ -15,7 +15,7 @@ export function useTotalClient(marketContract?: MarketContract) {
     return totalClient
 }
 
-export function useAvailableClientCount(marketContract?: MarketContract) {
+export function useAvailableClientCount(marketContract?: MarketQueryContract) {
     const [availableClientCount, setAvailableClientCount] = useState<number>(0)
     useEffect(() => {
         if (marketContract) {

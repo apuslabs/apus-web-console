@@ -1409,3 +1409,46 @@ export const TASK_CONTRACT = {
 		}
 	]
 }
+
+export const MARKET_QUERY_CONTRACT = {
+	address: '0x8e8aAFc95B8288554C0C860476AbC41277635da3',
+	abi: [
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "marketAddress",
+					"type": "address"
+				}
+			],
+			"stateMutability": "nonpayable",
+			"type": "constructor"
+		},
+		{
+			"inputs": [],
+			"name": "getAvilableClientCount",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getClientCount",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		}
+	]
+}
