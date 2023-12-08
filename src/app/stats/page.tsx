@@ -1,7 +1,7 @@
 'use client'
 
-import {useEffect, useLayoutEffect, useRef, useState} from 'react'
-import {Card, Col, Layout, Row, Statistic} from "antd";
+import {useLayoutEffect, useRef, useState} from 'react'
+import {Card, Col, Layout, Row, Statistic, Tooltip} from "antd";
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import {LineChart} from 'echarts/charts';
@@ -18,12 +18,14 @@ import {
     useAssignedTaskCount,
     useAvailableClientCount,
     useAvgProofTime,
-    useAvgReward, useLatestTaskId,
-    useTaskCount, useTasks,
+    useAvgReward,
+    useTaskCount,
+    useTasks,
     useTotalClient
-} from "../../contexts/useContract";
-import {useWeb3Context,TaskContract} from "../../contexts/web3";
+} from "@/contexts/useContract";
+import {useWeb3Context,TaskContract} from "@/contexts/web3";
 import Header from '../../components/header';
+import {QuestionCircleOutlined} from "@ant-design/icons";
 
 echarts.use(
     [TooltipComponent, LineChart, CanvasRenderer]
@@ -96,7 +98,7 @@ function useChartData(taskContract?: TaskContract) {
 }
 
 export default function Explorer() {
-    const { taikoMarketContract, taikoMarketQueryContract, taikoTaskContract} = useWeb3Context()
+    const { taikoMarketQueryContract, taikoTaskContract} = useWeb3Context()
     const {chartOptions, todayProofs, cardRef, chartWidth} = useChartData(taikoTaskContract.current)
     const totalClient = useTotalClient(taikoMarketQueryContract.current)
     const availableClient = useAvailableClientCount(taikoMarketQueryContract.current)
@@ -104,7 +106,6 @@ export default function Explorer() {
     const pendingTask = useAssignedTaskCount(taikoTaskContract.current)
     const avgProofTime = useAvgProofTime(taikoTaskContract.current)
     const avgReward = useAvgReward(taikoTaskContract.current)
-    const latestTaskId = useLatestTaskId(taikoTaskContract.current)
 
     return <LayoutWithHeader>
         <Card ref={cardRef} bordered={false}>
@@ -122,13 +123,12 @@ export default function Explorer() {
         <Row gutter={[16, 16]} className={"mt-4"}>
             {
                 [
-                    { title: "Total Provers", value: totalClient },
-                    { title: "Total Tasks", value: taskCount },
-                    { title: "Avg Proof Time", value: Math.floor(avgProofTime / 60) + 'm' + avgProofTime % 60 + 's' },
-                    { title: "Avg Reward", value: avgReward + 'wei' },
-                    { title: "Idle Provers", value: availableClient },
-                    { title: "Running Tasks", value: pendingTask },
-                    { title: "Latest TaskID", value: latestTaskId },
+                    { title: <div>Total Provers <Tooltip title={"All running provers which means max proof at same time."}><QuestionCircleOutlined /></Tooltip></div>, value: totalClient },
+                    { title: <div>Total Tasks <Tooltip title={"All tasks whatever it's status"}><QuestionCircleOutlined /></Tooltip></div>, value: taskCount },
+                    { title: <div>Avg Proof Time <Tooltip title={"All submitted tasks average proof time."}><QuestionCircleOutlined /></Tooltip></div>, value: Math.floor(avgProofTime / 60) + 'm' + avgProofTime % 60 + 's' },
+                    { title: <div>Avg Reward <Tooltip title={"All submitted tasks average reward amount."}><QuestionCircleOutlined /></Tooltip></div>, value: avgReward + 'wei' },
+                    { title: <div>Idle Provers <Tooltip title={"Provers currently available for proof."}><QuestionCircleOutlined /></Tooltip></div>, value: availableClient },
+                    { title: <div>Assigned Tasks <Tooltip title={"Tasks has beed dispatched to client but not yet submit proof, equal to running tasks + expired tasks."}><QuestionCircleOutlined /></Tooltip></div>, value: pendingTask },
                 ].map((item, index) => {
                     return <Col span={6} key={index}>
                         <Card bordered={false} style={{backgroundColor: '#262626'}}>
