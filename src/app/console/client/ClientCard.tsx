@@ -1,4 +1,4 @@
-import {Card, Tooltip, Tag, Typography, Divider, Button, message, Popconfirm} from 'antd';
+import {Card, Tag, Typography, Divider, Button, message, Popconfirm} from 'antd';
 import {LinkOutlined, PlusOutlined, ArrowRightOutlined, DeleteOutlined, DesktopOutlined } from '@ant-design/icons';
 import { useWeb3Context } from '@/contexts/web3';
 import { useOfflineClient } from '@/contexts/useContract';
@@ -28,7 +28,8 @@ const ClientCard = ({ id, url, minFee, maxZkEvmInstance, curInstance, stat, onCl
                 message.success('URL Copied')
             }} /></div>
             <div className={"text-secondary text-xl mb-2"}>Fee: <span className={"text-primary"}>{minFee.toString()} wei</span></div>
-            <div className={"mb-2 text-secondary"}>Avaiable Provers: <span className={"text-bold text-white"}>{(maxZkEvmInstance - curInstance).toString()} / {maxZkEvmInstance.toString()}</span></div>
+            <div className={"mb-2 text-secondary"}>Total provers: {maxZkEvmInstance.toString()}</div>
+            <div className={"mb-2 text-secondary"}>Running provers: {curInstance.toString()}</div>
 
             <Divider />
             <div className={"flex justify-between"}>

@@ -12,11 +12,18 @@ Before diving into the details, ensure your setup meets the following prerequisi
    - Docker (including Docker Compose): [Download Docker](https://www.docker.com/get-started)
 
 2. **Ethereum Wallet Address**: You will need **an ethereum wallet address and at least 0.01 eth on taiko** for transactions.
-    - 2.1. [Download Metamask](https://metamask.io/download.html)
-    - 2.2. [Create a Wallet](https://support.metamask.io/hc/en-us/articles/4404722782107)
-    - 2.3. [Setup your wallet](https://taiko.xyz/docs/guides/setup-your-wallet) Click `Connect to Sepolia` and `Connect to Jolnir`
-    - 2.4. [Receive test token](https://sepoliafaucet.com/)
-    - 2.5. [Bridge token to taiko](https://taiko.xyz/docs/guides/bridge-tokens)
+    To engage in transactions and applications on the Ethereum network, you need an Ethereum wallet. A wallet is not just for storing your cryptocurrency; it also allows you to interact with applications built on Ethereum.
+    - 2.1. **Download MetaMask**: MetaMask is a popular Ethereum wallet available as a browser extension or mobile app. [Download Metamask](https://metamask.io/download.html) and install it.
+    - 2.2. **Create a Wallet**: Creating a MetaMask wallet means you'll have a unique Ethereum address, used for receiving and sending Ethereum and related tokens. Follow these steps to create your wallet: [Wallet Creation Guide](https://support.metamask.io/hc/en-us/articles/4404722782107).
+    - 2.3. **Set Up Your Wallet**: In MetaMask, you'll need to connect to different Ethereum networks. “Sepolia” and “Jolnir” mentioned here are Ethereum test networks, allowing developers to test their applications without spending actual ETH. *Test networks, such as 'Sepolia' and 'Jolnir,' are versions of the Ethereum blockchain used for testing purposes. They simulate the Ethereum network, allowing developers to experiment without risking real funds. These particular networks are chosen for their stability and widespread use in the developer community.* Follow this guide to set up your wallet: [Setup your wallet](https://taiko.xyz/docs/guides/setup-your-wallet), Click `Connect to Sepolia` and `Connect to Jolnir`.
+    - 2.4. **Receive Sepolia Test Tokens**: On test networks, you can obtain free test tokens, which are not usable in the real market but are valuable for application development and testing. Get your test tokens here: [Receive test token](https://sepoliafaucet.com/). Remember to switch to Sepolia network in your MetaMask wallet to check your balance.
+    - 2.5. **Bridge Tokens to Taiko**: Taiko is a L2 network solution that scale ethereum main network. Bridging tokens to taiko is crucial because we built our apps on taiko. This enables developers to specific applications or benefits of using taiko. [Bridge token to taiko](https://taiko.xyz/docs/guides/bridge-tokens).
+
+    > Additional Information
+    >
+    > **Why 0.01 ETH is Needed?**: Conducting transactions and executing smart contracts on the Ethereum network usually requires paying "Gas fees" which are fees for the network to process the transaction(*Gas fees on the Ethereum network are payments made by users to compensate for the computing energy required to process and validate transactions. They fluctuate based on network demand. For instance, sending a transaction might cost 0.0001 ETH when the network is less busy. This fee ensures that transactions are processed by the network promptly.*). Hence, having some amount of ETH is necessary.
+    >
+    > **Security Notes**: Security is paramount when handling cryptocurrencies and using wallets like MetaMask. Always keep your wallet keys private and secure. Be vigilant against common scams such as phishing attacks.
 
 3. **Hardware Specifications**:
    - Processor: Minimum 8-core CPU
@@ -73,7 +80,7 @@ services:
 
 To view the logs, use:
 ```bash
-docker logs -f simple-taiko-node-zkevm_chain_prover_rpcd-1
+docker logs -f simple-taiko-node_zkevm_chain_prover_rpcd_1
 ```
 
 When you see the following message, it means your node is ready to accept tasks:
@@ -107,3 +114,7 @@ Check Apus Console Billing Page to see your earnings:
 3. Payed: Proof task is verified, reward payed to your wallet
 
 you will receive **eth/ttkoj and ApusEagle token** as reward.
+
+you can check your balance on the webpage or in your wallet.
+
+In metamask, switch to Jolnir network, Import tokens APE(0x0eaD84bE2483bCFA7361D541037Aab3769174c41), you will see your balance.
