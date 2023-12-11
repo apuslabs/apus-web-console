@@ -208,8 +208,9 @@ export function useJoinMarket(marketContract?: MarketContract) {
             }).send({
                 from: account
             }).then(res => {
-                setLoading(false)
                 return res
+            }).finally(() => {
+                setLoading(false)
             })
         },
         loading,
