@@ -142,9 +142,7 @@ function ProofDrawer({
 function testServer(url: string) {
   return new Promise<void>((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    var urlObj = new URL(url);
-    urlObj.pathname = "/status"; // 设置路径部分
-    xhr.open("GET", urlObj.href);
+    xhr.open("GET", `/console/client/test-url?url=${url}`);
     xhr.onload = () => {
       if (xhr.status === 200 || xhr.status === 204) {
         resolve();
