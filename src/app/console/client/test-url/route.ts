@@ -9,8 +9,9 @@ export async function GET(request: Request) {
             headers: { 'content-type': 'application/json;charset=UTF-8' },
         })
     }
+    const requestUrl = new URL(urlParam)
     // test url param must return 200 or 204
-    const testUrl = await fetch(urlParam)
+    const testUrl = await fetch(requestUrl.protocol + '//' + requestUrl.host + '/status')
     const testUrlStatus = testUrl.status
     // return response
     return new Response(JSON.stringify({status: testUrlStatus}), {

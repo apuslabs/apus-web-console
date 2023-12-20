@@ -18,13 +18,12 @@ import {
   useClientTasks,
   useJoinMarket,
   useUserClients,
-} from "../../../contexts/useContract";
-import { useWeb3Context } from "../../../contexts/web3";
+} from "@/contexts/useContract";
+import { useWeb3Context } from "@/contexts/web3";
 import { useState } from "react";
 import { unix } from "dayjs";
 import { useForm } from "antd/es/form/Form";
 import { LinkOutlined, QuestionCircleOutlined } from "@ant-design/icons";
-import path from "path";
 
 export default function Client() {
   const { marketContract } = useWeb3Context();
@@ -140,21 +139,12 @@ function ProofDrawer({
 }
 
 function testServer(url: string) {
-  return new Promise<void>((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", `/console/client/test-url?url=${url}`);
-    xhr.onload = () => {
-      if (xhr.status === 200 || xhr.status === 204) {
-        resolve();
-      } else {
-        reject();
-      }
-    };
-    xhr.onerror = () => {
-      reject();
-    };
-    xhr.send();
-  });
+  return fetch(`/console/client/test-url?url=${url}`).then((res) => res.json()).then((res: any) => {
+    if (res?.status == 200 || res?.status == 204) {
+      return Promise.resolve()
+    }
+    return Promise.reject()
+  })
 }
 
 function AddClientModal({
