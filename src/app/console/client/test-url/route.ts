@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export async function GET(request: Request) {
     // get query params from url
     const url = new URL(request.url)
@@ -9,12 +11,21 @@ export async function GET(request: Request) {
             headers: { 'content-type': 'application/json;charset=UTF-8' },
         })
     }
-    const requestUrl = new URL(urlParam)
-    // test url param must return 200 or 204
-    const testUrl = await fetch(requestUrl.protocol + '//' + requestUrl.host + '/status')
-    const testUrlStatus = testUrl.status
-    // return response
-    return new Response(JSON.stringify({status: testUrlStatus}), {
+    const requestResult = await axios.post(urlParam, {
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'proof',
+        params: [{
+            circuit: 'super',
+            block: 1,
+        }],
+    })
+    if (requestResult.status === 200 && requestResult.data?.error?.code === -32000) {
+        return new Response(JSON.stringify({status: 200}), {
+            headers: { 'content-type': 'application/json;charset=UTF-8' },
+        })
+    }
+    return new Response(JSON.stringify({status: requestResult.status === 200 ? 500 : requestResult.status}), {
         headers: { 'content-type': 'application/json;charset=UTF-8' },
     })
 }
