@@ -124,11 +124,11 @@ export default function Explorer() {
             {
                 [
                     { title: <div>Total Provers <Tooltip title={"All running provers which means max proof at same time."}><QuestionCircleOutlined /></Tooltip></div>, value: totalClient },
-                    { title: <div>Total Tasks <Tooltip title={"All tasks whatever it's status"}><QuestionCircleOutlined /></Tooltip></div>, value: taskCount },
+                    { title: <div>Total Proofs <Tooltip title={"All tasks whatever it's status"}><QuestionCircleOutlined /></Tooltip></div>, value: taskCount },
                     { title: <div>Avg Proof Time <Tooltip title={"All submitted tasks average proof time."}><QuestionCircleOutlined /></Tooltip></div>, value: Math.floor(avgProofTime / 60) + 'm' + avgProofTime % 60 + 's' },
                     { title: <div>Avg Reward <Tooltip title={"All submitted tasks average reward amount."}><QuestionCircleOutlined /></Tooltip></div>, value: avgReward + 'wei' },
                     { title: <div>Idle Provers <Tooltip title={"Provers currently available for proof."}><QuestionCircleOutlined /></Tooltip></div>, value: availableClient },
-                    { title: <div>Assigned Tasks <Tooltip title={"Tasks has beed dispatched to client but not yet submit proof, equal to running tasks + expired tasks."}><QuestionCircleOutlined /></Tooltip></div>, value: pendingTask },
+                    { title: <div>Assigned proofs <Tooltip title={"Tasks has beed dispatched to client but not yet submit proof, equal to running tasks + expired tasks."}><QuestionCircleOutlined /></Tooltip></div>, value: pendingTask },
                 ].map((item, index) => {
                     return <Col span={6} key={index}>
                         <Card bordered={false} style={{backgroundColor: '#262626'}}>

@@ -1,0 +1,66 @@
+# Frequently Asked Questions (FAQ)
+
+## How to Open Port 9000 on Linux
+
+Opening a port on Linux can be achieved by adjusting your system's firewall rules. Here’s a step-by-step guide on how to open port 9000, which is commonly needed for services like the Apus Marketplace node to function correctly.
+
+### Using `iptables`
+
+If your Linux distribution uses `iptables` as the default firewall, you can open port 9000 with the following command:
+
+```bash
+sudo iptables -A INPUT -p tcp --dport 9000 -j ACCEPT
+```
+
+To make this rule persistent across reboots, save the iptables rules with:
+
+```bash
+sudo iptables-save > /etc/iptables/rules.v4
+```
+
+### Using firewalld
+For systems using firewalld, you can open port 9000 by typing:
+
+```bash
+sudo firewall-cmd --permanent --zone=public --add-port=9000/tcp
+sudo firewall-cmd --reload
+```
+
+This command adds a rule to the public zone to allow TCP traffic on port 9000, and the --reload option applies the changes without needing to restart the firewall service.
+
+### Using ufw
+If you are using ufw (Uncomplicated Firewall), the process is straightforward:
+
+```bash
+sudo ufw allow 9000/tcp
+```
+
+And then enable the changes by reloading ufw:
+
+```bash
+sudo ufw reload
+```
+
+### Verification
+
+After opening the port, you can verify that it is open by running:
+
+```bash
+sudo iptables -L -v
+```
+
+Or, if you're using firewalld:
+
+```bash
+sudo firewall-cmd --list-all
+```
+
+Or for ufw:
+
+```bash
+sudo ufw status
+```
+
+Choose the command based on which firewall management tool your Linux distribution uses. The verification step should show that port 9000 is now allowed.
+
+> Note: Always ensure that your system's security is not compromised when opening ports. Only open ports that you need and understand the potential risks involved.

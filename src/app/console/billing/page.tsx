@@ -42,7 +42,7 @@ export default function Billing() {
         <Card className={"mb-4 text-center"}><div className={"flex"}>
         <Statistic title={'ETH Balance'} value={balance.toString()}></Statistic>
         <Divider type={"vertical"} className={"h-16 mx-16"} />
-        <Statistic title={'APT Balance'} value={utils.fromWei(aptBalance || 0, 'ether')}></Statistic></div></Card>
+        <Statistic title={'APE Balance'} value={utils.fromWei(aptBalance || 0, 'ether')}></Statistic></div></Card>
         <Table rowKey={"id"} columns={[
             { title: 'TaskId', dataIndex: 'uniqID', key: 'taskId', render: t => <div className={"flex items-center"}>{t.toString()} <Tooltip title="Tap to view block detail">
                     <div className={"ml-1"} onClick={() => {
@@ -50,7 +50,7 @@ export default function Billing() {
                     }}><LinkOutlined /></div>
                 </Tooltip></div> },
             { title: 'Task Reward', key: 'rewardToken', render: (_: string, item) => <span>{item.reward.amount.toString()} wei({item.reward.token == 0 ? "eth-sepolia" : item.reward.token})</span> },
-            { title: 'Apus Eagle Reward', key: 'rewardType', render: (_: string) => <span>1000</span> },
+            { title: 'APE Reward', key: 'rewardType', render: (_: string) => <span>1000</span> },
             { title: <>Status <QuestionCircleOutlined onClick={() => {
                 setStatusExplainModal(true)
                 }} /></>, key: 'Task Status', render: (_: string, item) => {

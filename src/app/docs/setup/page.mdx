@@ -1,46 +1,13 @@
-import { Button } from 'antd'
+# Join Apus
 
-# How to Join Apus
-
-Welcome to the Apus Marketplace! This guide will walk you through the process of joining our platform, utilizing our services, and monitoring your earnings.
-
-## Pre-requisites
-Before diving into the details, ensure your setup meets the following prerequisites:
-
-1. **Software Requirements**:
-   - Git: [Download Git](https://git-scm.com/downloads)
-   - Docker (including Docker Compose): [Download Docker](https://www.docker.com/get-started)
-
-2. **Ethereum Wallet Address**: You will need **an ethereum wallet address and at least 0.01 eth on taiko** for transactions.
-    To engage in transactions and applications on the Ethereum network, you need an Ethereum wallet. A wallet is not just for storing your cryptocurrency; it also allows you to interact with applications built on Ethereum.
-    - 2.1. **Download MetaMask**: MetaMask is a popular Ethereum wallet available as a browser extension or mobile app. [Download Metamask](https://metamask.io/download.html) and install it.
-    - 2.2. **Create a Wallet**: Creating a MetaMask wallet means you'll have a unique Ethereum address, used for receiving and sending Ethereum and related tokens. Follow these steps to create your wallet: [Wallet Creation Guide](https://support.metamask.io/hc/en-us/articles/4404722782107).
-    - 2.3. **Set Up Your Wallet**: In MetaMask, you'll need to connect to different Ethereum networks. “Sepolia” and “Jolnir” mentioned here are Ethereum test networks, allowing developers to test their applications without spending actual ETH. *Test networks, such as 'Sepolia' and 'Jolnir,' are versions of the Ethereum blockchain used for testing purposes. They simulate the Ethereum network, allowing developers to experiment without risking real funds. These particular networks are chosen for their stability and widespread use in the developer community.* Follow this guide to set up your wallet: [Setup your wallet](https://taiko.xyz/docs/guides/setup-your-wallet), Click `Connect to Sepolia` and `Connect to Jolnir`.
-    - 2.4. **Receive Sepolia Test Tokens**: On test networks, you can obtain free test tokens, which are not usable in the real market but are valuable for application development and testing. Get your test tokens here: [Receive test token](https://sepoliafaucet.com/). Remember to switch to Sepolia network in your MetaMask wallet to check your balance.
-    - 2.5. **Bridge Tokens to Taiko**: Taiko is a L2 network solution that scale ethereum main network. Bridging tokens to taiko is crucial because we built our apps on taiko. This enables developers to specific applications or benefits of using taiko. [Bridge token to taiko](https://taiko.xyz/docs/guides/bridge-tokens).
-
-    > Additional Information
-    >
-    > **Why 0.01 ETH is Needed?**: Conducting transactions and executing smart contracts on the Ethereum network usually requires paying "Gas fees" which are fees for the network to process the transaction(*Gas fees on the Ethereum network are payments made by users to compensate for the computing energy required to process and validate transactions. They fluctuate based on network demand. For instance, sending a transaction might cost 0.0001 ETH when the network is less busy. This fee ensures that transactions are processed by the network promptly.*). Hence, having some amount of ETH is necessary.
-    >
-    > **Security Notes**: Security is paramount when handling cryptocurrencies and using wallets like MetaMask. Always keep your wallet keys private and secure. Be vigilant against common scams such as phishing attacks.
-
-3. **Hardware Specifications**:
-   - Processor: Minimum 8-core CPU
-   - Memory: At least 16GB RAM
-   - Storage: NVMe SSD for optimal performance
-   - Network: Stable and robust internet connection
-
-## Step-by-Step Instructions
-
-### Step 1: Clone the Starter Template
+## Step 1: Clone the Starter Template
 Run the following command in your terminal:
 ```bash
 git clone -b apus-simple-taiko-node https://github.com/apuslabs/simple-taiko-node.git
 ```
 This command clones the starter template to your local machine.
 
-### Step 2: Update the Configuration File
+## Step 2: Update the Configuration File
 
 Navigate to the cloned directory
 ```bash
@@ -49,8 +16,6 @@ vi .env
 ```
 Update Environment Variables on demand. Usually, you don't need to update the following variables.
 ```shell
-# Set minimal price you can accept for a proof task in wei, proposer will not send task until the price is met
-MIN_FEE=10
 # Set the maximum number of tasks you can accept at the same time
 ZKEVM_CHAIN_INSTANCES_NUM=1
 # Set the maximum number of ZKEVM instances you can run at the same time
@@ -58,7 +23,7 @@ MAX_ZKEVM_INSTANCE=1
 ```
 Save and exit the file.
 
-### Step 3: Run the Docker Container
+## Step 3: Run the Docker Container
 
 Execute the following command to start the service:
 ```bash
@@ -76,7 +41,7 @@ services:
       - 0.0.0.0:9001:9000
 ```
 
-### Step 4: Check Logs
+## Step 4: Check Logs
 
 To view the logs, use:
 ```bash
@@ -90,31 +55,15 @@ When you see the following message, it means your node is ready to accept tasks:
 When you see the following message, it means your node is generating proof:
 ![Logs](https://1688.311688.xyz/share/your/images/save/your/photos/2023/11/27/6563f499a7c8d.png)
 
-> **Your Client URL is http://your.domain:9000**
+> **Your Client URL is http://127.0.0.1:9000**
 > *if you update the port, you should use the port you set*
 
-### Step 5: Join Market
+## Step 5: Join Market
 
 To join the market, you need to register your node on the Apus Console.
 
 ![Register](https://1688.311688.xyz/share/your/images/save/your/photos/2023/12/01/6569566d1f6a6.png)
 
-1. **Client URL**: Your Client URL is http://your.domain:9000,see Step 4
+1. **Client URL**: Your Client URL is http://127.0.0.1:9000,see Step 4
 2. **Min Fee**: Minimal fee you can accept for a proof task in wei, proposer will not send task until the price is met
-3. **Max Provers**: The maximum number of provers you can run at the same time, require 8c16g for each prover.
-
-### Setp 6: Check Earnings
-
-Check Apus Console Billing Page to see your earnings:
-
-![Billing](https://1688.311688.xyz/share/your/images/save/your/photos/2023/12/01/6569566dc8fae.png)
-
-1. Pending: Proof task is running, reward to be claimed
-2. Claimed: Proof task is finished, reward claimed
-3. Payed: Proof task is verified, reward payed to your wallet
-
-you will receive **eth/ttkoj and ApusEagle token** as reward.
-
-you can check your balance on the webpage or in your wallet.
-
-In metamask, switch to Jolnir network, Import tokens APE(0x0eaD84bE2483bCFA7361D541037Aab3769174c41), you will see your balance.
+3. **Max Provers**: The maximum number of provers you can run at the same time, require 8c32g for each prover.
