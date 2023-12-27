@@ -1,3 +1,6 @@
+import { Button } from 'antd';
+import {addAPEToken} from '@/contexts/web3';
+
 # Frequently Asked Questions (FAQ)
 
 ## How to Open Port 9000 on Linux
@@ -64,3 +67,88 @@ sudo ufw status
 Choose the command based on which firewall management tool your Linux distribution uses. The verification step should show that port 9000 is now allowed.
 
 > Note: Always ensure that your system's security is not compromised when opening ports. Only open ports that you need and understand the potential risks involved.
+
+## How to install docker compose
+
+you can use this script to install docker compose
+
+```plaintext
+ 1. download the script
+
+   $ curl -fsSL https://get.docker.com -o install-docker.sh
+
+ 2. verify the script's content
+
+   $ cat install-docker.sh
+
+ 3. run the script with --dry-run to verify the steps it executes
+
+   $ sh install-docker.sh --dry-run
+
+ 4. run the script either as root, or using sudo to perform the installation.
+
+   $ sudo sh install-docker.sh
+```
+
+## How much prover instances can i run?
+
+each prover instance needs 32GB of RAM and 8 CPU cores.
+
+<div className={"text-secondary text-xs mt-1"}>
+  <p>requires 8c32g each provers</p>
+  <table className={"table-border mt-1"}>
+    <tbody>
+      <tr>
+        <td></td>
+        <td>16g</td>
+        <td>32g</td>
+        <td>64g</td>
+      </tr>
+      <tr>
+        <td>8c</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>16c</td>
+        <td>0</td>
+        <td>1</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>32c</td>
+        <td>0</td>
+        <td>1</td>
+        <td>2</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+## How to View Your Earnings
+### Checking Earnings on the Platform Dashboard
+To monitor your earnings, navigate to the platform's dashboard and access the "Earnings" section. This page provides a comprehensive view of your income and transaction history within the platform.
+
+### Viewing APE/ETH Earnings in MetaMask
+If you're holding APE tokens or earning through Ethereum-related activities, you can keep track of your assets using the MetaMask wallet. To ensure that your APE tokens are visible in MetaMask, you may need to add them manually:
+
+<Button type="primary" onClick={addAPEToken} className="mb-2">Add APE Token</Button>
+
+Ensure you have the MetaMask extension installed and are logged in to your wallet before adding the token.
+
+## Why do i need to bridge my eth to taiko chain
+
+### Enhanced Speed and Lower Costs
+Taiko Chain is a Layer 2 (L2) solution, specifically a Type-1 L2 chain, which is designed to operate more efficiently than the Ethereum mainnet. By bridging your ETH to Taiko Chain, you will likely experience:
+
+- **Reduced Transaction Fees**: Taiko Chain's structure allows for lower gas fees compared to executing transactions directly on the Ethereum mainnet.
+- **Faster Transactions**: Taiko Chain processes transactions at a higher speed, meaning you can send and receive assets more quickly.
+
+### Integration with Apus Marketplace
+Apus Marketplace is an innovative decentralized platform that operates on the Taiko Chain. By bridging your ETH to Taiko, you can seamlessly:
+
+- **Trade Digital Assets**: Buy and sell digital goods using a marketplace designed for rapid and cost-effective transactions.
+- **Participate in the Ecosystem**: Engage with a thriving community and utilize decentralized applications (dApps) built on Taiko Chain.
+
+This revision aims to clarify the instructions and provide additional context for the benefits of bridging to Taiko Chain, making the information more digestible for users who may be new to the web3 space.

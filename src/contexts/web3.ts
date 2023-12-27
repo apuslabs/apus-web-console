@@ -3,11 +3,8 @@
 import { MARKET_CONTRACT, TASK_CONTRACT, TOKEN_CONTRACT, MARKET_QUERY_CONTRACT } from "@/constant/contract";
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import type { Web3, Contract } from "web3";
-import useSWR from 'swr'
-import { CommonResponse, getFetcher } from "@/utils/fetcher";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toChecksumAddress, fromWei } from 'web3-utils'
-import { message } from "antd";
 
 const taikoChainConfig = {
     chainId: '0x28c5f',
@@ -19,6 +16,18 @@ const taikoChainConfig = {
     },
     rpcUrls: ['https://rpc.jolnir.taiko.xyz'],
     blockExplorerUrls: ['https://explorer.jolnir.taiko.xyz'],
+}
+
+const sepoliaChainConfig = {
+    chainId: '0xaa36a7',
+    chainName: 'Sepolia',
+    nativeCurrency: {
+        name: 'ETH',
+        symbol: 'ETH',
+        decimals: 18,
+    },
+    rpcUrls: ['https://rpc.sepolia.org'],
+    blockExplorerUrls: ['https://sepolia.etherscan.io/'],
 }
 
 export const web3Context = createContext<ReturnType<typeof useWeb3Context>>(null!)
@@ -184,9 +193,67 @@ export function useWeb3Context() {
         isConnecting,
         isTaiko,
         switchTaiko,
+        switchSepolia,
+        addAPEToken,
         taikoMarketContract,
         taikoTaskContract,
         taikoTokenContract,
         taikoMarketQueryContract,
+    }
+}
+
+export const switchTaiko = async () => {
+    if (window.ethereum !== undefined) {
+        await window.ethereum
+            .request({
+                method: 'wallet_addEthereumChain',
+                params: [taikoChainConfig],
+            })
+        await window.ethereum
+            .request({
+                method: 'wallet_switchEthereumChain',
+                params: [
+                    {
+                        chainId: taikoChainConfig.chainId
+                    },
+                ],
+            })
+    }
+}
+
+export const switchSepolia = async () => {
+    if (window.ethereum !== undefined) {
+        await window.ethereum
+            .request({
+                method: 'wallet_addEthereumChain',
+                params: [sepoliaChainConfig],
+            })
+        await window.ethereum
+            .request({
+                method: 'wallet_switchEthereumChain',
+                params: [
+                    {
+                        chainId: sepoliaChainConfig.chainId
+                    },
+                ],
+            })
+    }
+}
+
+export const addAPEToken = async () => {
+    if (window.ethereum !== undefined) {
+        await switchTaiko()
+        await window.ethereum
+            .request({
+                method: 'wallet_watchAsset',
+                params: {
+                    type: 'ERC20',
+                    options: {
+                        address: TOKEN_CONTRACT.address,
+                        symbol: 'APE',
+                        decimals: 18,
+                    },
+                },
+            })
     }
 }

@@ -283,7 +283,7 @@ function AddClientModal({
         <Row>
           <Col span={16} offset={8}>
             <div className={"text-secondary text-xs mt-1"}>
-              <p>requires 8c16g each provers</p>
+              <p>requires 8c32g each provers</p>
               <table className={"table-border mt-1"}>
                 <tbody>
                   <tr>
@@ -294,21 +294,21 @@ function AddClientModal({
                   </tr>
                   <tr>
                     <td>8c</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
                   </tr>
                   <tr>
                     <td>16c</td>
+                    <td>0</td>
                     <td>1</td>
-                    <td>2</td>
                     <td>2</td>
                   </tr>
                   <tr>
                     <td>32c</td>
-                    <td>1</td>
+                    <td>0</td>
                     <td>2</td>
-                    <td>4</td>
+                    <td>2</td>
                   </tr>
                 </tbody>
               </table>

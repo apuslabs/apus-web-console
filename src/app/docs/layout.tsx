@@ -9,7 +9,7 @@ export default function MdxLayout({ children }: { children: React.ReactNode }) {
   // Create any shared layout or styles here
   return (
     <LayoutWithHeader>
-      <Typography className="max-w-3xl mx-auto text-white">{children}</Typography>
+      <Typography className="max-w-3xl mx-auto">{children}</Typography>
     </LayoutWithHeader>
   );
 }
