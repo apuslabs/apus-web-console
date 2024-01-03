@@ -1,9 +1,9 @@
 "use client";
 
 import IconLogo from "@/assets/icons/logo.svg";
-import IconDiscord from "@/assets/icons/discord";
+import IconTelegram from "@/assets/icons/telegram";
 import IconMetamask from "@/assets/icons/metamask-icon.svg";
-import React, { ReactNode, useContext, useEffect, useState } from "react";
+import React, { ReactNode, useContext } from "react";
 import Link from "next/link";
 import SvgImage from "./SvgImage";
 import { web3Context } from "@/contexts/web3";
@@ -43,8 +43,8 @@ export default function Header({ showConsole, autoHideMenu, fullWidth }: { showC
                 </Link>
             ))}
         </ul>}
-        <Link className="mr-6 inline-flex text-subtle-inverse hover:text-inverse cursor-pointer" href="https://discord.gg/9Wb2f5Z">
-            {IconDiscord}
+        <Link className="mr-6 inline-flex text-subtle-inverse hover:text-inverse cursor-pointer" href="https://t.me/apus_network">
+            {IconTelegram}
         </Link>
       <div>
         <UserMenu showConsole={showConsole} />

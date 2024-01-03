@@ -1,20 +1,26 @@
 # Join Apus
 
 ## Step 1: Clone the Starter Template
+
 Run the following command in your terminal:
+
 ```bash
 git clone -b apus-simple-taiko-node https://github.com/apuslabs/simple-taiko-node.git
 ```
+
 This command clones the starter template to your local machine.
 
 ## Step 2: Update the Configuration File
 
 Navigate to the cloned directory
+
 ```bash
 cd simple-taiko-node
 vi .env
 ```
+
 Update Environment Variables on demand. Usually, you don't need to update the following variables.
+
 ```shell
 # Set the maximum number of tasks you can accept at the same time
 ZKEVM_CHAIN_INSTANCES_NUM=1
@@ -53,6 +59,7 @@ When you see the following message, it means your node is ready to accept tasks:
 [2023-12-01T03:35:03Z INFO  prover::server] Listening on http://0.0.0.0:9000
 ```
 When you see the following message, it means your node is generating proof:
+
 ![Logs](https://1688.311688.xyz/share/your/images/save/your/photos/2023/11/27/6563f499a7c8d.png)
 
 > **Your Client URL is http://127.0.0.1:9000**
@@ -64,6 +71,9 @@ To join the market, you need to register your node on the Apus Console.
 
 ![Register](https://1688.311688.xyz/share/your/images/save/your/photos/2023/12/01/6569566d1f6a6.png)
 
+
 1. **Client URL**: Your Client URL is http://127.0.0.1:9000,see Step 4
+
 2. **Min Fee**: Minimal fee you can accept for a proof task in wei, proposer will not send task until the price is met
+
 3. **Max Provers**: The maximum number of provers you can run at the same time, require 8c32g for each prover.

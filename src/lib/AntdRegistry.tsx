@@ -27,12 +27,13 @@ const StyledComponentsRegistry = ({ children }: { children: React.ReactNode }) =
                 colorLink: '#82B1FF',
                 colorPrimary: '#673AB7',
                 colorSuccess: '#4CAF50',
+                colorTextHeading: '#FFFFFF',
                 colorTextBase: '#E0E0E0',
                 colorWarning: '#FFC107',
                 controlHeight: 32,
                 fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
                 fontFamilyCode: "'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace",
-                fontSize: 14,
+                fontSize: 16,
                 lineType: 'solid',
                 lineWidth: 1,
                 motion: true,
@@ -54,7 +55,12 @@ const StyledComponentsRegistry = ({ children }: { children: React.ReactNode }) =
                 zIndexBase: 0,
                 zIndexPopupBase: 1000
             },
-            algorithm: [theme.darkAlgorithm]
+            algorithm: [theme.darkAlgorithm],
+            components: {
+                Menu: {
+                    itemBg: "#121212",
+                },
+            },
         }}>{children}</ConfigProvider>
     </StyleProvider>;
 };

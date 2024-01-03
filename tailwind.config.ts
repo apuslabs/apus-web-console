@@ -13,6 +13,7 @@ const config: Config = {
         'default': '#ffffff',
         'accent': '#fafafa',
         'dark': '#0f0e46',
+        "dark-2": "#121212",
         'light': '#F4FBFF',
       },
       textColor: {

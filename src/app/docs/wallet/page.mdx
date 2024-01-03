@@ -9,22 +9,22 @@ Setting up your Ethereum wallet is a breeze:
 2. **Create a Wallet**: [Creation guide](https://support.metamask.io/hc/en-us/articles/4404722782107)
 3. **Connect to Networks**:
     <Steps
-        className="my-2"
+        className="mt-4"
         direction="vertical"
         current={-1}
           items={[
               {
                   title: 'Add chains to your wallet',
                   description: <div>
-                      <Button type="primary" onClick={switchSepolia} className="mb-2">Connect to Sepolia</Button>
+                      <Button type="default" onClick={switchSepolia} className="mb-2">Connect to Sepolia</Button>
                       <br />
-                      <Button type="primary" onClick={switchTaiko}>Connect to Taiko</Button>
+                      <Button type="default" onClick={switchTaiko}>Connect to Taiko</Button>
                   </div>,
               },
               {
                   title: 'Add tokens to your wallet',
                   description: <div>
-                      <Button type="primary" onClick={addAPEToken}>Add APE Token</Button>
+                      <Button type="default" onClick={addAPEToken}>Add APE Token</Button>
                   </div>,
               },
           ]}
