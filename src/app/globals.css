@@ -79,11 +79,33 @@ a {
 }
 
 #app .ant-typography p {
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+#app .ant-typography img {
+  width: 60%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 #app .ant-typography strong {
   color: #ffffff;
+}
+
+#app .ant-typography pre {
+  padding: 1rem;
+  border-radius: 1rem;
+  font-size: 12px;
+}
+
+#app .ant-typography .remark-highlight {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+#app .ant-typography ul, #app .ant-typography ol {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 #app .ant-typography li {

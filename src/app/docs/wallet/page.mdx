@@ -1,7 +1,7 @@
 import { Steps, Button } from 'antd';
 import {switchSepolia, switchTaiko, addAPEToken} from "@/contexts/web3";
 
-# Setup Wallet
+## Setup Wallet
 
 Setting up your Ethereum wallet is a breeze:
 
@@ -11,11 +11,12 @@ Setting up your Ethereum wallet is a breeze:
     <Steps
         className="mt-4"
         direction="vertical"
+        size="small"
         current={-1}
           items={[
               {
                   title: 'Add chains to your wallet',
-                  description: <div>
+                  description: <div className="mt-1">
                       <Button type="default" onClick={switchSepolia} className="mb-2">Connect to Sepolia</Button>
                       <br />
                       <Button type="default" onClick={switchTaiko}>Connect to Taiko</Button>
@@ -23,13 +24,13 @@ Setting up your Ethereum wallet is a breeze:
               },
               {
                   title: 'Add tokens to your wallet',
-                  description: <div>
+                  description: <div className="mt-1">
                       <Button type="default" onClick={addAPEToken}>Add APE Token</Button>
                   </div>,
               },
           ]}
         />
-4. **Get Sepolia Test Tokens**
+4. **Get `Sepolia` Test Tokens**
     You can receive Sepolia ETH from several online faucets. Here are a few you can try:
     - [sepolia-faucet.pk910.de](https://sepolia-faucet.pk910.de/)
     - [faucet-sepolia.rockx.com](https://faucet-sepolia.rockx.com/)
@@ -38,7 +39,7 @@ Setting up your Ethereum wallet is a breeze:
     - [quicknode.com](https://faucet.quicknode.com/ethereum/sepolia)
 5. **Bridge Tokens to Taiko**: [Bridge here](https://taiko.xyz/docs/guides/bridge-tokens)
 
-> **Note**: 0.01 ETH is needed to cover Gas fees on the Ethereum network. Keep your private keys secure to prevent scams and theft.
+> **Note**: `0.01 ETH` is needed to cover Gas fees on the Ethereum network. Keep your private keys secure to prevent scams and theft.
 
 _[Why do i need to bridge token to taiko](../faq)_
 

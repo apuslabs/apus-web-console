@@ -1,13 +1,13 @@
 import { Button } from 'antd';
 import {addAPEToken} from '@/contexts/web3';
 
-# Frequently Asked Questions (FAQ)
+## Frequently Asked Questions (FAQ)
 
-## 1. How to Open Port 9000 on Linux
+### 1. How to Open Port 9000 on Linux
 
 Opening a port on Linux can be achieved by adjusting your system's firewall rules. Here’s a step-by-step guide on how to open port 9000, which is commonly needed for services like the Apus Marketplace node to function correctly.
 
-### Using `iptables`
+#### Using `iptables`
 
 If your Linux distribution uses `iptables` as the default firewall, you can open port 9000 with the following command:
 
@@ -21,7 +21,7 @@ To make this rule persistent across reboots, save the iptables rules with:
 sudo iptables-save > /etc/iptables/rules.v4
 ```
 
-### Using firewalld
+#### Using firewalld
 For systems using firewalld, you can open port 9000 by typing:
 
 ```bash
@@ -29,9 +29,9 @@ sudo firewall-cmd --permanent --zone=public --add-port=9000/tcp
 sudo firewall-cmd --reload
 ```
 
-This command adds a rule to the public zone to allow TCP traffic on port 9000, and the --reload option applies the changes without needing to restart the firewall service.
+This command adds a rule to the public zone to allow TCP traffic on port 9000, and the `--reload` option applies the changes without needing to restart the firewall service.
 
-### Using ufw
+#### Using ufw
 If you are using ufw (Uncomplicated Firewall), the process is straightforward:
 
 ```bash
@@ -44,7 +44,7 @@ And then enable the changes by reloading ufw:
 sudo ufw reload
 ```
 
-### Verification
+#### Verification
 
 After opening the port, you can verify that it is open by running:
 
@@ -68,7 +68,7 @@ Choose the command based on which firewall management tool your Linux distributi
 
 > Note: Always ensure that your system's security is not compromised when opening ports. Only open ports that you need and understand the potential risks involved.
 
-## 2. How to install docker compose
+### 2. How to install docker compose
 
 you can use this script to install docker compose
 
@@ -90,7 +90,7 @@ you can use this script to install docker compose
    $ sudo sh install-docker.sh
 ```
 
-## How much prover instances can i run?
+### How much prover instances can i run?
 
 each prover instance needs 32GB of RAM and 8 CPU cores.
 
@@ -126,26 +126,26 @@ each prover instance needs 32GB of RAM and 8 CPU cores.
   </table>
 </div>
 
-## 3. How to View Your Earnings
-### Checking Earnings on the Platform Dashboard
+### 3. How to View Your Earnings
+#### Checking Earnings on the Platform Dashboard
 To monitor your earnings, navigate to the platform's dashboard and access the "Earnings" section. This page provides a comprehensive view of your income and transaction history within the platform.
 
-### Viewing APE/ETH Earnings in MetaMask
+#### Viewing APE/ETH Earnings in MetaMask
 If you're holding APE tokens or earning through Ethereum-related activities, you can keep track of your assets using the MetaMask wallet. To ensure that your APE tokens are visible in MetaMask, you may need to add them manually:
 
-<Button type="primary" onClick={addAPEToken} className="mb-2">Add APE Token</Button>
+<Button type="default" onClick={addAPEToken} className="mb-2">Add APE Token</Button>
 
 Ensure you have the MetaMask extension installed and are logged in to your wallet before adding the token.
 
-## 4. Why do i need to bridge my eth to taiko chain
+### 4. Why do i need to bridge my eth to taiko chain
 
-### Enhanced Speed and Lower Costs
+#### Enhanced Speed and Lower Costs
 Taiko Chain is a Layer 2 (L2) solution, specifically a Type-1 L2 chain, which is designed to operate more efficiently than the Ethereum mainnet. By bridging your ETH to Taiko Chain, you will likely experience:
 
 - **Reduced Transaction Fees**: Taiko Chain's structure allows for lower gas fees compared to executing transactions directly on the Ethereum mainnet.
 - **Faster Transactions**: Taiko Chain processes transactions at a higher speed, meaning you can send and receive assets more quickly.
 
-### Integration with Apus Marketplace
+#### Integration with Apus Marketplace
 Apus Marketplace is an innovative decentralized platform that operates on the Taiko Chain. By bridging your ETH to Taiko, you can seamlessly:
 
 - **Trade Digital Assets**: Buy and sell digital goods using a marketplace designed for rapid and cost-effective transactions.
