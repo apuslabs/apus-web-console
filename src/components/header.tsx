@@ -105,11 +105,10 @@ function UserMenu({ showConsole }: { showConsole?: boolean }) {
 
   return (
     <div className="h-full flex items-center">
-      {showConsole ? (
-        <Link href="/console/client">
-          <div className="btn-sign">Console</div>
-        </Link>
-      ) : account ? (
+      {showConsole ? // <Link href="/console/client">
+      //   <div className="btn-sign">Console</div>
+      // </Link>
+      null : account ? (
         <div className="flex items-center">
           <Image
             src={IconMetamask.src}
