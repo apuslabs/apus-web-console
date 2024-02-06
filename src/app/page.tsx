@@ -3,7 +3,7 @@
 import SvgImage from "@/components/SvgImage"
 import IconLogo from '@/assets/icons/logo.svg'
 import Link from "next/link"
-import { ReactNode, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Image from 'next/image'
 import { Exo_2 } from 'next/font/google'
 import IndexBgHW from '@/assets/images/index-bg-hw.png'
@@ -16,7 +16,7 @@ import IconMail from '@/assets/icons/mail.svg'
 import Advantage1 from '@/assets/images/advantages-1.png'
 import Advantage2 from '@/assets/images/advantages-2.png'
 import Advantage3 from '@/assets/images/advantages-3.png'
-import Advantage4 from '@/assets/images/advantages-4.png'
+// import Advantage4 from '@/assets/images/advantages-4.png'
 // import TeamMemberBen from '@/assets/images/avatar/ben.png'
 // import TeamMemberBill from '@/assets/images/avatar/bill.png'
 // import TeamMemberChris from '@/assets/images/avatar/chris.png'
@@ -26,12 +26,21 @@ import Advantage4 from '@/assets/images/advantages-4.png'
 // import TeamMemberJax from '@/assets/images/avatar/jax.png'
 // import TeamMemberJessy from '@/assets/images/avatar/jessy.png'
 // import TeamMemberYijia from '@/assets/images/avatar/yijia.png'
-import PartnerCosmos from '@/assets/icons/cosmos-logo.svg'
+// import PartnerCosmos from '@/assets/icons/cosmos-logo.svg'
 import PartnerEverVision from '@/assets/icons/everVision-logo.png'
-import PartnerManta from '@/assets/icons/manta-logo.svg'
-import PartnerPolygon from '@/assets/icons/polygon-logo.svg'
+// import PartnerManta from '@/assets/icons/manta-logo.svg'
+// import PartnerPolygon from '@/assets/icons/polygon-logo.svg'
 import PartnerScroll from '@/assets/icons/scroll-logo.svg'
 import PartnerTaiko from '@/assets/icons/taiko-logo.svg'
+import PartnerAbyssworld from '@/assets/images/brand-abyssworld.png'
+import PartnerOmnillfer from '@/assets/images/brand-omnillfer.png'
+import PartnerDephy from '@/assets/images/brand-dephy.png'
+import PartnerEigen from '@/assets/images/brand-eigen.png'
+// import PartnerFilecoin from '@/assets/images/brand-filecoin.png'
+import PartnerGpunet from '@/assets/images/brand-gpunet.png'
+import PartnerLarrange from '@/assets/images/brand-larrange.png'
+import PartnerPpio from '@/assets/images/brand-ppio.png'
+import PartnerRisczero from '@/assets/images/brand-risczero.png'
 import HistoryPPTV from '@/assets/icons/pptv-logo.png'
 import HistoryPPIO from '@/assets/icons/ppio-logo.png'
 import IconRightArrow from '@/assets/icons/icons8-right-arrow-100.png'
@@ -40,7 +49,7 @@ import IconRightArrow from '@/assets/icons/icons8-right-arrow-100.png'
 import ContactBG from '@/assets/images/contact-bg.png'
 import cns from 'classnames'
 import useWindowSize from "@/lib/useWindowSize"
-import Header, { SimpleHeader } from "@/components/header"
+import Header from "@/components/header"
 
 const exo2 = Exo_2({ subsets: ['latin'], weight: ['600'] })
 
@@ -118,11 +127,11 @@ export default function Home() {
           maxWidth: '75rem',
         }}>
           <h1 className="text-3xl md:text-7xl font-bold leading-tight">
-            Decentralized ZKP compute marketplace
+            Edge Computing
           </h1>
-          <h2 className="w-4/5 text-subtle-inverse text-lg md:text-xl mt-8">
-            Our mission is to <span className="text-strong">democratize compute</span> by building a <span className="text-strong">decentralized ZKP marketplace</span>, <br />transforming global compute resources into <span className="text-strong">accessible and affordable ZKP capabilities</span>.
-          </h2>
+          {/*<h2 className="w-4/5 text-subtle-inverse text-lg md:text-xl mt-8">*/}
+          {/*  Our mission is to <span className="text-strong">democratize compute</span> by building a <span className="text-strong">decentralized ZKP marketplace</span>, <br />transforming global compute resources into <span className="text-strong">accessible and affordable ZKP capabilities</span>.*/}
+          {/*</h2>*/}
           {/* <h4 className=" mt-28 text-inverse font-bold text-xl">
             The earlier you join, the greater the chance and probability of getting an airdrop
           </h4>
@@ -137,30 +146,30 @@ export default function Home() {
           <h1 className="section-header z-10">Advantages</h1>
           <div className="flex justify-center">
             {/* <Image className="absolute right-0 object-contain top-1/2 -translate-y-1/2 blur-sm" src={IndexBgRing} alt="bg-ring" /> */}
-            <ul className="md:max-w-300 flex flex-col md:grid md:grid-rows-2 md:grid-cols-2 gap-4 md:gap-40 reset">
+            <ul className="md:max-w-300 flex flex-col md:grid md:grid-rows-1 md:grid-cols-3 gap-4 md:gap-40 reset">
               {[
                 {
-                  title: 'Liveness',
-                  content: `Decentralized systems use multiple provers, ensuring the protocol operates reliably and doesn't face downtime if some provers are temporarily unavailable. This ensures continuous operation of the system.`,
+                  title: 'Cost-Efficiency',
+                  content: `Utilizing the scale of decentralized networks to reduce operational costs, offering users high-value edge computing services for sustainable economic viability.`,
                   img: Advantage1,
                 },
                 {
-                  title: 'Censorship Resistance',
-                  content: 'The more provers in a network, the greater the censorship resistance. This is important for maintaining the integrity of transactions and ensuring all valid transactions have an equal opportunity to be included.',
+                  title: 'Ultra-Responsive',
+                  content: 'Decentralized edge computing processes data through nodes close to the user, drastically lowering transmission times and providing immediate computational feedback.',
                   img: Advantage2,
                 },
                 {
-                  title: 'Affordability',
-                  content: 'Decentralization allows for the creation of third-party proof networks. Applications can outsource their proving to these networks, reducing the overhead for building and running ZK infrastructure. This can lead to cost savings and efficiency in development.',
+                  title: 'Enhanced Privacy',
+                  content: 'Ensuring the security and confidentiality of user data through advanced encryption techniques and decentralized data processing for peace of mind.',
                   img: Advantage3,
                 },
-                {
-                  title: 'Failure Resilience',
-                  content: `Decentralized systems distribute risk and do not have a single point of failure, significantly enhancing the system's resilience to faults or attacks.`,
-                  img: Advantage4,
-                }
+                // {
+                //   title: 'Failure Resilience',
+                //   content: `Decentralized systems distribute risk and do not have a single point of failure, significantly enhancing the system's resilience to faults or attacks.`,
+                //   img: Advantage4,
+                // }
               ].map(({ title, content, img }) => <li key={title} className="relative">
-                <Image src={img} alt="advantage" width={277} height={247} className="absolute right-0 -top-20" />
+                <Image src={img} alt="advantage" width={135} height={120} className="absolute right-0 -top-20" />
                 <h2 className="relative text-xl md:text-2xl font-bold z-10">{title}</h2>
                 <p className="relative mt-6 text-subtle-inverse z-10">{content}</p>
               </li>)}
@@ -197,15 +206,28 @@ export default function Home() {
         <div className="section-container">
           <h1 className="section-header">Partners</h1>
           <div className="flex flex-col items-center">
-            <div className="py-4 md:py-16 grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-32">
+            <div className="py-4 md:py-16 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16">
               {[
-                { img: PartnerTaiko, href: "https://taiko.xyz/" },
-                { img: PartnerScroll, href: "https://scroll.io/" },
-                { img: PartnerPolygon, href: "https://polygon.technology/home" },
-                { img: PartnerManta, href: "https://manta.network/" },
-                { img: PartnerEverVision, href: "https://ever.finance/#/" },
-                { img: PartnerCosmos, href: "https://cosmos.network/" }
-              ].map((item, index) => <Link key={index} href={item.href} prefetch={false} target="_blank"><Image src={item.img} alt="avatar" width={isMobile ? 160 : 300} className="hover:scale-110 transition-all" /></Link>)}
+                { img: PartnerTaiko, href: "https://taiko.xyz/", comments: '“Innovative and reliable zkp proof generation.”' },
+                { img: PartnerScroll, href: "https://scroll.io/", comments: '“Crucial computational power and test support.”' },
+                { img: PartnerAbyssworld, href: "https://www.abyssworld.games/", comments: '“Highly values our robust and reliable resources.”' },
+                { img: PartnerRisczero, href: "https://risczero.com/", comments: '“Trusted device supplier with key infrastructure.”' },
+                { img: PartnerOmnillfer, href: "https://omniinfer.io//", comments: '“Valued customer utilizing our cutting-edge services.”' },
+                { img: PartnerDephy, href: "https://dephy.com/", comments: '“Deep partnership in IoT infrastructure development.”' },
+                { img: PartnerEigen, href: "https://www.eigenlayer.xyz/", comments: '“Our core services thrive on their re-staking platform.”' },
+                { img: PartnerEverVision, href: "https://ever.finance/#/", comments: '“Essential development tools for our projects.”' },
+                { img: PartnerPpio, href: "https://pp.io/", comments: '“Quality equipment provider for our network.”' },
+                { img: PartnerGpunet, href: "https://www.gpu.net/", comments: '“Collaborative partnership with advanced technology integration.”' },
+                { img: PartnerLarrange, href: "https://larrange.computer/", comments: '“Strategic device partnership enhancing our capabilities.”' },
+              ].map((item, index) =>
+                  <Link key={index} href={item.href} prefetch={false} target="_blank">
+                    <Image src={item.img} alt="avatar" style={{
+                      height: isMobile ? 32 : 60,
+                      objectFit: 'contain',
+                    }} className="hover:scale-110 transition-all" />
+                    <p className={" text-subtle-inverse text-center text-sm mt-4"}>{item.comments}</p>
+                  </Link>
+              )}
             </div>
           </div>
 
