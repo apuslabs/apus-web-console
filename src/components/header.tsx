@@ -19,6 +19,10 @@ const menuItems: {
     item: "Docs",
     href: "/docs/setup",
   },
+  {
+    item: "Stable Diffusion",
+    href: "https://sd.apus.network/generate"
+  }
   // {
   //   item: "Stats",
   //   href: "/stats",
