@@ -16,7 +16,7 @@ import IconMail from '@/assets/icons/mail.svg'
 import Advantage1 from '@/assets/images/advantages-1.png'
 import Advantage2 from '@/assets/images/advantages-2.png'
 import Advantage3 from '@/assets/images/advantages-3.png'
-// import Advantage4 from '@/assets/images/advantages-4.png'
+import Advantage4 from '@/assets/images/advantages-4.png'
 // import TeamMemberBen from '@/assets/images/avatar/ben.png'
 // import TeamMemberBill from '@/assets/images/avatar/bill.png'
 // import TeamMemberChris from '@/assets/images/avatar/chris.png'
@@ -40,7 +40,8 @@ import PartnerEigen from '@/assets/images/brand-eigen.png'
 import PartnerGpunet from '@/assets/images/brand-gpunet.png'
 import PartnerLarrange from '@/assets/images/brand-larrange.png'
 import PartnerPpio from '@/assets/images/brand-ppio.png'
-import PartnerRisczero from '@/assets/images/brand-risczero.png'
+import PartnerNovita from '@/assets/images/brand-novita.webp'
+// import PartnerRisczero from '@/assets/images/brand-risczero.png'
 import HistoryPPTV from '@/assets/icons/pptv-logo.png'
 import HistoryPPIO from '@/assets/icons/ppio-logo.png'
 import IconRightArrow from '@/assets/icons/icons8-right-arrow-100.png'
@@ -127,11 +128,11 @@ export default function Home() {
           maxWidth: '75rem',
         }}>
           <h1 className="text-3xl md:text-7xl font-bold leading-tight">
-            Edge Computing
+            Edge Computing for AI
           </h1>
-          {/*<h2 className="w-4/5 text-subtle-inverse text-lg md:text-xl mt-8">*/}
-          {/*  Our mission is to <span className="text-strong">democratize compute</span> by building a <span className="text-strong">decentralized ZKP marketplace</span>, <br />transforming global compute resources into <span className="text-strong">accessible and affordable ZKP capabilities</span>.*/}
-          {/*</h2>*/}
+          <h2 className="w-4/5 text-subtle-inverse text-lg md:text-xl mt-8">
+            AI Unleashed: Decentralized <span className="text-strong">Power, Fair Cost, On-Demand</span> for the Masses.
+          </h2>
           {/* <h4 className=" mt-28 text-inverse font-bold text-xl">
             The earlier you join, the greater the chance and probability of getting an airdrop
           </h4>
@@ -146,28 +147,28 @@ export default function Home() {
           <h1 className="section-header z-10">Advantages</h1>
           <div className="flex justify-center">
             {/* <Image className="absolute right-0 object-contain top-1/2 -translate-y-1/2 blur-sm" src={IndexBgRing} alt="bg-ring" /> */}
-            <ul className="md:max-w-300 flex flex-col md:grid md:grid-rows-1 md:grid-cols-3 gap-4 md:gap-40 reset">
+            <ul className="md:max-w-300 flex flex-col md:grid md:grid-rows-2 md:grid-cols-2 gap-4 md:gap-40 reset">
               {[
                 {
-                  title: 'Cost-Efficiency',
-                  content: `Utilizing the scale of decentralized networks to reduce operational costs, offering users high-value edge computing services for sustainable economic viability.`,
+                  title: 'Non-Intrusive Deployment',
+                  content: 'Engineered for simple setup without disrupting existing machine performance, enabling worry-free contributions to AI computations.',
                   img: Advantage1,
                 },
                 {
-                  title: 'Ultra-Responsive',
-                  content: 'Decentralized edge computing processes data through nodes close to the user, drastically lowering transmission times and providing immediate computational feedback.',
+                  title: 'Scalable Infrastructure',
+                  content: 'Designed for scalability to meet dynamic compute demands, ensuring seamless AI processing capabilities as your needs evolve.',
                   img: Advantage2,
                 },
                 {
-                  title: 'Enhanced Privacy',
-                  content: 'Ensuring the security and confidentiality of user data through advanced encryption techniques and decentralized data processing for peace of mind.',
+                  title: 'Democratized Compute Access',
+                  content: 'Facilitates equitable access to high-performance compute resources, fostering innovation and rewarding participation across the network.',
                   img: Advantage3,
                 },
-                // {
-                //   title: 'Failure Resilience',
-                //   content: `Decentralized systems distribute risk and do not have a single point of failure, significantly enhancing the system's resilience to faults or attacks.`,
-                //   img: Advantage4,
-                // }
+                {
+                  title: 'Privacy-Centric Network',
+                  content: 'Embraces a decentralized ethos with transparent, trustless operations and e2e encryption, safeguarding user data and ensuring fairness.',
+                  img: Advantage4,
+                }
               ].map(({ title, content, img }) => <li key={title} className="relative">
                 <Image src={img} alt="advantage" width={135} height={120} className="absolute right-0 -top-20" />
                 <h2 className="relative text-xl md:text-2xl font-bold z-10">{title}</h2>
@@ -208,14 +209,15 @@ export default function Home() {
           <div className="flex flex-col items-center">
             <div className="py-4 md:py-16 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16">
               {[
-                { img: PartnerTaiko, href: "https://taiko.xyz/", comments: '“Innovative and reliable zkp proof generation.”' },
-                { img: PartnerScroll, href: "https://scroll.io/", comments: '“Crucial computational power and test support.”' },
+                // { img: PartnerScroll, href: "https://scroll.io/", comments: '“Crucial computational power and test support.”' },
+                { img: PartnerOmnillfer, href: "https://omniinfer.io//", comments: '“Esteemed client harnessing our state-of-the-art solutions.”' },
+                { img: PartnerNovita, href: "https://novita.ai/", comments: '“Valued customer utilizing our cutting-edge services.”' },
+                // { img: PartnerTaiko, href: "https://taiko.xyz/", comments: '“Innovative and reliable zkp proof generation.”' },
                 { img: PartnerAbyssworld, href: "https://www.abyssworld.games/", comments: '“Highly values our robust and reliable resources.”' },
-                { img: PartnerRisczero, href: "https://risczero.com/", comments: '“Trusted device supplier with key infrastructure.”' },
-                { img: PartnerOmnillfer, href: "https://omniinfer.io//", comments: '“Valued customer utilizing our cutting-edge services.”' },
+                // { img: PartnerRisczero, href: "https://risczero.com/", comments: '“Trusted device supplier with key infrastructure.”' },
                 { img: PartnerDephy, href: "https://dephy.com/", comments: '“Deep partnership in IoT infrastructure development.”' },
                 { img: PartnerEigen, href: "https://www.eigenlayer.xyz/", comments: '“Our core services thrive on their re-staking platform.”' },
-                { img: PartnerEverVision, href: "https://ever.finance/#/", comments: '“Essential development tools for our projects.”' },
+                // { img: PartnerEverVision, href: "https://ever.finance/#/", comments: '“Essential development tools for our projects.”' },
                 { img: PartnerPpio, href: "https://pp.io/", comments: '“Quality equipment provider for our network.”' },
                 { img: PartnerGpunet, href: "https://www.gpu.net/", comments: '“Collaborative partnership with advanced technology integration.”' },
                 { img: PartnerLarrange, href: "https://larrange.computer/", comments: '“Strategic device partnership enhancing our capabilities.”' },
@@ -243,7 +245,7 @@ export default function Home() {
         </div>
       </section>
       <section className="section-wrapper text-center">
-        <h3 className={cns(exo2.className, "mb-24 md:mb-52 text-xl md:text-3xl font-semibold text-subtle-inverse")}>Democratizing Compute is powered by the people and for the people!</h3>
+        <h3 className={cns(exo2.className, "mb-24 md:mb-52 text-xl md:text-3xl font-semibold text-subtle-inverse")}>Revolutionizing AI with fair, scalable, decentralized access.</h3>
       </section>
       {isVisible ? <FootNote /> : <Footer />}
     </main>

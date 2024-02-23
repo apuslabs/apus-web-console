@@ -20,13 +20,13 @@ const menuItems: {
     href: "/docs/setup",
   },
   {
-    item: "Stable Diffusion",
+    item: "Demo",
     href: "https://sd.apus.network/generate"
-  }
-  // {
-  //   item: "Stats",
-  //   href: "/stats",
-  // },
+  },
+  {
+    item: "Novita",
+    href: "https://novita.ai/",
+  },
 ];
 
 export default function Header({
