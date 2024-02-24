@@ -130,8 +130,8 @@ export default function Home() {
           <h1 className="text-3xl md:text-7xl font-bold leading-tight">
             Edge Computing for AI
           </h1>
-          <h2 className="w-4/5 text-subtle-inverse text-lg md:text-xl mt-8">
-            AI Unleashed: Decentralized <span className="text-strong">Power, Fair Cost, On-Demand</span> for the Masses.
+          <h2 className="w-full text-subtle-inverse text-lg md:text-xl mt-8">
+            AI Unleashed: Decentralized <span className="text-strong">Power, Fair Cost, On-Demand</span> for Masses.
           </h2>
           {/* <h4 className=" mt-28 text-inverse font-bold text-xl">
             The earlier you join, the greater the chance and probability of getting an airdrop
